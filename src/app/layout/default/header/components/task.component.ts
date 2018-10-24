@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" (nzVisibleChange)="change()">
     <div class="item" nz-dropdown>
       <nz-badge [nzDot]="true">
-        <i class="anticon anticon-bell"></i>
+        <i class="anticon anticon-bell item-icon"></i>
       </nz-badge>
     </div>
     <div nz-menu class="wd-lg">
