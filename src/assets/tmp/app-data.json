@@ -12,7 +12,7 @@
     {
       "text": "主导航",
       "i18n": "menu.main",
-      "group": true,
+      "group": false,
       "hideInBreadcrumb": true,
       "children": [
         {
@@ -38,7 +38,19 @@
             {
               "text": "工作台",
               "link": "/dashboard/workplace",
-              "i18n": "menu.dashboard.workplace"
+              "i18n": "menu.system.theme"
+            }
+          ]
+        },
+        {
+          "text": "系统",
+          "i18n": "menu.system",
+          "icon": "anticon anticon-appstore",
+          "children": [
+            {
+              "text": "外观设定",
+              "link": "/system/theme",
+              "i18n": "menu.system.theme"
             }
           ]
         },

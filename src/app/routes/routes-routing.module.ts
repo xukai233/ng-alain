@@ -33,6 +33,10 @@ const routes: Routes = [
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
       {
+        path:'system',
+        loadChildren:'./system/system.module#SystemModule'
+      },
+      {
         path: 'widgets',
         loadChildren: './widgets/widgets.module#WidgetsModule',
       },

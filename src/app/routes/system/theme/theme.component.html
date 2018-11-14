@@ -1,0 +1,57 @@
+<wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
+<div class="wimi-page">
+  <div class="title">
+    <div class="title-head">外观设定</div>
+    <div class="title-content">
+      <div class="title-content-title">{{tabs[tabIndex]}}</div>
+      <div class="title-content-save"><button nz-button nzType="primary"><i nz-icon type="hdd"></i>保存</button></div>
+    </div>
+  </div>
+  <nz-tabset nzTabPosition="left" [nzTabBarStyle]="{width:'150px',paddingTop:'24px',paddingBottom:'24px'}" [(nzSelectedIndex)]="tabIndex">
+    <nz-tab [nzTitle]="tabs[0]">
+      <div class="tab-content">
+        <div class="tab-content-logo"><img src="./assets/Logo.png" alt="示例图片"></div>
+        <nz-upload
+          nzAction="https://jsonplaceholder.typicode.com/posts/">
+          <button nz-button>
+            <i nz-icon type="upload"></i><span>点击上传</span>
+          </button>
+        </nz-upload>
+        <div class="tab-content-tips">建议尺寸202*32像素（最大尺寸不超过210*44像素，大小不超过30KB，支持JPG、JPEG、PNG、GIF格式）</div>
+      </div>
+    </nz-tab>
+    <nz-tab [nzTitle]="tabs[1]">
+      <div class="tab-content">
+        <div class="theme-select">
+          <theme-select title="默认（微茗标准色）" MainColor="#36cfc9" ShadowColor="#e6fffb" select="true"></theme-select>
+        </div>
+        <div class="theme-select">
+          <theme-select title="蓝色" MainColor="#1890ff" ShadowColor="#e6f7ff"></theme-select>
+        </div>
+        <div class="theme-select">
+          <theme-select title="紫色" MainColor="#9254de" ShadowColor="#f9f0ff"></theme-select>
+        </div>
+        <div class="theme-select">
+          <theme-select title="红色" MainColor="#ff4d4f" ShadowColor="#fff1f0"></theme-select>
+        </div>
+        <div class="theme-select">
+          <theme-select title="黄色" MainColor="#ffc53d" ShadowColor="#fffbe6"></theme-select>
+        </div>
+      </div>
+    </nz-tab>
+    <nz-tab [nzTitle]="tabs[2]">
+      <div class="tab-content">
+        <div class="tab-menuset">
+          <div>
+            <div class="tab-menuset-title">默认最小化</div>
+            <div class="tab-menuset-text">菜单将以默认折叠的形式展现</div>
+          </div>
+          <div class="tab-menuset-switch">
+            <nz-switch [(ngModel)]="switchValue"></nz-switch>
+          </div>
+        </div>
+        <nz-divider></nz-divider>
+      </div>
+    </nz-tab>
+  </nz-tabset>
+</div>
