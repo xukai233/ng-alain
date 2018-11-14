@@ -1,3 +1,44 @@
 // 可以通过 https://ng-alain.github.io/ng-alain/ 获取主题参数代码
 // The theme paraments can be generated at https://ng-alain.github.io/ng-alain/
-@primary-color:#36cfc9; //主色
+@primary-color:#13c2c2; //主色
+@primary-select-background:#e6fffb; // 被选中的背景色
+@alain-default-aside-wd:240px; // 菜单栏最大宽度
+@alain-default-header-hg:64px; // 标题栏高度
+@alain-default-toolbar-wd:80px; // 右侧工具栏宽度
+@alain-default-content-padding:0px;
+
+.alain-default__header{
+  padding-left: 0px;
+  background-color: #001529; //页面标题背景色
+}
+// 页面标题logo
+.alain-default__header-wimi{
+  transition: width 0.2s cubic-bezier(0.25, 0, 0.15, 1);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #002140;
+  width: @alain-default-aside-wd;
+}
+// 菜单样式
+.sidebar-nav__selected{
+  border: none;
+}
+.sidebar-nav__item{
+  border-left:none;
+}
+.sidebar-nav__selected > .sidebar-nav__item-link:last-child{
+  border-right: 3px solid @primary-color;
+  background-color: @primary-select-background;
+}
+//页面内容
+.alain-default__content{
+  margin-right: @alain-default-toolbar-wd;
+}
+.wimi-page{
+  margin-top: 18px;
+  margin-left: 24px;
+  margin-right: 24px;
+  background-color: white;
+}

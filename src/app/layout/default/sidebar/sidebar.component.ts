@@ -3,12 +3,16 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { SettingsService } from '@delon/theme';
 
 @Component({
-  selector: 'layout-sidebar',
+  selector   : 'layout-sidebar',
   templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.less']
 })
 export class SidebarComponent {
-  constructor(
-    public settings: SettingsService,
-    public msgSrv: NzMessageService,
-  ) {}
+  autoCloseUnderPad = false;
+  constructor(public settings: SettingsService, public msgSrv: NzMessageService) {
+  }
+
+  toggleCollapsedSidebar() {
+    this.settings.setLayout('collapsed', !this.settings.layout.collapsed);
+  }
 }
