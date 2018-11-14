@@ -9,6 +9,7 @@ import { DashboardMonitorComponent } from './dashboard/monitor/monitor.component
 import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
+import { LoginService } from './passport/login/login.service';
 import { UserRegisterComponent } from './passport/register/register.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 
@@ -40,6 +41,7 @@ const COMPONENTS_NOROUNT = [];
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
-  entryComponents: COMPONENTS_NOROUNT
+  entryComponents: COMPONENTS_NOROUNT,
+  providers:[LoginService]
 })
 export class RoutesModule {}

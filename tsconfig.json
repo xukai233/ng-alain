@@ -40,6 +40,12 @@
       ],
       "@env/*": [
         "environments/*"
+      ],
+      "@service": [
+        "service/"
+      ],
+      "@service/*": [
+        "service/*"
       ]
     }
   }

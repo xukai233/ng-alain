@@ -8,7 +8,7 @@
   <nz-form-item>
     <nz-form-control>
       <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-global">
-        <input nz-input formControlName="company" placeholder="公司">
+        <input nz-input formControlName="company" placeholder="公司" [(ngModel)]="loginService.authenticateModel.tenantCode">
       </nz-input-group>
       <nz-form-explain *ngIf="company.dirty && company.errors">请输入公司名称</nz-form-explain>
     </nz-form-control>
@@ -16,7 +16,7 @@
   <nz-form-item>
     <nz-form-control>
       <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-user">
-        <input nz-input formControlName="userName" placeholder="账户">
+        <input nz-input formControlName="userName" placeholder="账户" [(ngModel)]="loginService.authenticateModel.userName">
       </nz-input-group>
       <nz-form-explain *ngIf="userName.dirty && userName.errors">请输入账户名且至少五个字符！</nz-form-explain>
     </nz-form-control>
@@ -24,7 +24,7 @@
   <nz-form-item>
     <nz-form-control>
       <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-lock">
-        <input nz-input type="password" formControlName="password" placeholder="密码">
+        <input nz-input type="password" formControlName="password" placeholder="密码" [(ngModel)]="loginService.authenticateModel.password">
       </nz-input-group>
       <nz-form-explain *ngIf="password.dirty && password.errors">
         请输入密码！
