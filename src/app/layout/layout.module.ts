@@ -5,6 +5,9 @@ import { LayoutDefaultComponent } from './default/default.component';
 import { LayoutFullScreenComponent } from './fullscreen/fullscreen.component';
 import { HeaderComponent } from './default/header/header.component';
 import { SidebarComponent } from './default/sidebar/sidebar.component';
+import { ToolbarComponent } from './default/toolbar/toolbar.component';
+import { ToolbarItemComponent } from './default/toolbar/toolbar-item.component';
+import { ToolbarAddComponent } from './default/toolbar/toolbar-add.component';
 import { HeaderSearchComponent } from './default/header/components/search.component';
 import { HeaderNotifyComponent } from './default/header/components/notify.component';
 import { HeaderTaskComponent } from './default/header/components/task.component';
@@ -23,6 +26,9 @@ const COMPONENTS = [
   LayoutFullScreenComponent,
   HeaderComponent,
   SidebarComponent,
+  ToolbarComponent,
+  ToolbarItemComponent,
+  ToolbarAddComponent,
   ...SETTINGDRAWER,
 ];
 
