@@ -57,14 +57,10 @@ export class AuthenticateModel implements IAuthenticateModel {
 
 export class AuthenticateResultModel implements IAuthenticateResultModel {
     accessToken!: string | undefined;
-    encryptedAccessToken!: string | undefined;
     expireInSeconds!: number | undefined;
     shouldResetPassword!: boolean | undefined;
     passwordResetCode!: string | undefined;
     userId!: number | undefined;
-    requiresTwoFactorVerification!: boolean | undefined;
-    twoFactorAuthProviders!: string[] | undefined;
-    twoFactorRememberClientToken!: string | undefined;
     returnUrl!: string | undefined;
 
     constructor(data?: IAuthenticateResultModel) {
@@ -79,18 +75,10 @@ export class AuthenticateResultModel implements IAuthenticateResultModel {
     init(data?: any) {
         if (data) {
             this.accessToken = data["accessToken"];
-            this.encryptedAccessToken = data["encryptedAccessToken"];
             this.expireInSeconds = data["expireInSeconds"];
             this.shouldResetPassword = data["shouldResetPassword"];
             this.passwordResetCode = data["passwordResetCode"];
             this.userId = data["userId"];
-            this.requiresTwoFactorVerification = data["requiresTwoFactorVerification"];
-            if (data["twoFactorAuthProviders"] && data["twoFactorAuthProviders"].constructor === Array) {
-                this.twoFactorAuthProviders = [];
-                for (let item of data["twoFactorAuthProviders"])
-                    this.twoFactorAuthProviders.push(item);
-            }
-            this.twoFactorRememberClientToken = data["twoFactorRememberClientToken"];
             this.returnUrl = data["returnUrl"];
         }
     }
@@ -105,18 +93,10 @@ export class AuthenticateResultModel implements IAuthenticateResultModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["accessToken"] = this.accessToken;
-        data["encryptedAccessToken"] = this.encryptedAccessToken;
         data["expireInSeconds"] = this.expireInSeconds;
         data["shouldResetPassword"] = this.shouldResetPassword;
         data["passwordResetCode"] = this.passwordResetCode;
         data["userId"] = this.userId;
-        data["requiresTwoFactorVerification"] = this.requiresTwoFactorVerification;
-        if (this.twoFactorAuthProviders && this.twoFactorAuthProviders.constructor === Array) {
-            data["twoFactorAuthProviders"] = [];
-            for (let item of this.twoFactorAuthProviders)
-                data["twoFactorAuthProviders"].push(item);
-        }
-        data["twoFactorRememberClientToken"] = this.twoFactorRememberClientToken;
         data["returnUrl"] = this.returnUrl;
         return data; 
     }
@@ -124,14 +104,10 @@ export class AuthenticateResultModel implements IAuthenticateResultModel {
 
 export interface IAuthenticateResultModel {
     accessToken: string | undefined;
-    encryptedAccessToken: string | undefined;
     expireInSeconds: number | undefined;
     shouldResetPassword: boolean | undefined;
     passwordResetCode: string | undefined;
     userId: number | undefined;
-    requiresTwoFactorVerification: boolean | undefined;
-    twoFactorAuthProviders: string[] | undefined;
-    twoFactorRememberClientToken: string | undefined;
     returnUrl: string | undefined;
 }
 

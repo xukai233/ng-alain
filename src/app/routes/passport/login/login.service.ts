@@ -18,7 +18,7 @@ export class LoginService {
       .authenticate(this.authenticateModel)
       .pipe(finalize(finallyCallback))
       .subscribe((result: AuthenticateResultModel) => {
-        console.log(result)
+        console.log("alan",result)
       });
   }
 }
