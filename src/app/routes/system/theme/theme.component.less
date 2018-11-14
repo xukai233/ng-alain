@@ -1,0 +1,74 @@
+@import '../../../../styles/theme';
+:host {
+  .title{
+    display: flex;
+    height: 54px;
+    text-align: center;
+    border-bottom: 1px solid #e8e8e8;
+    &-head{
+      width: 150px;
+      line-height: 54px;
+      text-align: left;
+      padding-left: 20px;
+      color: #201f1f;
+      font-size: 14px;
+      border-right: 1px solid #e8e8e8;
+      font-weight: 540;
+    }
+    &-content{
+      flex:1;
+      line-height: 54px;
+      padding: 0 24px;
+      &-title{
+        float: left;
+        color: #201f1f;
+        font-size: 14px;
+        font-weight: 540;
+      }
+      &-save{
+        float: right;
+      }
+    }
+  }
+}
+
+.tab-content{
+  padding: 24px 24px 24px 0;
+  &-logo{
+    width: 240px;
+    height: 64px;
+    background-color: #002140;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &-tips{
+    margin-top: 10px;
+    font-size: 12px;
+    color: #bfbfbf;
+  }
+}
+.theme-select{
+  margin-right: 24px;
+  display: inline-block;
+  margin-bottom: 24px;
+}
+.tab-menuset{
+  display: flex;
+  justify-content: space-between;
+}
+.tab-menuset-title{
+  font-weight: 600;
+  line-height: 30px;
+}
+.tab-menuset-text{
+  color: rgba(0,0,0,.45);
+  font-size: 14px;
+  line-height: 22px;
+}
+.tab-menuset-switch{
+  display: flex;
+  align-items: center;
+  padding-right: 24px;
+}

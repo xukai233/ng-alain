@@ -16,7 +16,8 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
 import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
-
+import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
+import { ThemeSelectComponent } from './theme-select/theme-select.component'
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule,
@@ -26,7 +27,7 @@ const THIRDMODULES = [
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [BreadcrumbComponent,ThemeSelectComponent];
 const DIRECTIVES = [];
 // #endregion
 
