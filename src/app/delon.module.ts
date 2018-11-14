@@ -56,11 +56,13 @@ import { PageHeaderConfig } from '@delon/abc';
 export function fnPageHeaderConfig(): PageHeaderConfig {
   return Object.assign(new PageHeaderConfig(), { homeI18n: 'home' });
 }
-
+// 设置发送token的格式
 import { DelonAuthConfig } from '@delon/auth';
 export function fnDelonAuthConfig(): DelonAuthConfig {
   return Object.assign(new DelonAuthConfig(), <DelonAuthConfig>{
     login_url: '/passport/login',
+    token_send_key:'Authorization',
+    token_send_template :'Bearer ${token}'
   });
 }
 
