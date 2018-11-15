@@ -18,7 +18,10 @@ import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import { ThemeSelectComponent } from './theme-select/theme-select.component';
-import { FormItemComponent } from './form-item/form-item.component'
+import { FormItemComponent } from './form-item/form-item.component';
+import { WimiTableComponent } from './wimi-table/wimi-table.component';
+import { CopyrightComponent } from './copyright/copyright.component'
+
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule,
@@ -28,7 +31,7 @@ const THIRDMODULES = [
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [BreadcrumbComponent,ThemeSelectComponent,FormItemComponent];
+const COMPONENTS = [BreadcrumbComponent,ThemeSelectComponent,FormItemComponent,WimiTableComponent,CopyrightComponent];
 const DIRECTIVES = [];
 // #endregion
 

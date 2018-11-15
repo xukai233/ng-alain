@@ -23,5 +23,39 @@
         <i nz-icon [type]="isCollapse?'down':'up'"></i>
     </a>
   </div>
-  
 </form>
+<wimi-table>
+  <button name="toolbar" nz-button nzType="primary"><i nz-icon type="plus"></i>新建租户</button>
+  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle">
+    <thead>
+      <tr>
+        <th>租户编号</th>
+        <th>租户名称</th>
+        <th>结束订阅日期</th>
+        <th>启用</th>
+        <th>创建时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{data.name}}</td>
+        <td>{{data.age}}</td>
+        <td>{{data.age}}</td>
+        <td>{{data.age}}</td>
+        <td>{{data.address}}</td>
+        <td>
+          <a>修改</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>回收</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>停用</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #totalTemplate let-total>
+      共 {{total}} 条结果
+  </ng-template>
+</wimi-table>
+<wimi-copyright></wimi-copyright>
