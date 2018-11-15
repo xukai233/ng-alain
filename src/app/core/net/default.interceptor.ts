@@ -99,9 +99,15 @@ export class DefaultInterceptor implements HttpInterceptor {
         return of(event);
       }),
       catchError(err=>{
+        if(err.error && err.error.error.code == 0){
+          let errMsg = err.error.error
+          this.msg.error(errMsg.details);
+          return throwError(err.error);
+        }else{
           const errortext = codeMessage[err.status] || err.statusText;
           this.msg.error(errortext);
           return throwError(err);
+        }
       }),
     );
   }

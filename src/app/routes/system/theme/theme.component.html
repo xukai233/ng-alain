@@ -23,7 +23,9 @@
     <nz-tab [nzTitle]="tabs[1]">
       <div class="tab-content">
         <div class="theme-select">
-          <theme-select title="默认（微茗标准色）" MainColor="#36cfc9" ShadowColor="#e6fffb" select="true"></theme-select>
+          <theme-select title="默认（微茗标准色）" (click)="handleChangeTheme(themes[0])" MainColor="#36cfc9" ShadowColor="#e6fffb" 
+          [select]="selectColor === themes[0].key">
+          </theme-select>
         </div>
         <div class="theme-select">
           <theme-select title="蓝色" MainColor="#1890ff" ShadowColor="#e6f7ff"></theme-select>
@@ -32,7 +34,8 @@
           <theme-select title="紫色" MainColor="#9254de" ShadowColor="#f9f0ff"></theme-select>
         </div>
         <div class="theme-select">
-          <theme-select title="红色" MainColor="#ff4d4f" ShadowColor="#fff1f0"></theme-select>
+          <theme-select title="红色" (click)="handleChangeTheme(themes[1])"  MainColor="#ff4d4f" ShadowColor="#fff1f0"
+          [select]="selectColor === themes[1].key"></theme-select>
         </div>
         <div class="theme-select">
           <theme-select title="黄色" MainColor="#ffc53d" ShadowColor="#fffbe6"></theme-select>
