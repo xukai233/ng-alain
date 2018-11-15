@@ -48,6 +48,11 @@
           "icon": "anticon anticon-appstore",
           "children": [
             {
+              "text":"租户",
+              "link":"/system/tenant",
+              "i18n": "menu.system.tenant"
+            },
+            {
               "text": "外观设定",
               "link": "/system/theme",
               "i18n": "menu.system.theme"

@@ -1,0 +1,27 @@
+<wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
+<form nz-form class="wimi-search" nzLayout="inline" nzFlex="true">
+  <div style="flex:0.8">
+    <wimi-form-item text="编号/名称">
+      <input nz-input />
+    </wimi-form-item>
+    <div class="hide-input-group" *ngIf="!isCollapse">
+      <wimi-form-item text="APP授权" style="margin-left: 8px;">
+        <nz-select nzAllowClear nzPlaceHolder="请选择">
+          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+          <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+        </nz-select>
+      </wimi-form-item>
+      <wimi-form-item text="创建时间">
+        <nz-range-picker style="width:100%" [nzStyle]="rangePickerStyle" nzShowTime></nz-range-picker>
+      </wimi-form-item>
+    </div>
+  </div>
+  <div style="margin-left: 12px;flex:0.2">
+    <button nz-button nzType="primary">查询</button>
+    <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()">展开
+        <i nz-icon [type]="isCollapse?'down':'up'"></i>
+    </a>
+  </div>
+  
+</form>
