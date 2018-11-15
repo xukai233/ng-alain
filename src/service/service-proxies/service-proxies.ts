@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export interface IAuthenticateModel {
     userName: string;
     password: string;
-    tenantCode:string | undefined;;
+    tenantCode:string | undefined;
     rememberClient: boolean | undefined;
     returnUrl: string | undefined;
 }

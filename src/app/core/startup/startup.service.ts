@@ -42,20 +42,22 @@ export class StartupService {
       zip(
         this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
         this.httpClient.get('assets/tmp/app-data.json'),
+        this.httpClient.get('getall'),
       )
         .pipe(
           // 接收其他拦截器后产生的异常消息
-          catchError(([langData, appData]) => {
+          catchError(([langData, appData,allData]) => {
             resolve(null);
-            return [langData, appData];
+            return [langData, appData,allData];
           }),
         )
         .subscribe(
-          ([langData, appData]) => {
+          ([langData, appData,allData]) => {
             // setting language data
             this.translate.setTranslation(this.i18n.defaultLang, langData);
             this.translate.setDefaultLang(this.i18n.defaultLang);
-
+            // 获取接口getall的数据
+            console.log(allData)
             // application data
             const res: any = appData;
             // 应用信息：包括站点名、描述、年份
