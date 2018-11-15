@@ -20,11 +20,14 @@ import { UserLockComponent } from './passport/lock/lock.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
+import {JWTGuard} from '@delon/auth';
+
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutDefaultComponent,
+    canActivateChild: [JWTGuard],
     children: [
       { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
       { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
@@ -50,6 +53,7 @@ const routes: Routes = [
   {
     path: 'data-v',
     component: LayoutFullScreenComponent,
+    canActivateChild: [JWTGuard],
     children: [
       { path: '', loadChildren: './data-v/data-v.module#DataVModule' },
     ],

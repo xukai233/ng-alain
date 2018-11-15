@@ -38,7 +38,7 @@
             {
               "text": "工作台",
               "link": "/dashboard/workplace",
-              "i18n": "menu.system.theme"
+              "i18n": "menu.dashboard.workplace"
             }
           ]
         },
