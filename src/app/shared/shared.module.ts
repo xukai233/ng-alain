@@ -20,7 +20,9 @@ import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import { ThemeSelectComponent } from './theme-select/theme-select.component';
 import { FormItemComponent } from './form-item/form-item.component';
 import { WimiTableComponent } from './wimi-table/wimi-table.component';
-import { CopyrightComponent } from './copyright/copyright.component'
+import { CopyrightComponent } from './copyright/copyright.component';
+import { WimiLeftMenuComponent } from './wimi-left-menu/wimi-left-menu.component';
+import { WimiTabComponent } from './wimi-tab/wimi-tab.component'
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -31,7 +33,15 @@ const THIRDMODULES = [
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [BreadcrumbComponent,ThemeSelectComponent,FormItemComponent,WimiTableComponent,CopyrightComponent];
+const COMPONENTS = [
+    BreadcrumbComponent,
+    ThemeSelectComponent,
+    FormItemComponent,
+    WimiTableComponent,
+    CopyrightComponent,
+    WimiLeftMenuComponent,
+    WimiTabComponent
+  ];
 const DIRECTIVES = [];
 // #endregion
 

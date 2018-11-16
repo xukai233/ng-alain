@@ -1,0 +1,3 @@
+<div class="wimi-tab" *ngFor="let tab of tabs" [ngClass]="tab == select?'wimi-tab-select':''" (click)="handleTabSelect(tab)">
+  {{tab}}
+</div>

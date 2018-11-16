@@ -1,0 +1,18 @@
+<wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
+<div class="grid">
+  <div class="grid-head">
+    <div class="grid-head-left">用户组</div>
+    <div class="grid-head-right">
+      <wimi-tab [tabs]="tabs" [select]="tabs[0]"></wimi-tab>
+      <button name="toolbar" nz-button nzType="primary" ><i nz-icon type="plus"></i>新建账号</button>
+    </div>
+  </div>
+  <div class="grid-content">
+    <div class="grid-content-left">
+      <wimi-left-menu [menu]="leftMenu" select="1" 
+      (onSelect)="handleLeftSelect($event)" 
+      (onOperateClick)="handleOperateClick($event)"></wimi-left-menu>
+    </div>
+    <div>3</div>
+  </div>
+</div>

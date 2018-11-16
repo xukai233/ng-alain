@@ -1,0 +1,26 @@
+@import '../../../styles/theme';
+:host{
+  .menu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 12px;
+    padding-left: 18px;
+    &-left{
+      &-title{
+        font-size: 14px;
+        line-height: 22px;
+      }
+      &-subtitle{
+        color: rgba(0,0,0,.45);
+        font-size: 12px;
+        line-height: 22px;
+      }
+    }
+  }
+  .menu-select{
+    background-color: @primary-select-background;
+    border-right: 2px solid @primary-color;
+  }
+}

@@ -53,6 +53,10 @@
               "i18n": "menu.system.tenant"
             },
             {
+              "text":"账号管理",
+              "link":"/system/user"
+            },
+            {
               "text": "外观设定",
               "link": "/system/theme",
               "i18n": "menu.system.theme"

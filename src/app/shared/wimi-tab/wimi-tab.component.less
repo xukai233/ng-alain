@@ -1,0 +1,19 @@
+@import '../../../styles/theme';
+:host{
+  display: flex;
+  align-items: center;
+  height: 100%;
+  .wimi-tab{
+    padding: 12px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    &:hover{
+      color: @primary-color;
+    }
+  }
+  .wimi-tab-select{
+    color: @primary-color;
+    margin-bottom: 0px;
+    border-bottom: 2px solid @primary-color;
+  }
+}
