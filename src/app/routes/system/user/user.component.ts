@@ -56,6 +56,57 @@ export class UserComponent implements OnInit {
       "operate":this.operate
     }
   ]
+
+  dataSet = [
+    {
+      key    : '1',
+      code   : 'A001',
+      name   : '管理员',
+      email:'admin@wimisoft.com',
+      type :'已启用',
+      creatTime:'2018年11月15日 09:00'
+    },
+    {
+      key    : '2',
+      code   : 'A001',
+      name   : '管理员',
+      email:'admin@wimisoft.com',
+      type :'已启用',
+      creatTime:'2018年11月15日 09:00'
+    },
+    {
+      key    : '3',
+      code   : 'A001',
+      name   : '管理员',
+      email:'admin@wimisoft.com',
+      type :'已启用',
+      creatTime:'2018年11月15日 09:00'
+    },
+    {
+      key    : '3',
+      code   : 'A001',
+      name   : '管理员',
+      email:'admin@wimisoft.com',
+      type :'已启用',
+      creatTime:'2018年11月15日 09:00'
+    },
+    {
+      key    : '3',
+      code   : 'A001',
+      name   : '管理员',
+      email:'admin@wimisoft.com',
+      type :'已启用',
+      creatTime:'2018年11月15日 09:00'
+    },
+    {
+      key    : '3',
+      code   : 'A001',
+      name   : '管理员',
+      email:'admin@wimisoft.com',
+      type :'已启用',
+      creatTime:'2018年11月15日 09:00'
+    }
+  ];
   constructor() { }
 
   ngOnInit() {
@@ -65,6 +116,9 @@ export class UserComponent implements OnInit {
     console.log(val);
   }
   handleOperateClick(val){
+    console.log(val)
+  }
+  handleTabSelect(val){
     console.log(val)
   }
 
