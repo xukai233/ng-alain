@@ -1,0 +1,18 @@
+<div class="grid">
+  <div class="grid-head">
+    <div class="grid-head-left" [style.width]="leftWidth">
+      <ng-content select="[name=top-left]"></ng-content>
+    </div>
+    <div class="grid-head-right">
+      <ng-content select="[name=top-right]"></ng-content>
+    </div>
+  </div>
+  <div class="grid-content">
+    <div class="grid-content-left" [style.width]="leftWidth">
+      <ng-content select="[name=content-left]"></ng-content>
+    </div>
+    <div class="grid-content-right">
+      <ng-content select="[name=content-right]"></ng-content>
+    </div>
+  </div>
+</div>

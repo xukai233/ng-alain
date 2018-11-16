@@ -1,57 +1,47 @@
 <wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
-<div class="grid">
-  <div class="grid-head">
-    <div class="grid-head-left">用户组</div>
-    <div class="grid-head-right">
-      <wimi-tab [tabs]="tabs" [select]="tabs[0]" (onSelect)="handleTabSelect($event)"></wimi-tab>
-      <button name="toolbar" nz-button nzType="primary" ><i nz-icon type="plus"></i>新建账号</button>
-    </div>
-  </div>
-  <div class="grid-content">
-    <div class="grid-content-left">
-      <wimi-left-menu [menu]="leftMenu" select="1" 
-      (onSelect)="handleLeftSelect($event)" 
-      (onOperateClick)="handleOperateClick($event)"></wimi-left-menu>
-    </div>
-    <div class="grid-content-right">
-      <wimi-form-item text="账号/名称" style="margin-bottom: 12px;">
-        <input nz-input placeholder="请输入" />
-        <button style="margin-left: 12px;" nz-button nzType="primary">查询</button>
-      </wimi-form-item>
-      <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle">
-        <thead>
-          <tr>
-            <th>账号</th>
-            <th>名称</th>
-            <th>邮件地址</th>
-            <th>激活</th>
-            <th>上次登录时间</th>
-            <th>创建时间</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of basicTable.data">
-            <td>{{data.code}}</td>
-            <td>{{data.name}}</td>
-            <td>{{data.email}}</td>
-            <td><nz-badge nzStatus="success" [nzText]="data.type"></nz-badge></td>
-            <td>{{data.creatTime}}</td>
-            <td>{{data.creatTime}}</td>
-            <td>
-              <a>修改</a>
-              <nz-divider nzType="vertical"></nz-divider>
-              <a>权限</a>
-              <nz-divider nzType="vertical"></nz-divider>
-              <a nz-popconfirm nzTitle="确定删除该用户?">删除</a>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
-        <ng-template #totalTemplate let-total>
-            共 {{total}} 条结果
-        </ng-template>
-    </div>
-  </div>
-</div>
+<wimi-four-grid leftWidth="260px">
+  <div name="top-left">用户组</div>
+  <wimi-tab name="top-right" [tabs]="tabs" [select]="tabs[0]" (onSelect)="handleTabSelect($event)"></wimi-tab>
+  <button name="top-right" name="toolbar" nz-button nzType="primary" ><i nz-icon type="plus"></i>新建账号</button>
+  <wimi-left-menu name="content-left" [menu]="leftMenu" select="1" 
+(onSelect)="handleLeftSelect($event)" 
+(onOperateClick)="handleOperateClick($event)"></wimi-left-menu>
+  <wimi-form-item name="content-right" text="账号/名称" style="margin-bottom: 12px;">
+    <input nz-input placeholder="请输入" />
+    <button style="margin-left: 12px;" nz-button nzType="primary">查询</button>
+  </wimi-form-item>
+  <nz-table name="content-right" name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle">
+    <thead>
+      <tr>
+        <th>账号</th>
+        <th>名称</th>
+        <th>邮件地址</th>
+        <th>激活</th>
+        <th>上次登录时间</th>
+        <th>创建时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{data.code}}</td>
+        <td>{{data.name}}</td>
+        <td>{{data.email}}</td>
+        <td><nz-badge nzStatus="success" [nzText]="data.type"></nz-badge></td>
+        <td>{{data.creatTime}}</td>
+        <td>{{data.creatTime}}</td>
+        <td>
+          <a>修改</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>权限</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-popconfirm nzTitle="确定删除该用户?">删除</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+    <ng-template name="content-right" #totalTemplate let-total>
+        共 {{total}} 条结果
+    </ng-template>
+</wimi-four-grid>
 <wimi-copyright></wimi-copyright>

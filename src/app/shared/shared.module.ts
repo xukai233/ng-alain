@@ -22,7 +22,8 @@ import { FormItemComponent } from './form-item/form-item.component';
 import { WimiTableComponent } from './wimi-table/wimi-table.component';
 import { CopyrightComponent } from './copyright/copyright.component';
 import { WimiLeftMenuComponent } from './wimi-left-menu/wimi-left-menu.component';
-import { WimiTabComponent } from './wimi-tab/wimi-tab.component'
+import { WimiTabComponent } from './wimi-tab/wimi-tab.component';
+import { WimiFourGridComponent } from './wimi-four-grid/wimi-four-grid.component'
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -40,7 +41,8 @@ const COMPONENTS = [
     WimiTableComponent,
     CopyrightComponent,
     WimiLeftMenuComponent,
-    WimiTabComponent
+    WimiTabComponent,
+    WimiFourGridComponent
   ];
 const DIRECTIVES = [];
 // #endregion
