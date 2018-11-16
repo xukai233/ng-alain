@@ -120,12 +120,12 @@ export class TokenAuthServiceProxy {
      * @param model (optional) 
      * @return Success
      */
-    authenticate(model: AuthenticateModel | null | undefined): Observable<AuthenticateResultModel> {
+    authenticate(model: AuthenticateModel): Observable<AuthenticateResultModel> {
       let url_ = "auth/authenticate";
       if(!model.tenantCode){
         model.tenantCode = "host"
       }
-      const content_ = JSON.stringify(model);
+      const content_ = model.toJSON();
       return this.http.post<AuthenticateResultModel>(url_, content_)
     }
 }
