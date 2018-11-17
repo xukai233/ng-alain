@@ -1,0 +1,30 @@
+<div class="per-head">
+  <div class="per-width">操作对象</div>
+  <div class="per-width">菜单权限</div>
+  <div style="flex:1">功能权限</div>
+</div>
+<div style="border: 1px solid #e7e7e7;padding: 12px;">
+  <div class="per-content" *ngFor="let ctrl of data">
+    <div class="per-width per-content-control">
+      <label nz-checkbox 
+      (ngModelChange)="updateAllChecked(ctrl.key)" 
+      [ngModel]="ctrl.checked" 
+      [nzIndeterminate]="ctrl.indeterminate"
+      >{{ctrl.label}}</label>
+
+      <div class="per-content-control-text">{{ctrl.description}}</div>
+    </div>
+    <div style="flex:1;padding: 0px;">
+      <div class="per-item" *ngFor="let child of ctrl.childs">
+        <div class="per-width">
+          <label 
+          (ngModelChange)="updateAllChecked(child.key)"
+           nz-checkbox [ngModel]="child.checked" [nzIndeterminate]="child.indeterminate">{{child.label}}</label>
+        </div>
+        <div style="flex:1">
+          <label *ngFor="let item of child.childs"  (ngModelChange)="updateAllChecked(item.key)" [ngModel]="item.checked" nz-checkbox >{{item.label}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

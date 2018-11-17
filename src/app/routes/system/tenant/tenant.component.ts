@@ -19,7 +19,9 @@ export class TenantComponent implements OnInit {
   ]
   isCollapse = true;
   modalIsVisible = false;
-  dataSet = [
+  dataSet = [];
+  tableLoading = false;
+  data = [
     {
       key    : '1',
       code   : 'A001',
@@ -144,6 +146,13 @@ export class TenantComponent implements OnInit {
       subDate          : [ 'A'],
       
     });
+    
+    this.tableLoading = true;
+    setTimeout(()=>{
+      this.dataSet = this.data;
+      this.tableLoading = false;
+    },3000);
+
   }
   toggleCollapse(){
     this.isCollapse = !this.isCollapse

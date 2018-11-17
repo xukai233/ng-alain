@@ -5,6 +5,8 @@ import { SystemRoutingModule } from './system-routing.module';
 import { ThemeComponent } from './theme/theme.component';
 import { TenantComponent } from './tenant/tenant.component';
 import { UserComponent } from './user/user.component';
+import { UserAccountComponent } from './user/user-account.component';
+import { UserPermissionComponent } from './user/user-permission.component';
 
 @NgModule({
   imports: [SharedModule, SystemRoutingModule],
@@ -12,6 +14,8 @@ import { UserComponent } from './user/user.component';
     ThemeComponent,
     TenantComponent,
     UserComponent,
+    UserAccountComponent,
+    UserPermissionComponent
   ],
   providers: [],
 })

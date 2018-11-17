@@ -26,7 +26,7 @@
 </form>
 <wimi-table>
   <button name="toolbar" nz-button nzType="primary" (click)="handleTenantAdd()"><i nz-icon type="plus"></i>新建租户</button>
-  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle">
+  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading">
     <thead>
       <tr>
         <th>租户编号</th>

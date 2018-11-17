@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router,ActivatedRoute,Params} from '@angular/router';
 
 @Component({
   selector: 'user',
@@ -16,6 +17,7 @@ export class UserComponent implements OnInit {
     "menu":["重命名","删除","设为默认"]
   }
   tabs = ["平台账号","权限"]
+  selectTab = "权限"
   leftMenu = [
     {
       "key":0,
@@ -57,59 +59,22 @@ export class UserComponent implements OnInit {
     }
   ]
 
-  dataSet = [
-    {
-      key    : '1',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '2',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    }
-  ];
-  constructor() { }
+
+  constructor(
+    private router:Router,
+    private route: ActivatedRoute,
+    ) { }
 
   ngOnInit() {
+    this.router.events
+    .subscribe((event) => {
+      if("/system/user/account" === this.router.url){
+        this.selectTab = "平台账号"
+      }
+      if("/system/user/permission" === this.router.url){
+        this.selectTab = "权限"
+      }
+    });
   }
 
   handleLeftSelect(val){
@@ -119,7 +84,17 @@ export class UserComponent implements OnInit {
     console.log(val)
   }
   handleTabSelect(val){
-    console.log(val)
+    switch (val) {
+      case "平台账号":
+        this.router.navigate(['/system/user/account'])
+        break;
+      case "权限":
+        this.router.navigate(['/system/user/permission'])
+        break;
+      default:
+        // code...
+        break;
+    }
   }
 
 }

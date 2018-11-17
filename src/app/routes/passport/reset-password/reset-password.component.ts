@@ -68,8 +68,6 @@ export class ResetPasswordComponent implements OnDestroy {
   }
 
   // region: get captcha
-
-  count = 0;
   interval$: any;
 
 
