@@ -5,6 +5,8 @@ import { SystemRoutingModule } from './system-routing.module';
 import { ThemeComponent } from './theme/theme.component';
 import { TenantComponent } from './tenant/tenant.component';
 import { UserComponent } from './user/user.component';
+import { ApiServiceProxies } from '@shared/service-proxies/service-proxies';
+
 
 @NgModule({
   imports: [SharedModule, SystemRoutingModule],
@@ -13,6 +15,6 @@ import { UserComponent } from './user/user.component';
     TenantComponent,
     UserComponent,
   ],
-  providers: [],
+  providers: [ApiServiceProxies],
 })
 export class SystemModule {}

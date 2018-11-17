@@ -39,11 +39,11 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data">
-        <td>{{data.code}}</td>
-        <td>{{data.name}}</td>
-        <td>{{data.endTime}}</td>
+        <td>{{data.tenancyCode}}</td>
+        <td>{{data.tenancyName}}</td>
+        <td>{{data.subscriptionEndDate}}</td>
         <td><nz-badge nzStatus="success" [nzText]="data.type"></nz-badge></td>
-        <td>{{data.creatTime}}</td>
+        <td>{{data.creationTime}}</td>
         <td>
           <a>修改</a>
           <nz-divider nzType="vertical"></nz-divider>

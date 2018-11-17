@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { zip } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { zip, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
   MenuService,
@@ -15,6 +15,8 @@ import { I18NService } from '../i18n/i18n.service';
 import { NzIconService } from 'ng-zorro-antd';
 import { ICONS_AUTO } from '../../../style-icons-auto';
 import { ICONS } from '../../../style-icons';
+
+import { XmlHttpRequestHelper } from '@shared/helpers/XmlHttpRequestHelper';
 
 /**
  * 用于应用启动时
@@ -34,6 +36,22 @@ export class StartupService {
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
+  
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // return an observable with a user-facing error message
+    return throwError(
+      'Something bad happened; please try again later.');
+  }
 
   load(): Promise<any> {
     // only works with promises
@@ -41,41 +59,38 @@ export class StartupService {
     return new Promise((resolve, reject) => {
       zip(
         this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
-        this.httpClient.get('assets/tmp/app-data.json'),
-        this.httpClient.get('getall'),
+        this.httpClient.get('http://langwenda.com:7000/mock/49/getall'),
       )
         .pipe(
           // 接收其他拦截器后产生的异常消息
-          catchError(([langData, appData,allData]) => {
-            resolve(null);
-            return [langData, appData,allData];
-          }),
+          catchError(this.handleError),
         )
         .subscribe(
-          ([langData, appData,allData]) => {
+          ([langData, appData]) => {
             // setting language data
             this.translate.setTranslation(this.i18n.defaultLang, langData);
             this.translate.setDefaultLang(this.i18n.defaultLang);
-            // 获取接口getall的数据
-            console.log(allData)
+
             // application data
             const res: any = appData;
             // 应用信息：包括站点名、描述、年份
-            this.settingService.setApp(res.app);
+            this.settingService.setApp(res.result.app);
             // 用户信息：包括姓名、头像、邮箱地址
-            this.settingService.setUser(res.user);
+            this.settingService.setUser(res.result.user);
             // ACL：设置权限为全量
             this.aclService.setFull(true);
             // 初始化菜单
-            this.menuService.add(res.menu);
+            this.menuService.add(res.result.menu);
             // 设置页面标题的后缀
-            this.titleService.suffix = res.app.name;
+            this.titleService.suffix = res.result.app.name;
           },
-          () => {},
+          (err) => { console.log('Received an error:' + err); },
           () => {
             resolve(null);
           },
         );
     });
   }
+
+
 }

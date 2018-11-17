@@ -61,9 +61,7 @@ import { DelonAuthConfig } from '@delon/auth';
 export function fnDelonAuthConfig(): DelonAuthConfig {
   return Object.assign(new DelonAuthConfig(), <DelonAuthConfig>{
     login_url: '/passport/login',
-    token_send_key:'Authorization',
-    token_send_template :'Bearer ${token}',
-    ignores: [/\/login/, /assets\//, /passport\//, /factory/,/authenticate/],
+    ignores: [/\/login/, /assets\//, /passport\//, /factory/, /authenticate/, /getall/],
   });
 }
 
