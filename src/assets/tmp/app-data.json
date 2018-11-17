@@ -8,19 +8,48 @@
     "avatar": "./assets/tmp/img/avatar.jpg",
     "email": "cipchk@qq.com"
   },
-  "menu": [
-    {
-      "text": "主导航",
-      "i18n": "menu.main",
-      "group": false,
+  "menu": [{
+      "text": "MasterCloud",
+      "i18n": "",
+      "group": true,
       "hideInBreadcrumb": true,
-      "children": [
+      "children": [{
+          "text": "工作台",
+          "link": "/dashboard/workplace",
+          "i18n": "menu.dashboard.workplace"
+        },
         {
+          "text": "租户",
+          "link": "/system/tenant",
+          "i18n": ""
+        },
+        {
+          "text": "系统",
+          "i18n": "menu.system",
+          "icon": "anticon anticon-appstore",
+          "children": [{
+              "text": "账号管理",
+              "link": "/system/user"
+            },
+            {
+              "text": "外观设定",
+              "link": "/system/theme",
+              "i18n": "menu.system.theme"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Alain",
+      "i18n": "menu.alain",
+      "group": true,
+      "hideInBreadcrumb": true,
+      "children": [{
           "text": "仪表盘",
           "i18n": "menu.dashboard",
           "icon": "anticon anticon-dashboard",
-          "children": [
-            {
+          "children": [{
               "text": "仪表盘V1",
               "link": "/dashboard/v1",
               "i18n": "menu.dashboard.v1"
@@ -43,20 +72,6 @@
           ]
         },
         {
-          "text": "系统",
-          "i18n": "menu.system",
-          "icon": "anticon anticon-appstore",
-          "children": [
-            {
-              "text":"租户",
-              "link":"/system/tenant",
-              "i18n": "menu.system.tenant"
-            },
-            {
-              "text":"账号管理",
-              "link":"/system/user"
-            },
-            {
               "text":"APP授权",
               "link":"/system/app/auth"
             },
@@ -66,44 +81,20 @@
               "i18n": "menu.system.audit"
             },
             {
-              "text": "外观设定",
-              "link": "/system/theme",
-              "i18n": "menu.system.theme"
-            }
-          ]
-        },
-        {
-          "text": "快捷菜单",
-          "i18n": "menu.shortcut",
-          "icon": "anticon anticon-rocket",
-          "shortcutRoot": true,
-          "children": []
-        },
-        {
           "text": "小部件",
           "i18n": "menu.widgets",
           "link": "/widgets",
           "icon": "anticon anticon-appstore",
           "badge": 2
-        }
-      ]
-    },
-    {
-      "text": "Alain",
-      "i18n": "menu.alain",
-      "group": true,
-      "hideInBreadcrumb": true,
-      "children": [
+        },
         {
           "text": "样式",
           "i18n": "menu.style",
           "icon": "anticon anticon-info",
-          "children": [
-            {
+          "children": [{
               "text": "Typography",
               "link": "/style/typography",
-              "i18n": "menu.style.typography",
-              "shortcut": true
+              "i18n": "menu.style.typography"
             },
             {
               "text": "Grid Masonry",
@@ -121,8 +112,7 @@
           "text": "Delon",
           "i18n": "menu.delon",
           "icon": "anticon anticon-bulb",
-          "children": [
-            {
+          "children": [{
               "text": "Dynamic Form",
               "link": "/delon/form",
               "i18n": "menu.delon.form"
@@ -188,18 +178,15 @@
       "i18n": "menu.pro",
       "group": true,
       "hideInBreadcrumb": true,
-      "children": [
-        {
+      "children": [{
           "text": "Form Page",
           "i18n": "menu.form",
           "link": "/pro/form",
           "icon": "anticon anticon-edit",
-          "children": [
-            {
+          "children": [{
               "text": "Basic Form",
               "link": "/pro/form/basic-form",
-              "i18n": "menu.form.basicform",
-              "shortcut": true
+              "i18n": "menu.form.basicform"
             },
             {
               "text": "Step Form",
@@ -217,12 +204,10 @@
           "text": "List",
           "i18n": "menu.list",
           "icon": "anticon anticon-appstore-o",
-          "children": [
-            {
+          "children": [{
               "text": "Table List",
               "link": "/pro/list/table-list",
-              "i18n": "menu.list.searchtable",
-              "shortcut": true
+              "i18n": "menu.list.searchtable"
             },
             {
               "text": "Basic List",
@@ -237,15 +222,13 @@
             {
               "text": "Search List",
               "i18n": "menu.list.searchlist",
-              "children": [
-                {
+              "children": [{
                   "link": "/pro/list/articles",
                   "i18n": "menu.list.searchlist.articles"
                 },
                 {
                   "link": "/pro/list/projects",
-                  "i18n": "menu.list.searchlist.projects",
-                  "shortcut": true
+                  "i18n": "menu.list.searchlist.projects"
                 },
                 {
                   "link": "/pro/list/applications",
@@ -259,8 +242,7 @@
           "text": "Profile",
           "i18n": "menu.profile",
           "icon": "anticon anticon-profile",
-          "children": [
-            {
+          "children": [{
               "text": "Basic",
               "link": "/pro/profile/basic",
               "i18n": "menu.profile.basic"
@@ -268,8 +250,7 @@
             {
               "text": "Advanced",
               "link": "/pro/profile/advanced",
-              "i18n": "menu.profile.advanced",
-              "shortcut": true
+              "i18n": "menu.profile.advanced"
             }
           ]
         },
@@ -277,8 +258,7 @@
           "text": "Result",
           "i18n": "menu.result",
           "icon": "anticon anticon-check-circle-o",
-          "children": [
-            {
+          "children": [{
               "text": "Success",
               "link": "/pro/result/success",
               "i18n": "menu.result.success"
@@ -295,8 +275,7 @@
           "i18n": "menu.exception",
           "link": "/",
           "icon": "anticon anticon-exception",
-          "children": [
-            {
+          "children": [{
               "text": "403",
               "link": "/403",
               "i18n": "menu.exception.not-permission",
@@ -320,8 +299,7 @@
           "text": "Account",
           "i18n": "menu.account",
           "icon": "anticon anticon-user",
-          "children": [
-            {
+          "children": [{
               "text": "center",
               "link": "/pro/account/center",
               "i18n": "menu.account.center"
@@ -340,27 +318,23 @@
       "i18n": "menu.more",
       "group": true,
       "hideInBreadcrumb": true,
-      "children": [
-        {
+      "children": [{
           "text": "Report",
           "i18n": "menu.report",
           "icon": "anticon anticon-cloud-o",
-          "children": [
-            {
-              "text": "Relation",
-              "link": "/data-v/relation",
-              "i18n": "menu.report.relation",
-              "reuse": false
-            }
-          ]
+          "children": [{
+            "text": "Relation",
+            "link": "/data-v/relation",
+            "i18n": "menu.report.relation",
+            "reuse": false
+          }]
         },
         {
           "text": "Extras",
           "i18n": "menu.extras",
           "link": "/extras",
           "icon": "anticon anticon-link",
-          "children": [
-            {
+          "children": [{
               "text": "Help Center",
               "link": "/extras/helpcenter",
               "i18n": "menu.extras.helpcenter"

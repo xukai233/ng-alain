@@ -2,7 +2,7 @@ import { NgModule, LOCALE_ID, APP_INITIALIZER } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ServiceProxyModule } from '@service/service-proxies/service-proxy.module'
+import { ServiceProxiesModule } from '@shared/service-proxies/service-proxies.module';
  
 // #region default language
 // 参考：https://ng-alain.com/docs/i18n
@@ -79,11 +79,12 @@ const FORM_MODULES = [JsonSchemaModule];
 
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { SimpleInterceptor } from '@delon/auth';
-import { DefaultInterceptor } from '@core/net/default.interceptor';
+import { JWTInterceptor } from '@delon/auth';
+import { McInterceptor, McHttpConfiguration} from '@core/net/mc.interceptor';
 const INTERCEPTOR_PROVIDES = [
-  { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: McInterceptor, multi: true },
+  McHttpConfiguration
 ];
 // #endregion
 
@@ -123,7 +124,7 @@ import { LayoutModule } from './layout/layout.module';
     SharedModule,
     LayoutModule,
     RoutesModule,
-    ServiceProxyModule,
+    ServiceProxiesModule,
     ...I18NSERVICE_MODULES,
     ...GLOBAL_THIRD_MODULES,
     ...FORM_MODULES,
