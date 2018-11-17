@@ -1,11 +1,15 @@
 <wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
 <wimi-four-grid leftWidth="260px">
   <div name="top-left">用户组</div>
+
   <wimi-tab name="top-right" [tabs]="tabs" [select]="tabs[0]" (onSelect)="handleTabSelect($event)"></wimi-tab>
   <button name="top-right" name="toolbar" nz-button nzType="primary" ><i nz-icon type="plus"></i>新建账号</button>
+
   <wimi-left-menu name="content-left" [menu]="leftMenu" select="1" 
-(onSelect)="handleLeftSelect($event)" 
-(onOperateClick)="handleOperateClick($event)"></wimi-left-menu>
+    (onSelect)="handleLeftSelect($event)" 
+    (onOperateClick)="handleOperateClick($event)">
+  </wimi-left-menu>
+  
   <wimi-form-item name="content-right" text="账号/名称" style="margin-bottom: 12px;">
     <input nz-input placeholder="请输入" />
     <button style="margin-left: 12px;" nz-button nzType="primary">查询</button>

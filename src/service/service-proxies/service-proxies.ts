@@ -121,7 +121,7 @@ export class TokenAuthServiceProxy {
      * @return Success
      */
     authenticate(model: AuthenticateModel): Observable<AuthenticateResultModel> {
-      let url_ = "auth/authenticate";
+      let url_ = "passport/Authenticate";
       if(!model.tenantCode){
         model.tenantCode = "host"
       }
