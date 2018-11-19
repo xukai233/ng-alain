@@ -19,7 +19,8 @@
   </div>
   <div style="margin-left: 12px;flex:0.2">
     <button nz-button nzType="primary">查询</button>
-    <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()">展开
+    <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()">
+      {{isCollapse?'展开':'收起'}}
         <i nz-icon [type]="isCollapse?'down':'up'"></i>
     </a>
   </div>

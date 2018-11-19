@@ -7,6 +7,7 @@ import { TenantComponent } from './tenant/tenant.component';
 import { UserComponent } from './user/user.component';
 import { UserAccountComponent } from './user/user-account.component';
 import { UserPermissionComponent } from './user/user-permission.component';
+import { AuditComponent } from './audit/audit.component';
 
 @NgModule({
   imports: [SharedModule, SystemRoutingModule],
@@ -15,7 +16,8 @@ import { UserPermissionComponent } from './user/user-permission.component';
     TenantComponent,
     UserComponent,
     UserAccountComponent,
-    UserPermissionComponent
+    UserPermissionComponent,
+    AuditComponent
   ],
   providers: [],
 })

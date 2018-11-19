@@ -1,0 +1,73 @@
+<wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
+<form nz-form class="wimi-search" nzLayout="inline" nzFlex="true">
+  <div style="flex:0.8">
+    <wimi-form-item text="关键词搜索：">
+      <input nz-input />
+    </wimi-form-item>
+    <div class="hide-input-group" *ngIf="!isCollapse">
+      <wimi-form-item text="账号：" style="margin-left: 40px;">
+        <input nz-input placeholder="请输入" />
+      </wimi-form-item>
+      <wimi-form-item text="APP：">
+        <input nz-input placeholder="请输入" />
+      </wimi-form-item>
+      <wimi-form-item text="Api：">
+        <input nz-input placeholder="请输入" />
+      </wimi-form-item>
+    </div>
+    <div class="hide-input-group" *ngIf="!isCollapse">
+      <wimi-form-item text="状态：" style="margin-left: 40px;">
+        <nz-select nzAllowClear nzPlaceHolder="请选择">
+          <nz-option nzValue="200" nzLabel="200成功"></nz-option>
+          <nz-option nzValue="400" nzLabel="400错误"></nz-option>
+          <nz-option nzValue="300" nzLabel="300错误"></nz-option>
+        </nz-select>
+      </wimi-form-item>
+      <wimi-form-item text="时间：">
+        <nz-range-picker style="width:100%" [nzStyle]="rangePickerStyle" nzShowTime></nz-range-picker>
+      </wimi-form-item>
+      <wimi-form-item text="持续：">
+        <div style="display: flex;align-items: center;">
+          <nz-input-number [nzMin]="1" [nzStep]="1"></nz-input-number>
+          -
+          <nz-input-number [nzMin]="1" [nzStep]="1"></nz-input-number>ms
+        </div>
+      </wimi-form-item>
+    </div>
+  </div>
+  <div style="margin-left: 12px;flex:0.2">
+    <button nz-button nzType="primary">查询</button>
+    <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()">
+        {{isCollapse?'展开':'收起'}}
+        <i nz-icon [type]="isCollapse?'down':'up'"></i>
+    </a>
+  </div>
+</form>
+
+<wimi-table>
+  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading">
+    <thead>
+      <tr>
+        <th>账号</th>
+        <th>APP</th>
+        <th>Api</th>
+        <th>状态</th>
+        <th>时间</th>
+        <th>持续时间</th>
+        <th>IP地址</th>
+        <th>客户端</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{data.code}}</td>
+        <td>{{data.name}}</td>
+        <td>{{data.endTime}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #totalTemplate let-total>
+      共 {{total}} 条结果
+  </ng-template>
+</wimi-table>
+<wimi-copyright></wimi-copyright>
