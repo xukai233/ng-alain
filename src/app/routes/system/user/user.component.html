@@ -40,7 +40,6 @@
             </ng-container>
             <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar">
           </nz-upload>
-        <nz-form-explain *ngIf="validateForm.get('avatar').dirty">请输入账号</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
 
@@ -48,35 +47,35 @@
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userCode">账号</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="userCode" id="userCode">
-        <nz-form-explain *ngIf="validateForm.get('userCode').dirty">请输入账号</nz-form-explain>
+        <nz-form-explain *ngIf="validateForm.get('userCode').dirty && validateForm.get('userCode').errors">请输入账号</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userCode">名称</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="userName" id="userName">
-        <nz-form-explain *ngIf="validateForm.get('userName').dirty">请输入名称</nz-form-explain>
+        <nz-form-explain *ngIf="validateForm.get('userName').dirty && validateForm.get('userName').errors">请输入名称</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">邮箱</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="email" id="email">
-        <nz-form-explain *ngIf="validateForm.get('email').dirty">请输入邮箱</nz-form-explain>
+        <nz-form-explain *ngIf="validateForm.get('email').dirty && validateForm.get('email').errors">请输入邮箱</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password">密码</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="password" id="password">
-        <nz-form-explain *ngIf="validateForm.get('password').dirty">请输入密码</nz-form-explain>
+        <nz-form-explain *ngIf="validateForm.get('password').dirty && validateForm.get('password').errors">请输入密码</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="checkPassword">核对密码</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="checkPassword" id="checkPassword">
-        <nz-form-explain *ngIf="validateForm.get('checkPassword').dirty">请输入核对密码</nz-form-explain>
+        <nz-form-explain *ngIf="validateForm.get('checkPassword').dirty && validateForm.get('checkPassword').errors">请输入核对密码</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row style="margin-bottom:8px;">

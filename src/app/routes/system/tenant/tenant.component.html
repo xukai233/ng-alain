@@ -67,7 +67,7 @@
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="TenantCode">租户编号</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="TenantCode" id="TenantCode">
-        <nz-form-explain *ngIf="validateForm.get('TenantCode').dirty">请输入租户编号</nz-form-explain>
+        <nz-form-explain *ngIf="validateForm.get('TenantCode').dirty&& validateForm.get('TenantCode').errors">请输入租户编号</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
 
@@ -75,7 +75,7 @@
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="TenantName">租户名称</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="TenantName" id="TenantName">
-        <nz-form-explain *ngIf="validateForm.get('TenantName').dirty">请输入租户名称</nz-form-explain>
+        <nz-form-explain *ngIf="validateForm.get('TenantName').dirty&& validateForm.get('TenantName').errors">请输入租户名称</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
 
@@ -95,19 +95,19 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item>
+    <nz-form-item *ngIf="!this.validateForm.controls.randomCode.value">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password">管理员密码</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="password" id="password">
-        <nz-form-explain *ngIf="validateForm.get('password').dirty">请输入管理员密码</nz-form-explain>
+        <input readOnly="true" nz-input formControlName="password" id="password">
+        <nz-form-explain *ngIf="validateForm.get('password').dirty && validateForm.get('password').errors">请输入管理员密码</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item>
+    <nz-form-item *ngIf="!this.validateForm.controls.randomCode.value">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="passwordCheck">核对管理员密码</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="passwordCheck" id="passwordCheck">
-        <nz-form-explain *ngIf="validateForm.get('passwordCheck').dirty">请核对管理员密码</nz-form-explain>
+        <nz-form-explain *ngIf="validateForm.get('passwordCheck').dirty && validateForm.get('passwordCheck').errors">请核对管理员密码</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
 

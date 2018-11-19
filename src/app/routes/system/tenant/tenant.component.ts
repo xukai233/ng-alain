@@ -21,6 +21,7 @@ export class TenantComponent implements OnInit {
   modalIsVisible = false;
   dataSet = [];
   tableLoading = false;
+  useRandomPassword = true;
   data = [
     {
       key    : '1',
@@ -140,9 +141,9 @@ export class TenantComponent implements OnInit {
       email            : [ null, [ Validators.email,Validators.required ] ],
       randomCode       : [ true ],
       password         : [ null, [ Validators.required ] ],
-      passwordCheck         : [ null, [ Validators.required ] ],
-      needPassword      : [ true ],
-      enable          : [ true ],
+      passwordCheck    : [ null, [ Validators.required ] ],
+      needPassword     : [ true ],
+      enable           : [ true ],
       subDate          : [ 'A'],
       
     });
@@ -166,9 +167,10 @@ export class TenantComponent implements OnInit {
   }
   submitTenantAddForm(): void {
     //this.modalIsVisible = false;
+    console.log(this.validateForm)
     for (const i in this.validateForm.controls) {
-      this.validateForm.controls[ i ].markAsDirty();
-      this.validateForm.controls[ i ].updateValueAndValidity();
+      this.validateForm.controls[i].markAsDirty();
+      this.validateForm.controls[i].updateValueAndValidity();
     }
   }
 }
