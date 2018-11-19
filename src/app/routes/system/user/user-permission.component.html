@@ -18,11 +18,11 @@
       <div class="per-item" *ngFor="let child of ctrl.childs">
         <div class="per-width">
           <label 
-          (ngModelChange)="updateAllChecked(child.key)"
+          (ngModelChange)="updateMenuChecked(child.key)"
            nz-checkbox [ngModel]="child.checked" [nzIndeterminate]="child.indeterminate">{{child.label}}</label>
         </div>
         <div style="flex:1">
-          <label *ngFor="let item of child.childs"  (ngModelChange)="updateAllChecked(item.key)" [ngModel]="item.checked" nz-checkbox >{{item.label}}</label>
+          <label *ngFor="let item of child.childs"  (ngModelChange)="updateItemChecked(item.key)" [ngModel]="item.checked" nz-checkbox >{{item.label}}</label>
         </div>
       </div>
     </div>

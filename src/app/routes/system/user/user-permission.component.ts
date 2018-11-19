@@ -48,8 +48,26 @@ export class UserPermissionComponent implements OnInit {
   ngOnInit() {
   }
   updateAllChecked(key){
-    console.log(key)
     this.checkChange(key,this.data)
+  }
+  updateMenuChecked(key){
+    this.checkChange(key,this.data)
+    for(let item of this.data){
+       if(this.IsCheck(key,item.childs)){
+         this.setParentStatus(item)
+       }
+    }
+  }
+  updateItemChecked(key){
+    this.checkChange(key,this.data)
+    for(let item of this.data){
+      for(let it of item.childs){
+       if(this.IsCheck(key,it.childs)){
+         this.setParentStatus(it)
+         this.setParentStatus(item)
+       }
+      }
+    }
   }
 
   checkChange(key,data){
@@ -62,9 +80,6 @@ export class UserPermissionComponent implements OnInit {
       }else{
         if(item.childs instanceof Array){
           this.checkChange(key,item.childs)
-          if(this.IsCheck(key,item.childs)){
-            this.setParentStatus(item)
-          }
         }
       }
     }
@@ -81,6 +96,7 @@ export class UserPermissionComponent implements OnInit {
       }
     }
   }
+
 
   setParentStatus(data){
     let checkNum = 0;
@@ -109,4 +125,5 @@ export class UserPermissionComponent implements OnInit {
     }
     return false;
   }
+
 }
