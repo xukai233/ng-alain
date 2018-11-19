@@ -167,6 +167,7 @@ export class AppAuthComponent implements OnInit {
     }];
 
   selectItem= ""
+  appDataIndex = 1;
   editModalIsVisible = false;
   newModalIsVisible = false;
   form={

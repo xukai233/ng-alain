@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute,Params} from '@angular/router';
-
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 @Component({
   selector: 'user',
   templateUrl: './user.component.html',
@@ -59,11 +64,25 @@ export class UserComponent implements OnInit {
     }
   ]
 
-
+  modalIsVisible = false;
+  validateForm:FormGroup;
   constructor(
     private router:Router,
     private route: ActivatedRoute,
-    ) { }
+    private fb: FormBuilder
+    ) { 
+
+    this.validateForm = this.fb.group({
+      userCode:[ null, [ Validators.required ] ],
+      userName:[ null, [ Validators.required ] ],
+      email:[ null, [Validators.email，Validators.required ] ],
+      password:[ null, [ Validators.required ] ],
+      checkPassword:[ null, [ Validators.required ] ],
+      avatar:[ null, [ Validators.required ] ],
+      needPassword : [ true ],
+      active : [ true ],
+    });
+  }
 
   ngOnInit() {
     this.router.events
@@ -96,5 +115,10 @@ export class UserComponent implements OnInit {
         break;
     }
   }
-
+  handleAddClick(){
+    this.modalIsVisible = true;
+  }
+  handleCancel(){
+    this.modalIsVisible = false;
+  }
 }
