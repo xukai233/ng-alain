@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Inject} from '@angular/core';
-import { AuthenticateModel, AuthenticateResultModel, ApiServiceProxies } from '@shared/service-proxies/service-proxies';
+import { AuthenticateModel, AuthenticateResultModel, PassportServiceProxy } from '@serviceProxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { ReuseTabService } from '@delon/abc';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ export class LoginService {
   public authenticateModel = new AuthenticateModel();
   public test: string;
   constructor(
-    private _tokenAuthService: ApiServiceProxies,
+    private _passportService: PassportServiceProxy,
     @Inject(ReuseTabService)
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
@@ -26,8 +26,8 @@ export class LoginService {
   authenticate(finallyCallback?: () => void, redirectUrl?: string): void {
 
     finallyCallback = finallyCallback || (() => { });
-    this._tokenAuthService
-      .passportAuthenticate(this.authenticateModel)
+    this._passportService
+      .authenticate(this.authenticateModel)
       .pipe(finalize(finallyCallback))
       .subscribe((result: AuthenticateResultModel) => {
         this.processAuthenticateResult(result, redirectUrl);

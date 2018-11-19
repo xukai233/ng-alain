@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { McInterceptor } from '@core/net/mc.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { ApiServiceProxies } from './service-proxies';
+import * as ApiServiceProxies from './service-proxies';
 import { JWTInterceptor } from '@delon/auth';
 
 @NgModule({
   providers: [
-    ApiServiceProxies,
+    ApiServiceProxies.PassportServiceProxy,
+    ApiServiceProxies.TenantsServiceProxy,
+    ApiServiceProxies.AppServiceProxy,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: McInterceptor, multi: true }
   ],
@@ -16,4 +18,4 @@ import { JWTInterceptor } from '@delon/auth';
   ],
   declarations: []
 })
-export class ServiceProxiesModule { }
+export class ServiceProxyModule { }

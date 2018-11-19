@@ -9,7 +9,6 @@ import { DashboardMonitorComponent } from './dashboard/monitor/monitor.component
 import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
-import { LoginService } from './passport/login/login.service';
 import { UserRegisterComponent } from './passport/register/register.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 
@@ -19,6 +18,8 @@ import { CallbackComponent } from './callback/callback.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
+
+import { LoginService } from './passport/login/login.service';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -42,6 +43,6 @@ const COMPONENTS_NOROUNT = [];
   imports: [SharedModule, RouteRoutingModule],
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
-  providers:[LoginService]
+  providers: [LoginService]
 })
 export class RoutesModule {}

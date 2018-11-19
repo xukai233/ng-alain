@@ -2,7 +2,6 @@ import { NgModule, LOCALE_ID, APP_INITIALIZER } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ServiceProxiesModule } from '@shared/service-proxies/service-proxies.module';
  
 // #region default language
 // 参考：https://ng-alain.com/docs/i18n
@@ -113,6 +112,8 @@ import { AppComponent } from './app.component';
 import { RoutesModule } from './routes/routes.module';
 import { LayoutModule } from './layout/layout.module';
 
+import { ServiceProxyModule } from './service-proxies/service-proxy.module';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -124,7 +125,7 @@ import { LayoutModule } from './layout/layout.module';
     SharedModule,
     LayoutModule,
     RoutesModule,
-    ServiceProxiesModule,
+    ServiceProxyModule,
     ...I18NSERVICE_MODULES,
     ...GLOBAL_THIRD_MODULES,
     ...FORM_MODULES,
