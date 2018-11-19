@@ -6,6 +6,12 @@
     "module": "es2015",
     "types": ["node"],
     "paths": {
+      "@serviceProxies":[
+        "app/service-proxies"
+      ],
+      "@serviceProxies/*":[
+        "app/service-proxies/*"
+      ],
       "@shared": [
         "app/shared"
       ],

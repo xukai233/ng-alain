@@ -17,6 +17,12 @@
     ],
     "baseUrl": "src/",
     "paths": {
+      "@serviceProxies":[
+        "app/service-proxies"
+      ],
+      "@serviceProxies/*":[
+        "app/service-proxies/*"
+      ],
       "@shared": [
         "app/shared"
       ],

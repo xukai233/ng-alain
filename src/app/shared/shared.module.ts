@@ -31,7 +31,7 @@ const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule,
   UEditorModule,
-  NgxTinymceModule,
+  NgxTinymceModule
 ];
 // #endregion
 

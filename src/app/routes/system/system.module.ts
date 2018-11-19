@@ -17,12 +17,12 @@ import { AppAuthComponent } from './app-auth/app-auth.component';
   declarations: [
     ThemeComponent,
     TenantComponent,
-    UserComponent,
+    UserComponent
     UserAccountComponent,
     UserPermissionComponent,
     AuditComponent,
     AppAuthComponent
   ],
-  providers: [ApiServiceProxies],
+  providers: [],
 })
 export class SystemModule {}
