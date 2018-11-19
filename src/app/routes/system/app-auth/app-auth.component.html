@@ -1,0 +1,132 @@
+<wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
+<wimi-four-grid leftWidth="518px">
+  <div name="top-left" style="font-weight: 550">租户列表</div>
+  <div name="top-right" style="display: flex;justify-content: space-between;width: 100%;align-items: center;">
+    <div style="font-weight: 550">A001（一汽解放汽车有限公司无锡柴油机厂）授权明细</div>
+    <button name="top-right" nz-button nzType="primary" (click)="handleAppAuth()">APP授权</button>
+  </div>
+  <div name="content-left" style="padding:12px;">
+    <nz-table  #basicTable [nzData]="dataSet" nzSize="small"  [nzLoading]="tableLoading">
+      <thead>
+        <tr>
+          <th>租户编号</th>
+          <th>租户名称</th>
+          <th>启用状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data" [class.trSelect]="selectItem == data.code" (click)="handleTrClick(data)">
+          <td [nzChecked]="true">{{data.code}}</td>
+          <td>{{data.name}}</td>
+          <td><nz-badge nzStatus="success" [nzText]="data.type"></nz-badge></td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <div name="content-right">
+    <div style="display: flex;flex-wrap: wrap;">
+      <wimi-app-board *ngFor="let data of appDatas" [data]="data" (onEdit)="handleAppEdit(data)"></wimi-app-board>
+    </div>
+  </div>
+</wimi-four-grid>
+
+<nz-modal [(nzVisible)]="editModalIsVisible" [nzTitle]="form.title" (nzOnCancel)="handleEditCancel()" (nzOnOk)="handleEidtSubmit()" >
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="handleEidtSubmit()">
+
+    <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="baseControl">基础功能</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <label nz-checkbox formControlName="baseControl">
+          <span>授权</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="baseControlDate">授权有限日期</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="baseControlDate">
+          <label nz-radio nzValue="A">无期限</label>
+          <label nz-radio nzValue="B">
+            <nz-range-picker></nz-range-picker>
+          </label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="payControl">付费功能</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <label nz-checkbox formControlName="payControl">
+          <span>授权</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="payControlDate">授权有限日期</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="payControlDate">
+          <label nz-radio nzValue="A">无期限</label>
+          <label nz-radio nzValue="B">
+            <nz-range-picker></nz-range-picker>
+          </label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+
+<nz-modal nzWidth="680" [(nzVisible)]="newModalIsVisible" nzTitle="APP授权" (nzOnCancel)="handleNewCancel()" (nzOnOk)="handleNewSubmit()" >
+  <form nz-form [formGroup]="appAuthForm" (ngSubmit)="handleNewSubmit()" style="display: flex;">
+    <div style="width: 223px;border: solid 1px #dedede;margin-right: 48px">
+      <nz-tree
+        #treeCom
+        [nzData]="treeNodes"
+        [nzExpandAll]="true"
+        >
+      </nz-tree>
+    </div>
+    <div>
+      <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="baseControl">基础功能</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <label nz-checkbox formControlName="baseControl">
+          <span>授权</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="baseControlDate">授权有限日期</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="baseControlDate">
+          <label nz-radio nzValue="A">无期限</label>
+          <label nz-radio nzValue="B">
+            <nz-range-picker></nz-range-picker>
+          </label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="payControl">付费功能</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <label nz-checkbox formControlName="payControl">
+          <span>授权</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="payControlDate">授权有限日期</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="payControlDate">
+          <label nz-radio nzValue="A">无期限</label>
+          <label nz-radio nzValue="B">
+            <nz-range-picker></nz-range-picker>
+          </label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+    </div>
+  </form>
+</nz-modal>

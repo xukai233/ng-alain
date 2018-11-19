@@ -57,6 +57,15 @@
               "link":"/system/user"
             },
             {
+              "text":"APP授权",
+              "link":"/system/app/auth"
+            },
+            {
+              "text":"审计日志",
+              "link": "/system/audit",
+              "i18n": "menu.system.audit"
+            },
+            {
               "text": "外观设定",
               "link": "/system/theme",
               "i18n": "menu.system.theme"

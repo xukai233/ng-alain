@@ -23,7 +23,8 @@ import { WimiTableComponent } from './wimi-table/wimi-table.component';
 import { CopyrightComponent } from './copyright/copyright.component';
 import { WimiLeftMenuComponent } from './wimi-left-menu/wimi-left-menu.component';
 import { WimiTabComponent } from './wimi-tab/wimi-tab.component';
-import { WimiFourGridComponent } from './wimi-four-grid/wimi-four-grid.component'
+import { WimiFourGridComponent } from './wimi-four-grid/wimi-four-grid.component';
+import { WimiAppBoardComponent } from './wimi-app-board/wimi-app-board.component'
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -42,7 +43,8 @@ const COMPONENTS = [
     CopyrightComponent,
     WimiLeftMenuComponent,
     WimiTabComponent,
-    WimiFourGridComponent
+    WimiFourGridComponent,
+    WimiAppBoardComponent
   ];
 const DIRECTIVES = [];
 // #endregion

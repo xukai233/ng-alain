@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
     "menu":["重命名","删除","设为默认"]
   }
   tabs = ["平台账号","权限"]
-  selectTab = "权限"
+  selectTab = "平台账号"
   leftMenu = [
     {
       "key":0,

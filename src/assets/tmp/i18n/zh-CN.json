@@ -69,6 +69,7 @@
   "menu.system":"系统",
   "menu.system.theme":"外观设定",
   "menu.system.tenant":"租户",
+  "menu.system.audit":"审计日志",
   "app.analysis.test": "工专路 {{no}} 号店",
   "app.analysis.introduce": "指标说明",
   "app.analysis.total-sales": "总销售额",
