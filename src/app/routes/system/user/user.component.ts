@@ -75,15 +75,21 @@ export class UserComponent implements OnInit {
     this.validateForm = this.fb.group({
       userCode:[ null, [ Validators.required ] ],
       userName:[ null, [ Validators.required ] ],
-      email:[ null, [Validators.email，Validators.required ] ],
+      email : [ null, [ Validators.email,Validators.required ] ],
       password:[ null, [ Validators.required ] ],
-      checkPassword:[ null, [ Validators.required ] ],
+      checkPassword:[ null, [ Validators.required,this.confirmationValidator ] ],
       avatar:[ null, [ Validators.required ] ],
       needPassword : [ true ],
       active : [ true ],
     });
   }
-
+  confirmationValidator = (control: FormControl): { [ s: string ]: boolean } => {
+    if (!control.value) {
+      return { required: true };
+    } else if (control.value !== this.validateForm.controls.password.value) {
+      return { confirm: true, error: true };
+    }
+  };
   ngOnInit() {
     this.router.events
     .subscribe((event) => {

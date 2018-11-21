@@ -21,6 +21,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
+import { FindPasswordComponent } from './passport/find-password/find-password.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -43,7 +44,7 @@ const COMPONENTS_NOROUNT = [];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, FindPasswordComponent],
   entryComponents: COMPONENTS_NOROUNT,
   providers:[LoginService]
 })

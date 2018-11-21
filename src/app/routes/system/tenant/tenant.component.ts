@@ -141,7 +141,7 @@ export class TenantComponent implements OnInit {
       email            : [ null, [ Validators.email,Validators.required ] ],
       randomCode       : [ true ],
       password         : [ null, [ Validators.required ] ],
-      passwordCheck    : [ null, [ Validators.required ] ],
+      passwordCheck    : [ null, [ Validators.required,this.confirmationValidator ] ],
       needPassword     : [ true ],
       enable           : [ true ],
       subDate          : [ 'A'],
@@ -152,9 +152,18 @@ export class TenantComponent implements OnInit {
     setTimeout(()=>{
       this.dataSet = this.data;
       this.tableLoading = false;
-    },3000);
+    },1000);
 
   }
+
+  confirmationValidator = (control: FormControl): { [ s: string ]: boolean } => {
+    if (!control.value) {
+      return { required: true };
+    } else if (control.value !== this.validateForm.controls.password.value) {
+      return { confirm: true, error: true };
+    }
+  };
+
   toggleCollapse(){
     this.isCollapse = !this.isCollapse
   }

@@ -27,7 +27,7 @@
     <div style="display: flex;flex-wrap: wrap;margin-bottom: 12px;">
       <wimi-app-board *ngFor="let data of appDatas" [data]="data" (onEdit)="handleAppEdit(data)"></wimi-app-board>
     </div>
-    <nz-pagination style="margin-top: 120px" [(nzPageIndex)]="appDataIndex" [nzTotal]="50" [nzSize]="'small'"></nz-pagination>
+    <nz-pagination style="margin-top: 120px" [(nzPageIndex)]="appDataIndex" [nzTotal]="3" [nzSize]="'small'"></nz-pagination>
   </div>
 </wimi-four-grid>
 

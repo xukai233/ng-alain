@@ -13,6 +13,7 @@ import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.com
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
 import { ResetPasswordComponent } from './passport/reset-password/reset-password.component';
+import { FindPasswordComponent } from './passport/find-password/find-password.component';
 import { UserRegisterComponent } from './passport/register/register.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 // single pages
@@ -72,6 +73,9 @@ const routes: Routes = [
         path :'reset',
         component:ResetPasswordComponent,
         data: { title: '重置密码', titleI18n: 'pro-login' },
+      },{
+        path:'find',
+        component:FindPasswordComponent
       },
       {
         path: 'register',
