@@ -5,6 +5,7 @@ import { SystemRoutingModule } from './system-routing.module';
 import { ThemeComponent } from './theme/theme.component';
 import { TenantComponent } from './tenant/tenant.component';
 import { UserComponent } from './user/user.component';
+import { CreateTenantModalComponent } from './tenant/tenant-create-modal/tenant-create-modal.component';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { UserComponent } from './user/user.component';
   declarations: [
     ThemeComponent,
     TenantComponent,
-    UserComponent
+    UserComponent,
+    CreateTenantModalComponent
   ],
   providers: [],
 })
