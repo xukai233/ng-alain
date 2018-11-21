@@ -7,7 +7,6 @@ import { TenantComponent } from './tenant/tenant.component';
 import { UserComponent } from './user/user.component';
 import { UserAccountComponent } from './user/user-account.component';
 import { UserPermissionComponent } from './user/user-permission.component';
-import { ApiServiceProxies } from '@shared/service-proxies/service-proxies';
 
 import { AuditComponent } from './audit/audit.component';
 import { AppAuthComponent } from './app-auth/app-auth.component';
@@ -17,7 +16,7 @@ import { AppAuthComponent } from './app-auth/app-auth.component';
   declarations: [
     ThemeComponent,
     TenantComponent,
-    UserComponent
+    UserComponent,
     UserAccountComponent,
     UserPermissionComponent,
     AuditComponent,

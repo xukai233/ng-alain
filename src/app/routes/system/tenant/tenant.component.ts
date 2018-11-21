@@ -72,13 +72,6 @@ export class TenantComponent implements OnInit {
       subDate: ['A'],
 
     });
-    
-    this.tableLoading = true;
-    setTimeout(()=>{
-      this.dataSet = this.data;
-      this.tableLoading = false;
-    },1000);
-
   }
 
   confirmationValidator = (control: FormControl): { [ s: string ]: boolean } => {
