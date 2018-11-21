@@ -72,15 +72,6 @@
           ]
         },
         {
-              "text":"APP授权",
-              "link":"/system/app/auth"
-            },
-            {
-              "text":"审计日志",
-              "link": "/system/audit",
-              "i18n": "menu.system.audit"
-            },
-            {
           "text": "小部件",
           "i18n": "menu.widgets",
           "link": "/widgets",

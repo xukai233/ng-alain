@@ -1,4 +1,4 @@
-<wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
+
 <form nz-form class="wimi-search" nzLayout="inline" nzFlex="true">
   <div style="flex:0.8">
     <wimi-form-item text="编号/名称">
@@ -19,15 +19,11 @@
   </div>
   <div style="margin-left: 12px;flex:0.2">
     <button nz-button nzType="primary">查询</button>
-    <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()">
-      {{isCollapse?'展开':'收起'}}
-        <i nz-icon [type]="isCollapse?'down':'up'"></i>
-    </a>
   </div>
 </form>
 <wimi-table>
-  <button name="toolbar" nz-button nzType="primary" (click)="handleTenantAdd()"><i nz-icon type="plus"></i>新建租户</button>
-  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading">
+  <button name="toolbar" *ngIf="isGranted('Pages.Host.Administration.Tenants.Create')" nz-button nzType="primary" (click)="createTenant()"><i nz-icon type="plus"></i>新建租户</button>
+  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle">
     <thead>
       <tr>
         <th>租户编号</th>
@@ -61,89 +57,21 @@
 </wimi-table>
 <wimi-copyright></wimi-copyright>
 
-<nz-modal nzWidth="650" [(nzVisible)]="modalIsVisible" nzTitle="新建租户" (nzOnCancel)="handleCancel()" (nzOnOk)="submitTenantAddForm()" >
-  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitTenantAddForm()">
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="TenantCode">租户编号</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="TenantCode" id="TenantCode" placeholder="请输入租户编号">
-        <nz-form-explain *ngIf="validateForm.get('TenantCode').dirty&& validateForm.get('TenantCode').errors">请输入租户编号</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+        <td>
+          <a>修改</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-popconfirm nzTitle="确定回收该租户?">回收</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-popconfirm nzTitle="确定停用该租户?">停用</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #totalTemplate let-total>
+      共 {{total}} 条结果
+  </ng-template>
+</wimi-table>
+<wimi-copyright></wimi-copyright>
 
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="TenantName">租户名称</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="TenantName" id="TenantName" placeholder="请输入租户名称">
-        <nz-form-explain *ngIf="validateForm.get('TenantName').dirty&& validateForm.get('TenantName').errors">请输入租户名称</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+<app-tenant-create-modal #createTenantModal (modalSave)="getTenants()"></app-tenant-create-modal>
 
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">管理员邮箱</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="email" id="email" placeholder="请输入管理员邮箱">
-        <nz-form-explain *ngIf="validateForm.get('email').dirty && validateForm.get('email').errors">请输入正确的邮箱</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item nz-row style="margin-bottom:8px;">
-      <nz-form-control [nzSpan]="14" [nzOffset]="6">
-        <label nz-checkbox formControlName="randomCode">
-          <span>使用随机密码（将以邮件方式发送随机密码）</span>
-        </label>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item *ngIf="!this.validateForm.controls.randomCode.value">
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password">管理员密码</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="password" id="password" placeholder="请输入管理员密码">
-        <nz-form-explain *ngIf="validateForm.get('password').dirty && validateForm.get('password').errors">请输入管理员密码</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item *ngIf="!this.validateForm.controls.randomCode.value">
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="passwordCheck">核对管理员密码</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="passwordCheck" id="passwordCheck" placeholder="请核对管理员密码">
-      <nz-form-explain *ngIf="validateForm.get('passwordCheck').dirty && validateForm.get('passwordCheck').errors">
-        <ng-container *ngIf="validateForm.get('passwordCheck').hasError('required')">
-          请输入核对密码！
-        </ng-container>
-        <ng-container *ngIf="validateForm.get('passwordCheck').hasError('confirm')">
-          两次密码输入不一致！
-        </ng-container>
-      </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item nz-row style="margin-bottom:8px;">
-      <nz-form-control [nzSpan]="14" [nzOffset]="6">
-        <label nz-checkbox formControlName="needPassword">
-          <span>下次登录需要密码</span>
-        </label>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="passwordCheck">订阅日期</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-radio-group formControlName="subDate">
-          <label nz-radio nzValue="A">无期限</label>
-          <label nz-radio nzValue="B">
-            <nz-date-picker></nz-date-picker>
-          </label>
-        </nz-radio-group>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item nz-row style="margin-bottom:8px;">
-      <nz-form-control [nzSpan]="14" [nzOffset]="6">
-        <label nz-checkbox formControlName="enable">
-          <span>启用账号</span>
-        </label>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</nz-modal>

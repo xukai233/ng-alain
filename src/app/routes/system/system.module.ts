@@ -7,6 +7,8 @@ import { TenantComponent } from './tenant/tenant.component';
 import { UserComponent } from './user/user.component';
 import { UserAccountComponent } from './user/user-account.component';
 import { UserPermissionComponent } from './user/user-permission.component';
+import { CreateTenantModalComponent } from './tenant/tenant-create-modal/tenant-create-modal.component';
+
 
 import { AuditComponent } from './audit/audit.component';
 import { AppAuthComponent } from './app-auth/app-auth.component';
@@ -18,6 +20,7 @@ import { AppAuthComponent } from './app-auth/app-auth.component';
     TenantComponent,
     UserComponent,
     UserAccountComponent,
+    CreateTenantModalComponent
     UserPermissionComponent,
     AuditComponent,
     AppAuthComponent

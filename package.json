@@ -93,6 +93,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "less-bundle-promise": "^1.0.7",
     "lint-staged": "^7.1.0",
+    "lodash": "^4.17.11",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.22.2",
     "ng-alain": "^2.0.0-rc.1",

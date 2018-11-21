@@ -24,6 +24,8 @@ import { FindPasswordComponent } from './passport/find-password/find-password.co
 
 import { LoginService } from './passport/login/login.service';
 
+import { LoginService } from './passport/login/login.service';
+
 const COMPONENTS = [
   DashboardV1Component,
   DashboardAnalysisComponent,

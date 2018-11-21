@@ -1,37 +1,24 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
-  FormGroup,
-  Validators
+  FormGroup
 } from '@angular/forms';
+import { AppComponentBase  } from '@app/app-component-base';
 import { TenantsServiceProxy } from '@serviceProxies/service-proxies';
-import {
-  SocialService,
-  SocialOpenType,
-  TokenService,
-  DA_SERVICE_TOKEN,
-} from '@delon/auth';
+import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
 
 
 @Component({
-  selector: 'tenant',
   templateUrl: './tenant.component.html',
   styleUrls: ['./tenant.component.less']
 })
-export class TenantComponent implements OnInit {
-  breadcrumb = [
-    { title: 'host', link: '/page/dashboard' },
-    { title: '系统' },
-    { title: '租户' },
-  ];
-  isCollapse = true;
-  modalIsVisible = false;
+
+export class TenantComponent extends AppComponentBase implements OnInit {
+
+  @ViewChild('createTenantModal') createTenantModal: CreateTenantModalComponent;
+
   dataSet = [];
-  validateForm: FormGroup;
-  rangePickerStyle = {
-    "width": "100%"
-  };
 
   filters: {
     filterText: string;
@@ -39,14 +26,17 @@ export class TenantComponent implements OnInit {
     tenantName: string;
   } = <any>{};
 
-  constructor(private fb: FormBuilder,
-    private _tenantService: TenantsServiceProxy,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
+  constructor(
+    private _tenantService: TenantsServiceProxy) {
+      super();
   }
 
   ngOnInit() {
-    const token = this.tokenService.get();
 
+    this.getTenants();
+  }
+
+  getTenants(): void {
     this._tenantService.list(
       this.filters.filterText,
       this.filters.tenantCode,
@@ -59,45 +49,9 @@ export class TenantComponent implements OnInit {
     ).subscribe(result => {
       this.dataSet = result.items;
     });
-    
-    this.validateForm = this.fb.group({
-      TenantCode: [null, [Validators.required]],
-      TenantName: [null, [Validators.required]],
-      email: [null, [Validators.email, Validators.required]],
-      randomCode: [true],
-      password: [null, [Validators.required]],
-      passwordCheck: [null, [Validators.required]],
-      needPassword: [true],
-      enable: [true],
-      subDate: ['A'],
-
-    });
   }
 
-  confirmationValidator = (control: FormControl): { [ s: string ]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-  };
-
-  toggleCollapse() {
-    this.isCollapse = !this.isCollapse
-  }
-  handleTenantAdd() {
-    this.modalIsVisible = true;
-  }
-
-  handleCancel(): void {
-    this.modalIsVisible = false;
-  }
-  submitTenantAddForm(): void {
-    //this.modalIsVisible = false;
-    console.log(this.validateForm)
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
-    }
+  createTenant(): void {
+    this.createTenantModal.show();
   }
 }

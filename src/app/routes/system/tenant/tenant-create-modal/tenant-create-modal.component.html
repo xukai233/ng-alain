@@ -1,0 +1,82 @@
+<nz-modal #createModal nzTitle="新建租户" (nzOnCancel)="cancel()" (nzOnOk)="save()">
+  <form nz-form [formGroup]="createTenantForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenant.tenantCode">租户编号</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="tenantCode" id="tenantCode" [(ngModel)]="tenant.tenantCode">
+      </nz-form-control>
+    </nz-form-item>
+  
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenantName">租户名称</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="tenantName" id="tenantName" [(ngModel)]="tenant.tenantName">
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenantDesc">租户描述</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="tenantDesc" id="tenantDesc" [(ngModel)]="tenant.tenantDesc">
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="adminEmail">管理员邮箱</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="adminEmail" id="adminEmail" [(ngModel)]="tenant.adminEmail">
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <label nz-checkbox formControlName="setRandomPassword">
+          <span>使用随机密码（将以邮件方式发送随机密码）</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="!setRandomPassword">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="adminPassword">管理员密码</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="adminPassword" id="adminPassword" [(ngModel)]="tenant.adminPassword">
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="!setRandomPassword">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="passwordCheck">核对管理员密码</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="passwordCheck" id="passwordCheck">
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <label nz-checkbox formControlName="shouldChangePasswordOnNextLogin" [(ngModel)]="tenant.shouldChangePasswordOnNextLogin">
+          <span>下次登录需要重设密码</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="expiryTime">订阅日期</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="expiryTime">
+          <label nz-radio nzValue="A">无期限</label>
+          <label nz-radio nzValue="B">
+            <nz-date-picker></nz-date-picker>
+          </label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <label nz-checkbox formControlName="isActive" [(ngModel)]="tenant.isActive">
+          <span>启用账号</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item> 
+
+  </form>
+</nz-modal>
