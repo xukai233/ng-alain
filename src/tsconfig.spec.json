@@ -10,6 +10,12 @@
       "node"
     ],
     "paths": {
+      "@app": [
+        "app"
+      ],
+      "@app/*": [
+        "app/"
+      ],
       "@shared": [
         "app/shared"
       ],

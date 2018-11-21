@@ -4,7 +4,6 @@ import {
   FormControl,
   FormGroup
 } from '@angular/forms';
-import { AppComponentBase  } from '@app/app-component-base';
 import { TenantsServiceProxy } from '@serviceProxies/service-proxies';
 import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
 
@@ -14,7 +13,7 @@ import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-
   styleUrls: ['./tenant.component.less']
 })
 
-export class TenantComponent extends AppComponentBase implements OnInit {
+export class TenantComponent implements OnInit {
 
   @ViewChild('createTenantModal') createTenantModal: CreateTenantModalComponent;
 
@@ -28,7 +27,6 @@ export class TenantComponent extends AppComponentBase implements OnInit {
 
   constructor(
     private _tenantService: TenantsServiceProxy) {
-      super();
   }
 
   ngOnInit() {

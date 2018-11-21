@@ -20,7 +20,7 @@ import { AppAuthComponent } from './app-auth/app-auth.component';
     TenantComponent,
     UserComponent,
     UserAccountComponent,
-    CreateTenantModalComponent
+    CreateTenantModalComponent,
     UserPermissionComponent,
     AuditComponent,
     AppAuthComponent
