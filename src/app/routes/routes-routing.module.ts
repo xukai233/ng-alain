@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { SimpleGuard } from '@delon/auth';
 import { environment } from '@env/environment';
 // layout
 import { LayoutDefaultComponent } from '../layout/default/default.component';
@@ -22,14 +23,13 @@ import { UserLockComponent } from './passport/lock/lock.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
-import {SimpleGuard} from '@delon/auth';
 
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutDefaultComponent,
-    canActivateChild: [SimpleGuard],
+    canActivate: [SimpleGuard],
     children: [
       { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
       { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
@@ -38,8 +38,8 @@ const routes: Routes = [
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
       {
-        path:'system',
-        loadChildren:'./system/system.module#SystemModule'
+        path: 'system',
+        loadChildren: './system/system.module#SystemModule'
       },
       {
         path: 'widgets',
@@ -69,33 +69,35 @@ const routes: Routes = [
         path: 'login',
         component: UserLoginComponent,
         data: { title: '登录', titleI18n: 'pro-login' },
-      },{
-        path :'reset',
-        component:ResetPasswordComponent,
+      },
+      {
+        path : 'reset',
+        component: ResetPasswordComponent,
         data: { title: '重置密码', titleI18n: 'pro-login' },
-      },{
-        path:'find',
-        component:FindPasswordComponent
+      },
+      {
+        path: 'find',
+        component: FindPasswordComponent
       },
       {
         path: 'register',
         component: UserRegisterComponent,
-        data: { title: '注册', titleI18n: 'pro-register' },
+        data: { title: '注册', titleI18n: 'app.register.register' },
       },
       {
         path: 'register-result',
         component: UserRegisterResultComponent,
-        data: { title: '注册结果', titleI18n: 'pro-register-result' },
+        data: { title: '注册结果', titleI18n: 'app.register.register' },
+      },
+      {
+        path: 'lock',
+        component: UserLockComponent,
+        data: { title: '锁屏', titleI18n: 'app.lock' },
       },
     ],
   },
   // 单页不包裹Layout
   { path: 'callback/:type', component: CallbackComponent },
-  {
-    path: 'lock',
-    component: UserLockComponent,
-    data: { title: '锁屏', titleI18n: 'lock' },
-  },
   { path: '403', component: Exception403Component },
   { path: '404', component: Exception404Component },
   { path: '500', component: Exception500Component },

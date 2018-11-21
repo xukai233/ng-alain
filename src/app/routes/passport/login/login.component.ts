@@ -1,5 +1,5 @@
 import { SettingsService } from '@delon/theme';
-import { Component, OnDestroy, Inject, Optional,Injector} from '@angular/core';
+import { Component, OnDestroy, Inject, Optional, Injector} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
@@ -12,7 +12,7 @@ import {
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { StartupService } from '@core/startup/startup.service';
-import { LoginService } from './login.service'
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'passport-login',
@@ -27,9 +27,9 @@ export class UserLoginComponent implements OnDestroy {
   loading = false;
   constructor(
     fb: FormBuilder,
-    private router: Router,
+    modalSrv: NzModalService,
     public msg: NzMessageService,
-    private modalSrv: NzModalService,
+    private router: Router,
     private settingsService: SettingsService,
     private socialService: SocialService,
     @Optional()
@@ -48,7 +48,7 @@ export class UserLoginComponent implements OnDestroy {
     modalSrv.closeAll();
   }
 
-  // region: fields
+  // #region fields
 
   get userName() {
     return this.form.controls.userName;
@@ -60,19 +60,19 @@ export class UserLoginComponent implements OnDestroy {
     return this.form.controls.company;
   }
 
-  // endregion
+  // #endregion
 
   switch(ret: any) {
     this.type = ret.index;
   }
 
-  // region: get captcha
+  // #region get captcha
 
   count = 0;
   interval$: any;
 
 
-  // endregion
+  // #endregion
 
   submit() {
     this.error = '';
@@ -84,8 +84,7 @@ export class UserLoginComponent implements OnDestroy {
     this.company.updateValueAndValidity();
     if (this.userName.invalid || this.password.invalid) return;
 
-    // **注：** DEMO中使用 `setTimeout` 来模拟 http
-    // 默认配置中对所有HTTP请求都会强制[校验](https://ng-alain.com/auth/getting-started) 用户 Token
+    // 默认配置中对所有HTTP请求都会强制 [校验](https://ng-alain.com/auth/getting-started) 用户 Token
     // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
     this.loading = true;
     this.loginService.authenticate(
@@ -96,7 +95,7 @@ export class UserLoginComponent implements OnDestroy {
     );
   }
 
-  // region: social
+  // #region social
 
   open(type: string, openType: SocialOpenType = 'href') {
     let url = ``;
@@ -139,7 +138,7 @@ export class UserLoginComponent implements OnDestroy {
     }
   }
 
-  // endregion
+  // #endregion
 
   ngOnDestroy(): void {
     if (this.interval$) clearInterval(this.interval$);
