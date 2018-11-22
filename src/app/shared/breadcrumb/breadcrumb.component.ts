@@ -9,6 +9,8 @@ import Breadcrumb from './breadcrumb'
 })
 export class BreadcrumbComponent implements OnInit {
   @Input() data:Breadcrumb[]
+  @Input() title:string
+  @Input() icon:string
   constructor() { }
 
   ngOnInit() {

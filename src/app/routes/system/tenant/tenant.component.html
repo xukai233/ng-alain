@@ -1,28 +1,41 @@
-
-<form nz-form class="wimi-search" nzLayout="inline" nzFlex="true">
-  <div style="flex:0.8">
-    <wimi-form-item text="编号/名称">
-      <input nz-input />
-    </wimi-form-item>
-    <div class="hide-input-group" *ngIf="!isCollapse">
-      <wimi-form-item text="APP授权" style="margin-left: 8px;">
-        <nz-select nzAllowClear nzPlaceHolder="请选择">
-          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-          <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
-        </nz-select>
+<wimi-breadcrumb title="租户" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
+<wimi-table>
+  <div name="head" style="display: flex;justify-content: space-between;align-items: center;">
+    <form nz-form class="wimi-search" nzLayout="inline" nzFlex="true" style="flex:auto">
+      <div style="width: 80px;">
+        <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()">
+          {{isCollapse?'高级搜索':'收起'}}
+            <i nz-icon [type]="isCollapse?'down':'up'"></i>
+        </a>
+      </div>
+      <div style="flex:auto">
+        <nz-input-group *ngIf="isCollapse" nzSearch [nzSuffix]="suffixButton" style="width: 60%">
+          <input type="text" nz-input placeholder="编号/名称">
+        </nz-input-group>
+        <ng-template #suffixButton>
+          <button nz-button nzType="primary" nzSearch>查询</button>
+        </ng-template>
+      </div>
+    </form>
+    <button nz-button nzType="primary" (click)="createTenant()"><i nz-icon type="plus"></i>新建租户</button>
+  </div>
+  <div *ngIf="!isCollapse" class="search-detail" name="head" nz-row nzType="flex">
+    <div nz-col nzSpan="20">
+      <wimi-form-item text="编号" class="wimi-form-item">
+        <input nz-input placeholder="请输入" >
       </wimi-form-item>
-      <wimi-form-item text="创建时间">
-        <nz-range-picker style="width:100%" [nzStyle]="rangePickerStyle" nzShowTime></nz-range-picker>
+      <wimi-form-item text="名称" class="wimi-form-item">
+        <input nz-input placeholder="请输入" >
+      </wimi-form-item>
+      <wimi-form-item text="APP授权" class="wimi-form-item">
+        <input nz-input placeholder="请输入" >
+      </wimi-form-item>
+      <wimi-form-item text="创建时间" style="width: 500px;">
+        <nz-range-picker [nzStyle]="rangePickerStyle" nzShowTime></nz-range-picker>
       </wimi-form-item>
     </div>
+    <div nz-col nzSpan="4"><button nz-button nzType="primary" nzSearch>查询</button></div>
   </div>
-  <div style="margin-left: 12px;flex:0.2">
-    <button nz-button nzType="primary">查询</button>
-  </div>
-</form>
-<wimi-table>
-  <button name="toolbar" nz-button nzType="primary" (click)="createTenant()"><i nz-icon type="plus"></i>新建租户</button>
   <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle">
     <thead>
       <tr>

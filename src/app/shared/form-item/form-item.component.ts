@@ -7,6 +7,7 @@ import { Component, OnInit, Input} from '@angular/core';
 })
 export class FormItemComponent implements OnInit {
   @Input() text = ""
+  @Input() textWidth= "75px"
   constructor() { }
 
   ngOnInit() {

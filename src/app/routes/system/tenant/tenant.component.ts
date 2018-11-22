@@ -25,6 +25,12 @@ export class TenantComponent implements OnInit {
     tenantName: string;
   } = <any>{};
 
+  isCollapse = true;
+  breadcrumb = [
+    {title:'host',link:'/page/dashboard'},
+    {title:'系统'},
+    {title:'租户'},
+  ]
   constructor(
     private _tenantService: TenantsServiceProxy) {
   }
@@ -51,5 +57,9 @@ export class TenantComponent implements OnInit {
 
   createTenant(): void {
     this.createTenantModal.show();
+  }
+
+  toggleCollapse(): void {
+    this.isCollapse = !this.isCollapse;
   }
 }

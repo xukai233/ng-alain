@@ -1,5 +1,9 @@
 <div class="breadcrumb-group">
-  <nz-breadcrumb>
+  <div style="font-size: 16px;margin-right: 12px;">
+    <i nz-icon [type]="icon" theme="outline"></i>
+    {{title}}
+  </div>
+  <nz-breadcrumb nzSeparator="-">
     <nz-breadcrumb-item *ngFor="let item of data">
       <span *ngIf="!item.link">{{item.title}}</span>
       <a *ngIf="item.link" [routerLink]="[item.link]">{{item.title}}</a>
