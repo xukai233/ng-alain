@@ -1,32 +1,50 @@
-<wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
-<form nz-form class="wimi-search" nzLayout="inline" nzFlex="true">
-  <div style="flex:0.8">
-    <wimi-form-item text="关键词搜索：">
-      <input nz-input />
-    </wimi-form-item>
-    <div class="hide-input-group" *ngIf="!isCollapse">
-      <wimi-form-item text="账号：" style="margin-left: 40px;">
-        <input nz-input placeholder="请输入" />
+<wimi-breadcrumb title="审计日志" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
+<wimi-table>
+  <div name="head" style="display: flex;justify-content: space-between;align-items: center;">
+    <form nz-form class="wimi-search" nzLayout="inline" nzFlex="true" style="flex:auto">
+      <div style="width: 250px;font-size: 12px;">
+        <span class="filter-search">
+          <span class="select">近7日</span>
+          <span>300错误</span>
+          <span>400错误</span>
+        </span>
+        <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()">
+          {{isCollapse?'高级搜索':'收起'}}
+            <i nz-icon [type]="isCollapse?'down':'up'"></i>
+        </a>
+      </div>
+      <div style="flex:auto">
+        <nz-input-group *ngIf="isCollapse" nzSearch [nzSuffix]="suffixButton" style="width: 60%">
+          <input type="text" nz-input placeholder="账号/APP、Api">
+        </nz-input-group>
+        <ng-template #suffixButton>
+          <button nz-button nzType="primary" nzSearch>查询</button>
+        </ng-template>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="!isCollapse" class="search-detail" name="head" nz-row nzType="flex">
+    <div nz-col nzSpan="20">
+      <wimi-form-item text="账号" class="wimi-form-item">
+        <input nz-input placeholder="请输入" >
       </wimi-form-item>
-      <wimi-form-item text="APP：">
-        <input nz-input placeholder="请输入" />
+      <wimi-form-item text="APP" class="wimi-form-item">
+        <input nz-input placeholder="请输入" >
       </wimi-form-item>
-      <wimi-form-item text="Api：">
-        <input nz-input placeholder="请输入" />
+      <wimi-form-item text="Api" class="wimi-form-item">
+        <input nz-input placeholder="请输入" >
       </wimi-form-item>
-    </div>
-    <div class="hide-input-group" *ngIf="!isCollapse">
-      <wimi-form-item text="状态：" style="margin-left: 40px;">
-        <nz-select nzAllowClear nzPlaceHolder="请选择">
+      <wimi-form-item text="状态" class="wimi-form-item">
+        <nz-select nzAllowClear nzPlaceHolder="请选择" style="width: 100%">
           <nz-option nzValue="200" nzLabel="200成功"></nz-option>
           <nz-option nzValue="400" nzLabel="400错误"></nz-option>
           <nz-option nzValue="300" nzLabel="300错误"></nz-option>
         </nz-select>
       </wimi-form-item>
-      <wimi-form-item text="时间：">
-        <nz-range-picker style="width:100%" [nzStyle]="rangePickerStyle" nzShowTime></nz-range-picker>
+      <wimi-form-item text="日期范围" class="wimi-form-item">
+        <nz-range-picker [nzStyle]="rangePickerStyle" nzShowTime></nz-range-picker>
       </wimi-form-item>
-      <wimi-form-item text="持续：">
+      <wimi-form-item text="持续时间" class="wimi-form-item">
         <div style="display: flex;align-items: center;">
           <nz-input-number [nzMin]="1" [nzStep]="1"></nz-input-number>
           -
@@ -34,17 +52,8 @@
         </div>
       </wimi-form-item>
     </div>
+    <div nz-col nzSpan="4"><button nz-button nzType="primary" nzSearch>查询</button></div>
   </div>
-  <div style="margin-left: 12px;flex:0.2">
-    <button nz-button nzType="primary">查询</button>
-    <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()">
-        {{isCollapse?'展开':'收起'}}
-        <i nz-icon [type]="isCollapse?'down':'up'"></i>
-    </a>
-  </div>
-</form>
-
-<wimi-table>
   <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading">
     <thead>
       <tr>
