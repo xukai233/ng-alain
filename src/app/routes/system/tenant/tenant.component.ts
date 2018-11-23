@@ -6,6 +6,7 @@ import {
 } from '@angular/forms';
 import { TenantsServiceProxy } from '@serviceProxies/service-proxies';
 import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class TenantComponent implements OnInit {
     {title:'租户'},
   ]
   constructor(
-    private _tenantService: TenantsServiceProxy) {
+    private _tenantService: TenantsServiceProxy,private modalService:NzModalService) {
   }
 
   ngOnInit() {
@@ -61,5 +62,14 @@ export class TenantComponent implements OnInit {
 
   toggleCollapse(): void {
     this.isCollapse = !this.isCollapse;
+  }
+  handleDelete() : void {
+    this.modalService.confirm({
+      nzTitle  : '<i>回收租户</i>',
+      nzContent: '<b>该操作将清空该租户及所有内容，此操作不可逆，确认回收?</b>',
+      nzOkText:'回收',
+      nzOkType:'danger',
+      nzOnOk   : () => console.log('OK')
+    });
   }
 }

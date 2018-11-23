@@ -57,7 +57,7 @@
         <td>
           <a>修改</a>
           <nz-divider nzType="vertical"></nz-divider>
-          <a nz-popconfirm nzTitle="确定回收该租户?">回收</a>
+          <a (click)="handleDelete()">回收</a>
           <nz-divider nzType="vertical"></nz-divider>
           <a nz-popconfirm nzTitle="确定停用该租户?">停用</a>
         </td>

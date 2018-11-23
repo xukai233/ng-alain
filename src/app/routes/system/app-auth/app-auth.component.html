@@ -1,4 +1,4 @@
-<wimi-breadcrumb [data]="breadcrumb"></wimi-breadcrumb>
+<wimi-breadcrumb title="APP授权" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
 <wimi-four-grid leftWidth="518px">
   <div name="top-left" style="font-weight: 550">租户列表</div>
   <div name="top-right" style="display: flex;justify-content: space-between;width: 100%;align-items: center;">
@@ -6,6 +6,12 @@
     <button name="top-right" nz-button nzType="primary" (click)="handleAppAuth()">APP授权</button>
   </div>
   <div name="content-left" style="padding:12px;">
+    <nz-input-group nzSearch [nzSuffix]="suffixButton" style="width: 100%;margin-bottom: 12px;">
+      <input type="text" nz-input placeholder="编号/名称">
+    </nz-input-group>
+    <ng-template #suffixButton>
+      <button nz-button nzType="primary" nzSearch>查询</button>
+    </ng-template>
     <nz-table  #basicTable [nzData]="dataSet" nzSize="small"  [nzLoading]="tableLoading">
       <thead>
         <tr>

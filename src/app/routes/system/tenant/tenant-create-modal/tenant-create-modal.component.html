@@ -1,4 +1,4 @@
-<nz-modal #createModal nzTitle="新建租户" (nzOnCancel)="cancel()" (nzOnOk)="save()">
+<nz-modal nzWidth="680" #createModal nzTitle="新建租户" (nzOnCancel)="cancel()" (nzOnOk)="save()">
   <form nz-form [formGroup]="createTenantForm">
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenant.tenantCode">租户编号</nz-form-label>

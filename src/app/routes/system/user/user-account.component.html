@@ -1,4 +1,4 @@
-<wimi-form-item name="content-right" text="账号/名称" style="margin-bottom: 12px;">
+<wimi-form-item name="content-right" text="账号/名称" textWidth="85px" style="margin-bottom: 12px;">
   <input nz-input placeholder="请输入" />
   <button style="margin-left: 12px;" nz-button nzType="primary">查询</button>
 </wimi-form-item>
@@ -27,7 +27,7 @@
         <nz-divider nzType="vertical"></nz-divider>
         <a>权限</a>
         <nz-divider nzType="vertical"></nz-divider>
-        <a nz-popconfirm nzTitle="确定删除该用户?">删除</a>
+        <a (click)="handleDelete()">删除</a>
       </td>
     </tr>
   </tbody>
