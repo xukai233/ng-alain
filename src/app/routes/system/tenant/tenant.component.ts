@@ -4,8 +4,9 @@ import {
   FormControl,
   FormGroup
 } from '@angular/forms';
-import { TenantsServiceProxy } from '@serviceProxies/service-proxies';
+import { TenantServiceProxy } from '@serviceProxies/service-proxies';
 import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
+import { TenantUpdateModalComponent } from './tenant-update-modal/tenant-update-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
 
 
@@ -17,6 +18,7 @@ import { NzModalService } from 'ng-zorro-antd';
 export class TenantComponent implements OnInit {
 
   @ViewChild('createTenantModal') createTenantModal: CreateTenantModalComponent;
+  @ViewChild('updateTenantModal') updateTenantModal: TenantUpdateModalComponent;
 
   dataSet = [];
 
@@ -33,7 +35,7 @@ export class TenantComponent implements OnInit {
     {title:'租户'},
   ]
   constructor(
-    private _tenantService: TenantsServiceProxy,private modalService:NzModalService) {
+    private _tenantService: TenantServiceProxy,private modalService:NzModalService) {
   }
 
   ngOnInit() {
@@ -42,15 +44,7 @@ export class TenantComponent implements OnInit {
   }
 
   getTenants(): void {
-    this._tenantService.list(
-      this.filters.filterText,
-      this.filters.tenantCode,
-      this.filters.tenantName,
-      null,
-      null,
-      null,
-      1,
-      10
+    this._tenantService.doGet(null
     ).subscribe(result => {
       this.dataSet = result.items;
     });
@@ -58,6 +52,9 @@ export class TenantComponent implements OnInit {
 
   createTenant(): void {
     this.createTenantModal.show();
+  }
+  handleUpdateTenant(): void {
+    this.updateTenantModal.show();
   }
 
   toggleCollapse(): void {

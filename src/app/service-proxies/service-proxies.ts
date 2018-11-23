@@ -30,7 +30,7 @@ export class PassportServiceProxy {
      * @return Success
      */
     authenticate(authenticateModel: AuthenticateModel | null | undefined): Observable<AuthenticateResultModel> {
-        let url_ = this.baseUrl + "/passport/Authenticate";
+        let url_ = this.baseUrl + "/passport/authenticate";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(authenticateModel);
@@ -97,8 +97,8 @@ export class AppServiceProxy {
      * 列出所有App
      * @return Success
      */
-    listAll(): Observable<ListResultDtoOfAppDto> {
-        let url_ = this.baseUrl + "/app/ListAll";
+    all(): Observable<ListResultDtoOfAppDto> {
+        let url_ = this.baseUrl + "/app/all";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -110,11 +110,11 @@ export class AppServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processListAll(response_);
+            return this.processAll(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processListAll(<any>response_);
+                    return this.processAll(<any>response_);
                 } catch (e) {
                     return <Observable<ListResultDtoOfAppDto>><any>_observableThrow(e);
                 }
@@ -123,7 +123,7 @@ export class AppServiceProxy {
         }));
     }
 
-    protected processListAll(response: HttpResponseBase): Observable<ListResultDtoOfAppDto> {
+    protected processAll(response: HttpResponseBase): Observable<ListResultDtoOfAppDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -146,15 +146,71 @@ export class AppServiceProxy {
     }
 
     /**
-     * 授权租户App权限
-     * @param updateTenantInputDto (optional) 
-     * @return OK
+     * 列出特定租户下的所有App
+     * @param tenantId 需要获得App的租户Id
+     * @return Success
      */
-    authorizeTenant(updateTenantInputDto: AuthorizeTenantDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/app/AuthorizeTenant";
+    findByTenant(tenantId: number): Observable<TenantAppsDto> {
+        let url_ = this.baseUrl + "/app/find-by-tenant/{tenantId}";
+        if (tenantId === undefined || tenantId === null)
+            throw new Error("The parameter 'tenantId' must be defined.");
+        url_ = url_.replace("{tenantId}", encodeURIComponent("" + tenantId)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(updateTenantInputDto);
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFindByTenant(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFindByTenant(<any>response_);
+                } catch (e) {
+                    return <Observable<TenantAppsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TenantAppsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processFindByTenant(response: HttpResponseBase): Observable<TenantAppsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TenantAppsDto.fromJS(resultData200) : new TenantAppsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TenantAppsDto>(<any>null);
+    }
+
+    /**
+     * 授权租户App权限
+     * @param createTenantDto (optional) 
+     * @return OK
+     */
+    authorizePost(createTenantDto: AuthorizeTenantDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/app/authorize";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(createTenantDto);
 
         let options_ : any = {
             body: content_,
@@ -166,11 +222,11 @@ export class AppServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAuthorizeTenant(response_);
+            return this.processAuthorizePost(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processAuthorizeTenant(<any>response_);
+                    return this.processAuthorizePost(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -179,7 +235,60 @@ export class AppServiceProxy {
         }));
     }
 
-    protected processAuthorizeTenant(response: HttpResponseBase): Observable<void> {
+    protected processAuthorizePost(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * 更新租户App权限
+     * @param updateTenantDto (optional) 
+     * @return OK
+     */
+    authorizePut(updateTenantDto: AuthorizeTenantDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/app/authorize";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updateTenantDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAuthorizePut(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAuthorizePut(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAuthorizePut(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -200,7 +309,7 @@ export class AppServiceProxy {
 }
 
 @Injectable()
-export class TenantsServiceProxy {
+export class TenantServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -212,50 +321,31 @@ export class TenantsServiceProxy {
 
     /**
      * 租户查询
-     * @param filter (optional) 
-     * @param tenantCode (optional) 
-     * @param tenantName (optional) 
-     * @param appId (optional) 
-     * @param creationDateStart (optional) 
-     * @param creationDateEnd (optional) 
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param filterTenants (optional) 按照查询条件过滤租户
      * @return Success
      */
-    list(filter: string | null | undefined, tenantCode: string | null | undefined, tenantName: string | null | undefined, appId: number | null | undefined, creationDateStart: number | null | undefined, creationDateEnd: number | null | undefined, pageIndex: number | null | undefined, pageSize: number | null | undefined): Observable<PagedResultDtoOfTenantListDto> {
-        let url_ = this.baseUrl + "/tenants/List?";
-        if (filter !== undefined)
-            url_ += "filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (tenantCode !== undefined)
-            url_ += "tenantCode=" + encodeURIComponent("" + tenantCode) + "&"; 
-        if (tenantName !== undefined)
-            url_ += "tenantName=" + encodeURIComponent("" + tenantName) + "&"; 
-        if (appId !== undefined)
-            url_ += "appId=" + encodeURIComponent("" + appId) + "&"; 
-        if (creationDateStart !== undefined)
-            url_ += "creationDateStart=" + encodeURIComponent("" + creationDateStart) + "&"; 
-        if (creationDateEnd !== undefined)
-            url_ += "creationDateEnd=" + encodeURIComponent("" + creationDateEnd) + "&"; 
-        if (pageIndex !== undefined)
-            url_ += "pageIndex=" + encodeURIComponent("" + pageIndex) + "&"; 
-        if (pageSize !== undefined)
-            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&"; 
+    doGet(filterTenants: FilterTenantsDto | null | undefined): Observable<PagedResultDtoOfTenantListDto> {
+        let url_ = this.baseUrl + "/tenant/do";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(filterTenants);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processList(response_);
+            return this.processDoGet(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processList(<any>response_);
+                    return this.processDoGet(<any>response_);
                 } catch (e) {
                     return <Observable<PagedResultDtoOfTenantListDto>><any>_observableThrow(e);
                 }
@@ -264,7 +354,7 @@ export class TenantsServiceProxy {
         }));
     }
 
-    protected processList(response: HttpResponseBase): Observable<PagedResultDtoOfTenantListDto> {
+    protected processDoGet(response: HttpResponseBase): Observable<PagedResultDtoOfTenantListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -287,39 +377,40 @@ export class TenantsServiceProxy {
     }
 
     /**
-     * 获取租户已授权的Apps
-     * @param id (optional) 租户Id
+     * 租户开立
+     * @param createTenantDto (optional) 
      * @return Success
      */
-    listTenantApps(id: number | null | undefined): Observable<ListResultDtoOfTenantAppsDto> {
-        let url_ = this.baseUrl + "/tenants/ListTenantApps?";
-        if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+    doPost(createTenantDto: CreateTenantDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/tenant/do";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(createTenantDto);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Content-Type": "application/json", 
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processListTenantApps(response_);
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDoPost(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processListTenantApps(<any>response_);
+                    return this.processDoPost(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfTenantAppsDto>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfTenantAppsDto>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processListTenantApps(response: HttpResponseBase): Observable<ListResultDtoOfTenantAppsDto> {
+    protected processDoPost(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -328,28 +419,38 @@ export class TenantsServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfTenantAppsDto.fromJS(resultData200) : new ListResultDtoOfTenantAppsDto();
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfTenantAppsDto>(<any>null);
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class ServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
     }
 
     /**
      * 根据Id获取租户
-     * @param id (optional) 租户Id
+     * @param tenantId 租户Id
      * @return Success
      */
-    getTenantById(id: number | null | undefined): Observable<TenantDto> {
-        let url_ = this.baseUrl + "/tenants/GetTenantById?";
-        if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+    tenantGet(tenantId: number): Observable<TenantDto> {
+        let url_ = this.baseUrl + "/tenant/{tenantId}";
+        if (tenantId === undefined || tenantId === null)
+            throw new Error("The parameter 'tenantId' must be defined.");
+        url_ = url_.replace("{tenantId}", encodeURIComponent("" + tenantId)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -361,11 +462,11 @@ export class TenantsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetTenantById(response_);
+            return this.processTenantGet(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetTenantById(<any>response_);
+                    return this.processTenantGet(<any>response_);
                 } catch (e) {
                     return <Observable<TenantDto>><any>_observableThrow(e);
                 }
@@ -374,7 +475,7 @@ export class TenantsServiceProxy {
         }));
     }
 
-    protected processGetTenantById(response: HttpResponseBase): Observable<TenantDto> {
+    protected processTenantGet(response: HttpResponseBase): Observable<TenantDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -397,15 +498,19 @@ export class TenantsServiceProxy {
     }
 
     /**
-     * 租户开立
-     * @param createTenantInputDto (optional) 
+     * 更新租户
+     * @param tenantId 租户Id
+     * @param updateTenantDto (optional) 
      * @return Success
      */
-    new(createTenantInputDto: CreateTenantInputDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/tenants/New";
+    tenantPut(tenantId: number, updateTenantDto: UpdateTenantDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/tenant/{tenantId}";
+        if (tenantId === undefined || tenantId === null)
+            throw new Error("The parameter 'tenantId' must be defined.");
+        url_ = url_.replace("{tenantId}", encodeURIComponent("" + tenantId)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(createTenantInputDto);
+        const content_ = JSON.stringify(updateTenantDto);
 
         let options_ : any = {
             body: content_,
@@ -416,12 +521,12 @@ export class TenantsServiceProxy {
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processNew(response_);
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTenantPut(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processNew(<any>response_);
+                    return this.processTenantPut(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -430,7 +535,7 @@ export class TenantsServiceProxy {
         }));
     }
 
-    protected processNew(response: HttpResponseBase): Observable<void> {
+    protected processTenantPut(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -450,15 +555,19 @@ export class TenantsServiceProxy {
     }
 
     /**
-     * 更新租户
-     * @param updateTenantInputDto (optional) 
-     * @return Success
+     * 更新账户
+     * @param accountId 账户Id
+     * @param updateAccount (optional) 更新账户
+     * @return Succes
      */
-    update(updateTenantInputDto: TenantDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/tenants/Update";
+    accountPut(accountId: number, updateAccount: UpdateAccountDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/account/{accountId}";
+        if (accountId === undefined || accountId === null)
+            throw new Error("The parameter 'accountId' must be defined.");
+        url_ = url_.replace("{accountId}", encodeURIComponent("" + accountId)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(updateTenantInputDto);
+        const content_ = JSON.stringify(updateAccount);
 
         let options_ : any = {
             body: content_,
@@ -469,12 +578,12 @@ export class TenantsServiceProxy {
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdate(response_);
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAccountPut(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdate(<any>response_);
+                    return this.processAccountPut(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -483,7 +592,7 @@ export class TenantsServiceProxy {
         }));
     }
 
-    protected processUpdate(response: HttpResponseBase): Observable<void> {
+    protected processAccountPut(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -501,6 +610,1696 @@ export class TenantsServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * 删除账户
+     * @param accountId 账户Id
+     * @return Succes
+     */
+    accountDelete(accountId: number): Observable<void> {
+        let url_ = this.baseUrl + "/account/{accountId}";
+        if (accountId === undefined || accountId === null)
+            throw new Error("The parameter 'accountId' must be defined.");
+        url_ = url_.replace("{accountId}", encodeURIComponent("" + accountId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAccountDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAccountDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAccountDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * 更新账户组
+     * @param accountGroupId 账户组Id
+     * @param updateAccountGroup (optional) 更新账户组
+     * @return Succes
+     */
+    accountGroupPut(accountGroupId: number, updateAccountGroup: UpdateAccountGroupDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/account-group/{accountGroupId}";
+        if (accountGroupId === undefined || accountGroupId === null)
+            throw new Error("The parameter 'accountGroupId' must be defined.");
+        url_ = url_.replace("{accountGroupId}", encodeURIComponent("" + accountGroupId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updateAccountGroup);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAccountGroupPut(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAccountGroupPut(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAccountGroupPut(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * 删除账户组
+     * @param accountGroupId 账户组Id
+     * @return Succes
+     */
+    accountGroupDelete(accountGroupId: number): Observable<void> {
+        let url_ = this.baseUrl + "/account-group/{accountGroupId}";
+        if (accountGroupId === undefined || accountGroupId === null)
+            throw new Error("The parameter 'accountGroupId' must be defined.");
+        url_ = url_.replace("{accountGroupId}", encodeURIComponent("" + accountGroupId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAccountGroupDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAccountGroupDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAccountGroupDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class AccountServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+    }
+
+    /**
+     * 账户查询
+     * @param filterAccounts (optional) 按照查询条件过滤租户
+     * @return Success
+     */
+    doGet(filterAccounts: FilterAccountsDto | null | undefined): Observable<PagedResultDtoOfAccountsListDto> {
+        let url_ = this.baseUrl + "/account/do";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(filterAccounts);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDoGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDoGet(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAccountsListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAccountsListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDoGet(response: HttpResponseBase): Observable<PagedResultDtoOfAccountsListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAccountsListDto.fromJS(resultData200) : new PagedResultDtoOfAccountsListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfAccountsListDto>(<any>null);
+    }
+
+    /**
+     * 建立账户
+     * @param createAccount (optional) 新建账户
+     * @return Success
+     */
+    doPost(createAccount: CreateAccountDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/account/do";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(createAccount);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDoPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDoPost(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDoPost(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * 上传头像
+     * @param accountId ID of Account to update
+     * @param additionalMetadata (optional) Additional data to pass to server
+     * @param file (optional) file to upload
+     * @return successful operation
+     */
+    uploadImage(accountId: number, additionalMetadata: string | null | undefined, file: FileParameter | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/account/{accountId}/upload-image";
+        if (accountId === undefined || accountId === null)
+            throw new Error("The parameter 'accountId' must be defined.");
+        url_ = url_.replace("{accountId}", encodeURIComponent("" + accountId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (additionalMetadata !== null && additionalMetadata !== undefined)
+            content_.append("additionalMetadata", additionalMetadata.toString());
+        if (file !== null && file !== undefined)
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUploadImage(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUploadImage(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUploadImage(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class AccountGroupServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+    }
+
+    /**
+     * 账户组查询
+     * @return Success
+     */
+    all(): Observable<ListResultDtoOfAccountGroupDto> {
+        let url_ = this.baseUrl + "/account-group/all";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAll(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfAccountGroupDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfAccountGroupDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAll(response: HttpResponseBase): Observable<ListResultDtoOfAccountGroupDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfAccountGroupDto.fromJS(resultData200) : new ListResultDtoOfAccountGroupDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfAccountGroupDto>(<any>null);
+    }
+
+    /**
+     * 新建账户组
+     * @param createAccountGroup (optional) 
+     * @return Success
+     */
+    do(createAccountGroup: CreateAccountGroupDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/account-group/do";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(createAccountGroup);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDo(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDo(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class AuditLogServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+    }
+
+    /**
+     * 审计日志查询
+     * @param filterAuditLogs (optional) 按照查询条件过滤审计日志
+     * @return Success
+     */
+    do(filterAuditLogs: FilterAuditLogsDto | null | undefined): Observable<PagedResultDtoOfAuditLogsListDto> {
+        let url_ = this.baseUrl + "/audit-log/do";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(filterAuditLogs);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDo(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAuditLogsListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAuditLogsListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDo(response: HttpResponseBase): Observable<PagedResultDtoOfAuditLogsListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAuditLogsListDto.fromJS(resultData200) : new PagedResultDtoOfAuditLogsListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfAuditLogsListDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class PermissionServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+    }
+
+    /**
+     * 列出所有权限
+     * @return Success
+     */
+    all(): Observable<ListResultDtoOfPermissionDto> {
+        let url_ = this.baseUrl + "/permission/all";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAll(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfPermissionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfPermissionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAll(response: HttpResponseBase): Observable<ListResultDtoOfPermissionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfPermissionDto.fromJS(resultData200) : new ListResultDtoOfPermissionDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfPermissionDto>(<any>null);
+    }
+
+    /**
+     * 列出用户组的所有权限
+     * @param accountGroupId 账户组Id
+     * @return Success
+     */
+    accountGroupGet(accountGroupId: number): Observable<ListResultDtoOfPermissionDto> {
+        let url_ = this.baseUrl + "/permission/account-group/{accountGroupId}";
+        if (accountGroupId === undefined || accountGroupId === null)
+            throw new Error("The parameter 'accountGroupId' must be defined.");
+        url_ = url_.replace("{accountGroupId}", encodeURIComponent("" + accountGroupId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAccountGroupGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAccountGroupGet(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfPermissionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfPermissionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAccountGroupGet(response: HttpResponseBase): Observable<ListResultDtoOfPermissionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfPermissionDto.fromJS(resultData200) : new ListResultDtoOfPermissionDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfPermissionDto>(<any>null);
+    }
+
+    /**
+     * 更新用户组的所有权限
+     * @param accountGroupId 账户组Id
+     * @param updateAccountGroupPermission (optional) 更新账户组权限
+     * @return Success
+     */
+    accountGroupPost(accountGroupId: number, updateAccountGroupPermission: GrantedPermissionsDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/permission/account-group/{accountGroupId}";
+        if (accountGroupId === undefined || accountGroupId === null)
+            throw new Error("The parameter 'accountGroupId' must be defined.");
+        url_ = url_.replace("{accountGroupId}", encodeURIComponent("" + accountGroupId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updateAccountGroupPermission);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAccountGroupPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAccountGroupPost(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAccountGroupPost(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * 列出用户组的所有权限
+     * @param accountId 账户Id
+     * @return Success
+     */
+    accountGet(accountId: number): Observable<ListResultDtoOfPermissionDto> {
+        let url_ = this.baseUrl + "/permission/account/{accountId}";
+        if (accountId === undefined || accountId === null)
+            throw new Error("The parameter 'accountId' must be defined.");
+        url_ = url_.replace("{accountId}", encodeURIComponent("" + accountId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAccountGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAccountGet(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfPermissionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfPermissionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAccountGet(response: HttpResponseBase): Observable<ListResultDtoOfPermissionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfPermissionDto.fromJS(resultData200) : new ListResultDtoOfPermissionDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfPermissionDto>(<any>null);
+    }
+
+    /**
+     * 更新用户组的所有权限
+     * @param accountId 账户Id
+     * @param updateAccountPermission (optional) 更新账户权限
+     * @return Success
+     */
+    accountPost(accountId: number, updateAccountPermission: GrantedPermissionsDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/permission/account/{accountId}";
+        if (accountId === undefined || accountId === null)
+            throw new Error("The parameter 'accountId' must be defined.");
+        url_ = url_.replace("{accountId}", encodeURIComponent("" + accountId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updateAccountPermission);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAccountPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAccountPost(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAccountPost(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+export class GrantedPermissionsDto implements IGrantedPermissionsDto {
+    ids?: number[] | undefined;
+
+    constructor(data?: IGrantedPermissionsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["ids"] && data["ids"].constructor === Array) {
+                this.ids = [];
+                for (let item of data["ids"])
+                    this.ids.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): GrantedPermissionsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GrantedPermissionsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.ids && this.ids.constructor === Array) {
+            data["ids"] = [];
+            for (let item of this.ids)
+                data["ids"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IGrantedPermissionsDto {
+    ids?: number[] | undefined;
+}
+
+export class PermissionDto implements IPermissionDto {
+    id?: number | undefined;
+    level?: number | undefined;
+    parentId?: number | undefined;
+    displayName?: string | undefined;
+    desc?: string | undefined;
+
+    constructor(data?: IPermissionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.level = data["level"];
+            this.parentId = data["parentId"];
+            this.displayName = data["displayName"];
+            this.desc = data["desc"];
+        }
+    }
+
+    static fromJS(data: any): PermissionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["level"] = this.level;
+        data["parentId"] = this.parentId;
+        data["displayName"] = this.displayName;
+        data["desc"] = this.desc;
+        return data; 
+    }
+}
+
+export interface IPermissionDto {
+    id?: number | undefined;
+    level?: number | undefined;
+    parentId?: number | undefined;
+    displayName?: string | undefined;
+    desc?: string | undefined;
+}
+
+export class ListResultDtoOfPermissionDto implements IListResultDtoOfPermissionDto {
+    items?: PermissionDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfPermissionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(PermissionDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfPermissionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfPermissionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfPermissionDto {
+    items?: PermissionDto[] | undefined;
+}
+
+export class FilterAuditLogsDto implements IFilterAuditLogsDto {
+    /** 创建时间从 */
+    createTimeFrom?: number | undefined;
+    /** 创建时间到 */
+    createTimeEnd?: number | undefined;
+    timeOfDurationFrom?: number | undefined;
+    timeOfDurationEnd?: number | undefined;
+    status?: string | undefined;
+    account?: string | undefined;
+
+    constructor(data?: IFilterAuditLogsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.createTimeFrom = data["createTimeFrom"];
+            this.createTimeEnd = data["createTimeEnd"];
+            this.timeOfDurationFrom = data["timeOfDurationFrom"];
+            this.timeOfDurationEnd = data["timeOfDurationEnd"];
+            this.status = data["status"];
+            this.account = data["account"];
+        }
+    }
+
+    static fromJS(data: any): FilterAuditLogsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FilterAuditLogsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["createTimeFrom"] = this.createTimeFrom;
+        data["createTimeEnd"] = this.createTimeEnd;
+        data["timeOfDurationFrom"] = this.timeOfDurationFrom;
+        data["timeOfDurationEnd"] = this.timeOfDurationEnd;
+        data["status"] = this.status;
+        data["account"] = this.account;
+        return data; 
+    }
+}
+
+export interface IFilterAuditLogsDto {
+    /** 创建时间从 */
+    createTimeFrom?: number | undefined;
+    /** 创建时间到 */
+    createTimeEnd?: number | undefined;
+    timeOfDurationFrom?: number | undefined;
+    timeOfDurationEnd?: number | undefined;
+    status?: string | undefined;
+    account?: string | undefined;
+}
+
+export class AuditLogsListDto implements IAuditLogsListDto {
+    id?: number | undefined;
+    account?: string | undefined;
+    app?: string | undefined;
+    api?: string | undefined;
+    status?: string | undefined;
+    createTime?: number | undefined;
+    timeOfDuration?: number | undefined;
+    ip?: string | undefined;
+    client?: string | undefined;
+
+    constructor(data?: IAuditLogsListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.account = data["account"];
+            this.app = data["app"];
+            this.api = data["api"];
+            this.status = data["status"];
+            this.createTime = data["createTime"];
+            this.timeOfDuration = data["timeOfDuration"];
+            this.ip = data["ip"];
+            this.client = data["client"];
+        }
+    }
+
+    static fromJS(data: any): AuditLogsListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuditLogsListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["account"] = this.account;
+        data["app"] = this.app;
+        data["api"] = this.api;
+        data["status"] = this.status;
+        data["createTime"] = this.createTime;
+        data["timeOfDuration"] = this.timeOfDuration;
+        data["ip"] = this.ip;
+        data["client"] = this.client;
+        return data; 
+    }
+}
+
+export interface IAuditLogsListDto {
+    id?: number | undefined;
+    account?: string | undefined;
+    app?: string | undefined;
+    api?: string | undefined;
+    status?: string | undefined;
+    createTime?: number | undefined;
+    timeOfDuration?: number | undefined;
+    ip?: string | undefined;
+    client?: string | undefined;
+}
+
+export class PagedResultDtoOfAuditLogsListDto implements IPagedResultDtoOfAuditLogsListDto {
+    totalCount?: number | undefined;
+    items?: AuditLogsListDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfAuditLogsListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AuditLogsListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfAuditLogsListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfAuditLogsListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfAuditLogsListDto {
+    totalCount?: number | undefined;
+    items?: AuditLogsListDto[] | undefined;
+}
+
+export class AccountDto implements IAccountDto {
+    id?: number | undefined;
+    /** 账户编号 */
+    code?: string | undefined;
+    /** 账户名称 */
+    displayName?: string | undefined;
+    /** 邮箱 */
+    email?: string | undefined;
+    /** 账户是否启用 */
+    isActive?: boolean | undefined;
+    /** 创建时间 */
+    createTime?: number | undefined;
+
+    constructor(data?: IAccountDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.code = data["code"];
+            this.displayName = data["displayName"];
+            this.email = data["email"];
+            this.isActive = data["isActive"];
+            this.createTime = data["createTime"];
+        }
+    }
+
+    static fromJS(data: any): AccountDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AccountDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["code"] = this.code;
+        data["displayName"] = this.displayName;
+        data["email"] = this.email;
+        data["isActive"] = this.isActive;
+        data["createTime"] = this.createTime;
+        return data; 
+    }
+}
+
+export interface IAccountDto {
+    id?: number | undefined;
+    /** 账户编号 */
+    code?: string | undefined;
+    /** 账户名称 */
+    displayName?: string | undefined;
+    /** 邮箱 */
+    email?: string | undefined;
+    /** 账户是否启用 */
+    isActive?: boolean | undefined;
+    /** 创建时间 */
+    createTime?: number | undefined;
+}
+
+export class FilterAccountsDto implements IFilterAccountsDto {
+    /** 综合过滤，by name or code */
+    filter?: string | undefined;
+    accountGroupId?: number | undefined;
+
+    constructor(data?: IFilterAccountsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.filter = data["filter"];
+            this.accountGroupId = data["accountGroupId"];
+        }
+    }
+
+    static fromJS(data: any): FilterAccountsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FilterAccountsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter;
+        data["accountGroupId"] = this.accountGroupId;
+        return data; 
+    }
+}
+
+export interface IFilterAccountsDto {
+    /** 综合过滤，by name or code */
+    filter?: string | undefined;
+    accountGroupId?: number | undefined;
+}
+
+export class CreateAccountDto implements ICreateAccountDto {
+    /** 账户编号 */
+    code?: string | undefined;
+    /** 账户名称 */
+    displayName?: string | undefined;
+    password?: string | undefined;
+    /** 下次登录需要修改密码 */
+    needChangePasswordInNextLogin?: boolean | undefined;
+    /** 邮箱 */
+    email?: string | undefined;
+    /** 账户是否启用 */
+    isActive?: boolean | undefined;
+    accountGourps?: AccountGroupDto[] | undefined;
+
+    constructor(data?: ICreateAccountDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.displayName = data["displayName"];
+            this.password = data["password"];
+            this.needChangePasswordInNextLogin = data["needChangePasswordInNextLogin"];
+            this.email = data["email"];
+            this.isActive = data["isActive"];
+            if (data["accountGourps"] && data["accountGourps"].constructor === Array) {
+                this.accountGourps = [];
+                for (let item of data["accountGourps"])
+                    this.accountGourps.push(AccountGroupDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CreateAccountDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAccountDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["displayName"] = this.displayName;
+        data["password"] = this.password;
+        data["needChangePasswordInNextLogin"] = this.needChangePasswordInNextLogin;
+        data["email"] = this.email;
+        data["isActive"] = this.isActive;
+        if (this.accountGourps && this.accountGourps.constructor === Array) {
+            data["accountGourps"] = [];
+            for (let item of this.accountGourps)
+                data["accountGourps"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ICreateAccountDto {
+    /** 账户编号 */
+    code?: string | undefined;
+    /** 账户名称 */
+    displayName?: string | undefined;
+    password?: string | undefined;
+    /** 下次登录需要修改密码 */
+    needChangePasswordInNextLogin?: boolean | undefined;
+    /** 邮箱 */
+    email?: string | undefined;
+    /** 账户是否启用 */
+    isActive?: boolean | undefined;
+    accountGourps?: AccountGroupDto[] | undefined;
+}
+
+export class UpdateAccountDto implements IUpdateAccountDto {
+    /** 账户Key */
+    id?: number | undefined;
+    /** 账户名称 */
+    displayName?: string | undefined;
+    /** 邮箱 */
+    email?: string | undefined;
+    /** 账户是否启用 */
+    isActive?: boolean | undefined;
+    accountGourps?: AccountGroupDto[] | undefined;
+
+    constructor(data?: IUpdateAccountDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+            this.email = data["email"];
+            this.isActive = data["isActive"];
+            if (data["accountGourps"] && data["accountGourps"].constructor === Array) {
+                this.accountGourps = [];
+                for (let item of data["accountGourps"])
+                    this.accountGourps.push(AccountGroupDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): UpdateAccountDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateAccountDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        data["email"] = this.email;
+        data["isActive"] = this.isActive;
+        if (this.accountGourps && this.accountGourps.constructor === Array) {
+            data["accountGourps"] = [];
+            for (let item of this.accountGourps)
+                data["accountGourps"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IUpdateAccountDto {
+    /** 账户Key */
+    id?: number | undefined;
+    /** 账户名称 */
+    displayName?: string | undefined;
+    /** 邮箱 */
+    email?: string | undefined;
+    /** 账户是否启用 */
+    isActive?: boolean | undefined;
+    accountGourps?: AccountGroupDto[] | undefined;
+}
+
+export class AccountListDto implements IAccountListDto {
+    id?: number | undefined;
+    /** 账户编号 */
+    code?: string | undefined;
+    /** 账户名称 */
+    displayName?: string | undefined;
+    /** 邮箱 */
+    email?: string | undefined;
+    /** 账户是否启用 */
+    isActive?: boolean | undefined;
+    /** 上次登录时间 */
+    lastLoginTime?: number | undefined;
+    /** 创建时间 */
+    createTime?: number | undefined;
+
+    constructor(data?: IAccountListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.code = data["code"];
+            this.displayName = data["displayName"];
+            this.email = data["email"];
+            this.isActive = data["isActive"];
+            this.lastLoginTime = data["lastLoginTime"];
+            this.createTime = data["createTime"];
+        }
+    }
+
+    static fromJS(data: any): AccountListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AccountListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["code"] = this.code;
+        data["displayName"] = this.displayName;
+        data["email"] = this.email;
+        data["isActive"] = this.isActive;
+        data["lastLoginTime"] = this.lastLoginTime;
+        data["createTime"] = this.createTime;
+        return data; 
+    }
+}
+
+export interface IAccountListDto {
+    id?: number | undefined;
+    /** 账户编号 */
+    code?: string | undefined;
+    /** 账户名称 */
+    displayName?: string | undefined;
+    /** 邮箱 */
+    email?: string | undefined;
+    /** 账户是否启用 */
+    isActive?: boolean | undefined;
+    /** 上次登录时间 */
+    lastLoginTime?: number | undefined;
+    /** 创建时间 */
+    createTime?: number | undefined;
+}
+
+export class PagedResultDtoOfAccountsListDto implements IPagedResultDtoOfAccountsListDto {
+    totalCount?: number | undefined;
+    items?: AccountListDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfAccountsListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AccountListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfAccountsListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfAccountsListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfAccountsListDto {
+    totalCount?: number | undefined;
+    items?: AccountListDto[] | undefined;
+}
+
+export class AccountGroupDto implements IAccountGroupDto {
+    id?: number | undefined;
+    /** 账户组名称 */
+    displayName?: string | undefined;
+    /** 是否是默认组 */
+    isDefault?: boolean | undefined;
+
+    constructor(data?: IAccountGroupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+            this.isDefault = data["isDefault"];
+        }
+    }
+
+    static fromJS(data: any): AccountGroupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AccountGroupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
+        return data; 
+    }
+}
+
+export interface IAccountGroupDto {
+    id?: number | undefined;
+    /** 账户组名称 */
+    displayName?: string | undefined;
+    /** 是否是默认组 */
+    isDefault?: boolean | undefined;
+}
+
+export class ListResultDtoOfAccountGroupDto implements IListResultDtoOfAccountGroupDto {
+    items?: AccountGroupDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfAccountGroupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AccountGroupDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfAccountGroupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfAccountGroupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfAccountGroupDto {
+    items?: AccountGroupDto[] | undefined;
+}
+
+export class CreateAccountGroupDto implements ICreateAccountGroupDto {
+    /** 账户组名称 */
+    displayName?: string | undefined;
+    /** 是否是默认组 */
+    isDefault?: boolean | undefined;
+
+    constructor(data?: ICreateAccountGroupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.displayName = data["displayName"];
+            this.isDefault = data["isDefault"];
+        }
+    }
+
+    static fromJS(data: any): CreateAccountGroupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAccountGroupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
+        return data; 
+    }
+}
+
+export interface ICreateAccountGroupDto {
+    /** 账户组名称 */
+    displayName?: string | undefined;
+    /** 是否是默认组 */
+    isDefault?: boolean | undefined;
+}
+
+export class UpdateAccountGroupDto implements IUpdateAccountGroupDto {
+    /** 账户组名称 */
+    displayName?: string | undefined;
+    /** 是否是默认组 */
+    isDefault?: boolean | undefined;
+
+    constructor(data?: IUpdateAccountGroupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.displayName = data["displayName"];
+            this.isDefault = data["isDefault"];
+        }
+    }
+
+    static fromJS(data: any): UpdateAccountGroupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateAccountGroupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
+        return data; 
+    }
+}
+
+export interface IUpdateAccountGroupDto {
+    /** 账户组名称 */
+    displayName?: string | undefined;
+    /** 是否是默认组 */
+    isDefault?: boolean | undefined;
 }
 
 export enum AppStatus {
@@ -573,11 +2372,11 @@ export interface IAuthorizeTenantDto {
     payExpiryTime?: number | undefined;
 }
 
-export class ListResultDtoOfTenantAppsDto implements IListResultDtoOfTenantAppsDto {
+export class TenantAppsDto implements ITenantAppsDto {
     tenant?: TenantDto | undefined;
-    items?: AppDto[] | undefined;
+    apps?: AppDto[] | undefined;
 
-    constructor(data?: IListResultDtoOfTenantAppsDto) {
+    constructor(data?: ITenantAppsDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -589,17 +2388,17 @@ export class ListResultDtoOfTenantAppsDto implements IListResultDtoOfTenantAppsD
     init(data?: any) {
         if (data) {
             this.tenant = data["tenant"] ? TenantDto.fromJS(data["tenant"]) : <any>undefined;
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(AppDto.fromJS(item));
+            if (data["apps"] && data["apps"].constructor === Array) {
+                this.apps = [];
+                for (let item of data["apps"])
+                    this.apps.push(AppDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): ListResultDtoOfTenantAppsDto {
+    static fromJS(data: any): TenantAppsDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfTenantAppsDto();
+        let result = new TenantAppsDto();
         result.init(data);
         return result;
     }
@@ -607,18 +2406,90 @@ export class ListResultDtoOfTenantAppsDto implements IListResultDtoOfTenantAppsD
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["tenant"] = this.tenant ? this.tenant.toJSON() : <any>undefined;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
+        if (this.apps && this.apps.constructor === Array) {
+            data["apps"] = [];
+            for (let item of this.apps)
+                data["apps"].push(item.toJSON());
         }
         return data; 
     }
 }
 
-export interface IListResultDtoOfTenantAppsDto {
+export interface ITenantAppsDto {
     tenant?: TenantDto | undefined;
-    items?: AppDto[] | undefined;
+    apps?: AppDto[] | undefined;
+}
+
+export class AppDto implements IAppDto {
+    id?: number | undefined;
+    displayName?: string | undefined;
+    appKey?: string | undefined;
+    status?: AppStatus | undefined;
+    /** 基础功能 */
+    basic?: boolean | undefined;
+    /** 基础功能预期时间 */
+    basicExpiryTime?: number | undefined;
+    /** 付费功能 */
+    pay?: boolean | undefined;
+    /** 付费功能预期时间 */
+    payExpiryTime?: number | undefined;
+
+    constructor(data?: IAppDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+            this.appKey = data["appKey"];
+            this.status = data["status"];
+            this.basic = data["basic"];
+            this.basicExpiryTime = data["basicExpiryTime"];
+            this.pay = data["pay"];
+            this.payExpiryTime = data["payExpiryTime"];
+        }
+    }
+
+    static fromJS(data: any): AppDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AppDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        data["appKey"] = this.appKey;
+        data["status"] = this.status;
+        data["basic"] = this.basic;
+        data["basicExpiryTime"] = this.basicExpiryTime;
+        data["pay"] = this.pay;
+        data["payExpiryTime"] = this.payExpiryTime;
+        return data; 
+    }
+}
+
+export interface IAppDto {
+    id?: number | undefined;
+    displayName?: string | undefined;
+    appKey?: string | undefined;
+    status?: AppStatus | undefined;
+    /** 基础功能 */
+    basic?: boolean | undefined;
+    /** 基础功能预期时间 */
+    basicExpiryTime?: number | undefined;
+    /** 付费功能 */
+    pay?: boolean | undefined;
+    /** 付费功能预期时间 */
+    payExpiryTime?: number | undefined;
 }
 
 export class ListResultDtoOfAppDto implements IListResultDtoOfAppDto {
@@ -665,79 +2536,13 @@ export interface IListResultDtoOfAppDto {
     items?: AppDto[] | undefined;
 }
 
-export class AppDto implements IAppDto {
-    id?: number | undefined;
-    appKey?: string | undefined;
-    status?: AppStatus | undefined;
-    /** 基础功能 */
-    basic?: boolean | undefined;
-    /** 基础功能预期时间 */
-    basicExpiryTime?: number | undefined;
-    /** 付费功能 */
-    pay?: boolean | undefined;
-    /** 付费功能预期时间 */
-    payExpiryTime?: number | undefined;
-
-    constructor(data?: IAppDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.appKey = data["appKey"];
-            this.status = data["status"];
-            this.basic = data["basic"];
-            this.basicExpiryTime = data["basicExpiryTime"];
-            this.pay = data["pay"];
-            this.payExpiryTime = data["payExpiryTime"];
-        }
-    }
-
-    static fromJS(data: any): AppDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new AppDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["appKey"] = this.appKey;
-        data["status"] = this.status;
-        data["basic"] = this.basic;
-        data["basicExpiryTime"] = this.basicExpiryTime;
-        data["pay"] = this.pay;
-        data["payExpiryTime"] = this.payExpiryTime;
-        return data; 
-    }
-}
-
-export interface IAppDto {
-    id?: number | undefined;
-    appKey?: string | undefined;
-    status?: AppStatus | undefined;
-    /** 基础功能 */
-    basic?: boolean | undefined;
-    /** 基础功能预期时间 */
-    basicExpiryTime?: number | undefined;
-    /** 付费功能 */
-    pay?: boolean | undefined;
-    /** 付费功能预期时间 */
-    payExpiryTime?: number | undefined;
-}
-
 export class TenantDto implements ITenantDto {
     /** 租户key */
     id?: number | undefined;
+    /** 租户编号 */
+    code?: string | undefined;
     /** 租户名称 */
-    tenantName?: string | undefined;
+    displayName?: string | undefined;
     /** 租户过期时间 */
     expiryTime?: number | undefined;
     /** 是否激活租户 */
@@ -755,7 +2560,8 @@ export class TenantDto implements ITenantDto {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.tenantName = data["tenantName"];
+            this.code = data["code"];
+            this.displayName = data["displayName"];
             this.expiryTime = data["expiryTime"];
             this.isActive = data["isActive"];
         }
@@ -771,7 +2577,8 @@ export class TenantDto implements ITenantDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["tenantName"] = this.tenantName;
+        data["code"] = this.code;
+        data["displayName"] = this.displayName;
         data["expiryTime"] = this.expiryTime;
         data["isActive"] = this.isActive;
         return data; 
@@ -781,21 +2588,23 @@ export class TenantDto implements ITenantDto {
 export interface ITenantDto {
     /** 租户key */
     id?: number | undefined;
+    /** 租户编号 */
+    code?: string | undefined;
     /** 租户名称 */
-    tenantName?: string | undefined;
+    displayName?: string | undefined;
     /** 租户过期时间 */
     expiryTime?: number | undefined;
     /** 是否激活租户 */
     isActive?: boolean | undefined;
 }
 
-export class CreateTenantInputDto implements ICreateTenantInputDto {
+export class CreateTenantDto implements ICreateTenantDto {
     /** 租户编号 */
-    tenantCode!: string;
+    code!: string;
     /** 租户名称 */
-    tenantName!: string;
+    displayName!: string;
     /** 租户描述 */
-    tenantDesc?: string | undefined;
+    desc?: string | undefined;
     /** 租户管理员邮箱 */
     adminEmail!: string;
     adminPassword!: string;
@@ -806,7 +2615,7 @@ export class CreateTenantInputDto implements ICreateTenantInputDto {
     /** 租户过期时间 */
     expiryTime?: number | undefined;
 
-    constructor(data?: ICreateTenantInputDto) {
+    constructor(data?: ICreateTenantDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -817,9 +2626,9 @@ export class CreateTenantInputDto implements ICreateTenantInputDto {
 
     init(data?: any) {
         if (data) {
-            this.tenantCode = data["tenantCode"];
-            this.tenantName = data["tenantName"];
-            this.tenantDesc = data["tenantDesc"];
+            this.code = data["code"];
+            this.displayName = data["displayName"];
+            this.desc = data["desc"];
             this.adminEmail = data["adminEmail"];
             this.adminPassword = data["adminPassword"];
             this.shouldChangePasswordOnNextLogin = data["shouldChangePasswordOnNextLogin"];
@@ -828,18 +2637,18 @@ export class CreateTenantInputDto implements ICreateTenantInputDto {
         }
     }
 
-    static fromJS(data: any): CreateTenantInputDto {
+    static fromJS(data: any): CreateTenantDto {
         data = typeof data === 'object' ? data : {};
-        let result = new CreateTenantInputDto();
+        let result = new CreateTenantDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["tenantCode"] = this.tenantCode;
-        data["tenantName"] = this.tenantName;
-        data["tenantDesc"] = this.tenantDesc;
+        data["code"] = this.code;
+        data["displayName"] = this.displayName;
+        data["desc"] = this.desc;
         data["adminEmail"] = this.adminEmail;
         data["adminPassword"] = this.adminPassword;
         data["shouldChangePasswordOnNextLogin"] = this.shouldChangePasswordOnNextLogin;
@@ -849,13 +2658,13 @@ export class CreateTenantInputDto implements ICreateTenantInputDto {
     }
 }
 
-export interface ICreateTenantInputDto {
+export interface ICreateTenantDto {
     /** 租户编号 */
-    tenantCode: string;
+    code: string;
     /** 租户名称 */
-    tenantName: string;
+    displayName: string;
     /** 租户描述 */
-    tenantDesc?: string | undefined;
+    desc?: string | undefined;
     /** 租户管理员邮箱 */
     adminEmail: string;
     adminPassword: string;
@@ -863,6 +2672,62 @@ export interface ICreateTenantInputDto {
     shouldChangePasswordOnNextLogin?: string | undefined;
     /** 是否激活租户 */
     isActive?: boolean | undefined;
+    /** 租户过期时间 */
+    expiryTime?: number | undefined;
+}
+
+export class UpdateTenantDto implements IUpdateTenantDto {
+    /** 租户名称 */
+    displayName?: string | undefined;
+    /** 租户描述 */
+    desc?: string | undefined;
+    /** 是否激活租户 */
+    isActive!: boolean;
+    /** 租户过期时间 */
+    expiryTime?: number | undefined;
+
+    constructor(data?: IUpdateTenantDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.displayName = data["displayName"];
+            this.desc = data["desc"];
+            this.isActive = data["isActive"];
+            this.expiryTime = data["expiryTime"];
+        }
+    }
+
+    static fromJS(data: any): UpdateTenantDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateTenantDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["displayName"] = this.displayName;
+        data["desc"] = this.desc;
+        data["isActive"] = this.isActive;
+        data["expiryTime"] = this.expiryTime;
+        return data; 
+    }
+}
+
+export interface IUpdateTenantDto {
+    /** 租户名称 */
+    displayName?: string | undefined;
+    /** 租户描述 */
+    desc?: string | undefined;
+    /** 是否激活租户 */
+    isActive: boolean;
     /** 租户过期时间 */
     expiryTime?: number | undefined;
 }
@@ -917,11 +2782,11 @@ export interface IPagedResultDtoOfTenantListDto {
 
 export class TenantListDto implements ITenantListDto {
     id?: number | undefined;
-    tenancyCode?: string | undefined;
-    tenancyName?: string | undefined;
+    code?: string | undefined;
+    name?: string | undefined;
     isActive?: boolean | undefined;
     /** 创建时间 */
-    creationTime?: number | undefined;
+    createTime?: number | undefined;
     /** 过期时间 */
     expiryTime?: number | undefined;
 
@@ -937,10 +2802,10 @@ export class TenantListDto implements ITenantListDto {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.tenancyCode = data["tenancyCode"];
-            this.tenancyName = data["tenancyName"];
+            this.code = data["code"];
+            this.name = data["name"];
             this.isActive = data["isActive"];
-            this.creationTime = data["creationTime"];
+            this.createTime = data["createTime"];
             this.expiryTime = data["expiryTime"];
         }
     }
@@ -955,10 +2820,10 @@ export class TenantListDto implements ITenantListDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["tenancyCode"] = this.tenancyCode;
-        data["tenancyName"] = this.tenancyName;
+        data["code"] = this.code;
+        data["name"] = this.name;
         data["isActive"] = this.isActive;
-        data["creationTime"] = this.creationTime;
+        data["createTime"] = this.createTime;
         data["expiryTime"] = this.expiryTime;
         return data; 
     }
@@ -966,13 +2831,77 @@ export class TenantListDto implements ITenantListDto {
 
 export interface ITenantListDto {
     id?: number | undefined;
-    tenancyCode?: string | undefined;
-    tenancyName?: string | undefined;
+    code?: string | undefined;
+    name?: string | undefined;
     isActive?: boolean | undefined;
     /** 创建时间 */
-    creationTime?: number | undefined;
+    createTime?: number | undefined;
     /** 过期时间 */
     expiryTime?: number | undefined;
+}
+
+export class FilterTenantsDto implements IFilterTenantsDto {
+    filter?: string | undefined;
+    tenantCode?: string | undefined;
+    tenantName?: string | undefined;
+    appId?: number | undefined;
+    createDateStart?: number | undefined;
+    createDateEnd?: number | undefined;
+    pageIndex?: number | undefined;
+    pageSize?: number | undefined;
+
+    constructor(data?: IFilterTenantsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.filter = data["filter"];
+            this.tenantCode = data["tenantCode"];
+            this.tenantName = data["tenantName"];
+            this.appId = data["appId"];
+            this.createDateStart = data["createDateStart"];
+            this.createDateEnd = data["createDateEnd"];
+            this.pageIndex = data["pageIndex"];
+            this.pageSize = data["pageSize"];
+        }
+    }
+
+    static fromJS(data: any): FilterTenantsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FilterTenantsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter;
+        data["tenantCode"] = this.tenantCode;
+        data["tenantName"] = this.tenantName;
+        data["appId"] = this.appId;
+        data["createDateStart"] = this.createDateStart;
+        data["createDateEnd"] = this.createDateEnd;
+        data["pageIndex"] = this.pageIndex;
+        data["pageSize"] = this.pageSize;
+        return data; 
+    }
+}
+
+export interface IFilterTenantsDto {
+    filter?: string | undefined;
+    tenantCode?: string | undefined;
+    tenantName?: string | undefined;
+    appId?: number | undefined;
+    createDateStart?: number | undefined;
+    createDateEnd?: number | undefined;
+    pageIndex?: number | undefined;
+    pageSize?: number | undefined;
 }
 
 export class AuthenticateResultModel implements IAuthenticateResultModel {
@@ -1089,6 +3018,11 @@ export interface IAuthenticateModel {
     rememberClient?: boolean | undefined;
     /** 未登录时访问的页面，登录后需要重定向 */
     returnUrl?: string | undefined;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export class SwaggerException extends Error {

@@ -8,8 +8,9 @@ import { JWTInterceptor } from '@delon/auth';
 @NgModule({
   providers: [
     ApiServiceProxies.PassportServiceProxy,
-    ApiServiceProxies.TenantsServiceProxy,
+    ApiServiceProxies.TenantServiceProxy,
     ApiServiceProxies.AppServiceProxy,
+    ApiServiceProxies.ServiceProxy,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: McInterceptor, multi: true }
   ],

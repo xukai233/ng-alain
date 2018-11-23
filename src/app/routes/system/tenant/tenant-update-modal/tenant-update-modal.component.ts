@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { CreateTenantDto, TenantServiceProxy } from '@serviceProxies/service-proxies';
+import { UpdateTenantDto, ServiceProxy } from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -10,51 +10,42 @@ import {
 import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-tenant-create-modal',
-  templateUrl: './tenant-create-modal.component.html',
-  styleUrls: ['./tenant-create-modal.component.css']
+  selector: 'app-tenant-update-modal',
+  templateUrl: './tenant-update-modal.component.html',
+  styleUrls: ['./tenant-update-modal.component.css']
 })
-export class CreateTenantModalComponent implements OnInit {
+export class TenantUpdateModalComponent implements OnInit {
 
-  @ViewChild('createModal') modal: NzModalRef;
+  @ViewChild('updateModal') modal: NzModalRef;
 
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
   createTenantForm: FormGroup;
  
   saving = false;
-  tenant: CreateTenantDto;
+  tenant: UpdateTenantDto;
 
   constructor(private fb: FormBuilder,
-    private _tenantService: TenantServiceProxy) {
-      this.tenant = new CreateTenantDto();
-     }
+    private _Service: ServiceProxy) {
+      this.tenant = new UpdateTenantDto();
+    }
 
   ngOnInit() {
 
     this.createTenantForm = this.fb.group({
       tenantCode : [null, []],
       tenantName : [null, []],
-      tenantDesc : [null, []],
-      adminEmail : [null, []],
-      adminPassword : [null, []],
-      passwordCheck : [null, []],
-      setRandomPassword : [null, []],
       expiryTime : [null, []],
-      shouldChangePasswordOnNextLogin : [true, []],
       isActive : [true, []] 
     });
   }
 
   show() {
-    this.init();
     this.modal.open();
   }
   save() {
-
     console.dir(this.tenant);
-
-    this._tenantService.doPost(this.tenant)
+    this._Service.tenantPut(0,this.tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
         this.modal.close();
@@ -64,13 +55,5 @@ export class CreateTenantModalComponent implements OnInit {
 
   cancel() {
     this.modal.close();
-  }
-
-  init(): void {
-    this.tenant = new CreateTenantDto();
-  }
-
-  onShown(): void {
-    document.getElementById('tenantCode').focus();
   }
 }

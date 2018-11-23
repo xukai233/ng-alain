@@ -3,21 +3,21 @@
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenant.tenantCode">租户编号</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="tenantCode" id="tenantCode" [(ngModel)]="tenant.tenantCode">
+        <input nz-input formControlName="tenantCode" id="tenantCode" [(ngModel)]="tenant.code">
       </nz-form-control>
     </nz-form-item>
   
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenantName">租户名称</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="tenantName" id="tenantName" [(ngModel)]="tenant.tenantName">
+        <input nz-input formControlName="tenantName" id="tenantName" [(ngModel)]="tenant.displayName">
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenantDesc">租户描述</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="tenantDesc" id="tenantDesc" [(ngModel)]="tenant.tenantDesc">
+        <input nz-input formControlName="tenantDesc" id="tenantDesc" [(ngModel)]="tenant.desc">
       </nz-form-control>
     </nz-form-item>
 
@@ -73,7 +73,7 @@
     <nz-form-item nz-row style="margin-bottom:8px;">
       <nz-form-control [nzSpan]="14" [nzOffset]="6">
         <label nz-checkbox formControlName="isActive" [(ngModel)]="tenant.isActive">
-          <span>启用账号</span>
+          <span>启用租户</span>
         </label>
       </nz-form-control>
     </nz-form-item> 

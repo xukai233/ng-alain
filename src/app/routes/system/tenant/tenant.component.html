@@ -49,13 +49,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data">
-        <td>{{data.tenancyCode}}</td>
-        <td>{{data.tenancyName}}</td>
-        <td>{{data.subscriptionEndDate}}</td>
-        <td><nz-badge nzStatus="success" [nzText]="data.type"></nz-badge></td>
-        <td>{{data.creationTime}}</td>
+        <td>{{data.code}}</td>
+        <td>{{data.name}}</td>
+        <td>{{data.expiryTime}}</td>
+        <td><nz-badge nzStatus="success" [nzText]="data.isActive"></nz-badge></td>
+        <td>{{data.createTime}}</td>
         <td>
-          <a>修改</a>
+          <a (click)="handleUpdateTenant()">修改</a>
           <nz-divider nzType="vertical"></nz-divider>
           <a (click)="handleDelete()">回收</a>
           <nz-divider nzType="vertical"></nz-divider>
@@ -71,4 +71,5 @@
 <wimi-copyright></wimi-copyright>
 
 <app-tenant-create-modal #createTenantModal (modalSave)="getTenants()"></app-tenant-create-modal>
+<app-tenant-update-modal #updateTenantModal (modalSave)="getTenants()"></app-tenant-update-modal>
 

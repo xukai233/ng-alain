@@ -12,6 +12,7 @@ import { CreateTenantModalComponent } from './tenant/tenant-create-modal/tenant-
 
 import { AuditComponent } from './audit/audit.component';
 import { AppAuthComponent } from './app-auth/app-auth.component';
+import { TenantUpdateModalComponent } from './tenant/tenant-update-modal/tenant-update-modal.component';
 
 @NgModule({
   imports: [SharedModule, SystemRoutingModule],
@@ -23,7 +24,8 @@ import { AppAuthComponent } from './app-auth/app-auth.component';
     CreateTenantModalComponent,
     UserPermissionComponent,
     AuditComponent,
-    AppAuthComponent
+    AppAuthComponent,
+    TenantUpdateModalComponent
   ],
   providers: [],
 })
