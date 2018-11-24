@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild,Input } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
 import { UpdateTenantDto, ServiceProxy } from '@serviceProxies/service-proxies';
 import {
@@ -31,7 +31,6 @@ export class TenantUpdateModalComponent implements OnInit {
     }
 
   ngOnInit() {
-
     this.createTenantForm = this.fb.group({
       tenantCode : [null, []],
       tenantName : [null, []],
@@ -40,11 +39,14 @@ export class TenantUpdateModalComponent implements OnInit {
     });
   }
 
-  show() {
-    this.modal.open();
+  show(id:number) {
+    this._Service.tenantGet(id)
+    .subscribe(re=>{
+      this.tenant = re as UpdateTenantDto;
+      this.modal.open();
+    })
   }
   save() {
-    console.dir(this.tenant);
     this._Service.tenantPut(0,this.tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
@@ -52,7 +54,6 @@ export class TenantUpdateModalComponent implements OnInit {
         this.modalSave.emit(null);
       });
   }
-
   cancel() {
     this.modal.close();
   }

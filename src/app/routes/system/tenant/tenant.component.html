@@ -36,7 +36,7 @@
     </div>
     <div nz-col nzSpan="4"><button nz-button nzType="primary" nzSearch>查询</button></div>
   </div>
-  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle">
+  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading">
     <thead>
       <tr>
         <th>租户编号</th>
@@ -55,7 +55,7 @@
         <td><nz-badge nzStatus="success" [nzText]="data.isActive"></nz-badge></td>
         <td>{{data.createTime}}</td>
         <td>
-          <a (click)="handleUpdateTenant()">修改</a>
+          <a (click)="handleUpdateTenant(data.id)">修改</a>
           <nz-divider nzType="vertical"></nz-divider>
           <a (click)="handleDelete()">回收</a>
           <nz-divider nzType="vertical"></nz-divider>
@@ -68,8 +68,6 @@
       共 {{total}} 条结果
   </ng-template>
 </wimi-table>
-<wimi-copyright></wimi-copyright>
 
 <app-tenant-create-modal #createTenantModal (modalSave)="getTenants()"></app-tenant-create-modal>
 <app-tenant-update-modal #updateTenantModal (modalSave)="getTenants()"></app-tenant-update-modal>
-

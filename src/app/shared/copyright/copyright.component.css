@@ -1,7 +1,11 @@
 .copyright___3hV2q{
-    color: #4f4e4e66;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 12px;
-    margin-bottom: 12px;
+  color: #4f4e4e91;
+  font-size: 14px;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 74px;
+  line-height: 74px;
 }

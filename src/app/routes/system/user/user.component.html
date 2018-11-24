@@ -21,7 +21,6 @@
     <router-outlet></router-outlet>
   </div>
 </wimi-four-grid>
-<wimi-copyright></wimi-copyright>
 
 <nz-modal [(nzVisible)]="modalIsVisible" nzTitle="新建账号" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" >
   <form nz-form [formGroup]="validateForm" (ngSubmit)="handleSubmit()">
