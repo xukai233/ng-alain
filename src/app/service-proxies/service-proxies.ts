@@ -21,7 +21,7 @@ export class PassportServiceProxy {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/58";
     }
 
     /**
@@ -90,7 +90,7 @@ export class AppServiceProxy {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/58";
     }
 
     /**
@@ -316,7 +316,7 @@ export class TenantServiceProxy {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/58";
     }
 
     /**
@@ -325,7 +325,7 @@ export class TenantServiceProxy {
      * @return Success
      */
     doGet(filterTenants: FilterTenantsDto | null | undefined): Observable<PagedResultDtoOfTenantListDto> {
-        let url_ = this.baseUrl + "/tenant/do";
+        let url_ = this.baseUrl + "/tenant";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(filterTenants);
@@ -382,7 +382,7 @@ export class TenantServiceProxy {
      * @return Success
      */
     doPost(createTenantDto: CreateTenantDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/tenant/do";
+        let url_ = this.baseUrl + "/tenant";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(createTenantDto);
@@ -438,7 +438,7 @@ export class ServiceProxy {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/58";
     }
 
     /**
@@ -781,7 +781,7 @@ export class AccountServiceProxy {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/58";
     }
 
     /**
@@ -790,7 +790,7 @@ export class AccountServiceProxy {
      * @return Success
      */
     doGet(filterAccounts: FilterAccountsDto | null | undefined): Observable<PagedResultDtoOfAccountsListDto> {
-        let url_ = this.baseUrl + "/account/do";
+        let url_ = this.baseUrl + "/account";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(filterAccounts);
@@ -847,7 +847,7 @@ export class AccountServiceProxy {
      * @return Success
      */
     doPost(createAccount: CreateAccountDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/account/do";
+        let url_ = this.baseUrl + "/account";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(createAccount);
@@ -964,7 +964,7 @@ export class AccountGroupServiceProxy {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/58";
     }
 
     /**
@@ -1025,7 +1025,7 @@ export class AccountGroupServiceProxy {
      * @return Success
      */
     do(createAccountGroup: CreateAccountGroupDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/account-group/do";
+        let url_ = this.baseUrl + "/account-group";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(createAccountGroup);
@@ -1081,7 +1081,7 @@ export class AuditLogServiceProxy {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/58";
     }
 
     /**
@@ -1090,7 +1090,7 @@ export class AuditLogServiceProxy {
      * @return Success
      */
     do(filterAuditLogs: FilterAuditLogsDto | null | undefined): Observable<PagedResultDtoOfAuditLogsListDto> {
-        let url_ = this.baseUrl + "/audit-log/do";
+        let url_ = this.baseUrl + "/audit-log";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(filterAuditLogs);
@@ -1150,7 +1150,7 @@ export class PermissionServiceProxy {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/49";
+        this.baseUrl = baseUrl ? baseUrl : "http://langwenda.com:7000/mock/58";
     }
 
     /**

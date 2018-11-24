@@ -17,7 +17,8 @@
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenantDesc">租户描述</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="tenantDesc" id="tenantDesc" [(ngModel)]="tenant.desc">
+        <!-- <input nz-input formControlName="tenantDesc" id="tenantDesc" [(ngModel)]="tenant.desc"> -->
+        <nz-date-picker formControlName="tenantDesc" id="tenantDesc" [(ngModel)]="tenant.desc"></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
 

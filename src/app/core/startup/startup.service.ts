@@ -59,7 +59,7 @@ export class StartupService {
     return new Promise((resolve, reject) => {
       zip(
         this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
-        this.httpClient.get('http://langwenda.com:7000/mock/49/getall'),
+        this.httpClient.get('http://langwenda.com:7000/mock/58/getall'),
       )
         .pipe(
           // 接收其他拦截器后产生的异常消息
@@ -73,16 +73,64 @@ export class StartupService {
 
             // application data
             const res: any = appData;
+            const app = {
+              "name": "Master Cloud",
+              "description": "Ng-zorro admin panel front-end framework"
+            }
+            const user = {
+              "name": "Admin",
+              "avatar": "./assets/tmp/img/avatar.jpg",
+              "email": "cipchk@qq.com"
+            }
+            const menu = [
+              {
+                "text": "MasterCloud",
+                "i18n": "",
+                "group": true,
+                "hideInBreadcrumb": true,
+                "children": [{
+                    "text": "工作台",
+                    "link": "/dashboard/workplace",
+                    "i18n": "menu.dashboard.workplace"
+                  },
+                  {
+                    "text": "租户",
+                    "link": "/system/tenant",
+                    "i18n": ""
+                  },
+                  {
+                    "text": "系统",
+                    "i18n": "menu.system",
+                    "icon": "anticon anticon-appstore",
+                    "children": [{
+                        "text": "账号管理",
+                        "link": "/system/user"
+                      },
+                      {
+                        "text": "外观设定",
+                        "link": "/system/theme",
+                        "i18n": "menu.system.theme"
+                      },
+                      {
+                        "text": "审计日志",
+                        "link": "/system/audit",
+                        "i18n": ""
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
             // 应用信息：包括站点名、描述、年份
-            this.settingService.setApp(res.result.app);
+            this.settingService.setApp(app);
             // 用户信息：包括姓名、头像、邮箱地址
-            this.settingService.setUser(res.result.user);
+            this.settingService.setUser(user);
             // ACL：设置权限为全量
             this.aclService.setFull(true);
             // 初始化菜单
-            this.menuService.add(res.result.menu);
+            this.menuService.add(menu);
             // 设置页面标题的后缀
-            this.titleService.suffix = res.result.app.name;
+            this.titleService.suffix = app.name;
           },
           (err) => { console.log('Received an error:' + err); },
           () => {
