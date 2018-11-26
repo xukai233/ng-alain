@@ -1,8 +1,9 @@
 <wimi-form-item name="content-right" text="账号/名称" textWidth="85px" style="margin-bottom: 12px;">
-  <input nz-input placeholder="请输入" />
-  <button style="margin-left: 12px;" nz-button nzType="primary">查询</button>
+  <input nz-input placeholder="请输入" name="filter" [(ngModel)]="filterAccountsDto.filter" />
+  <button style="margin-left: 12px;" nz-button nzType="primary" [nzLoading]="tableLoading" 
+  (click)="handleSearch()"  >查询</button>
 </wimi-form-item>
-<nz-table name="content-right" name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzFrontPagination]="false" [nzTotal]="totalCount">
+<nz-table name="content-right" name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzFrontPagination]="false" [nzTotal]="totalCount" [nzLoading]="tableLoading">
   <thead>
     <tr>
       <th>账号</th>

@@ -4,7 +4,7 @@ import {
   FormControl,
   FormGroup
 } from '@angular/forms';
-import { TenantServiceProxy,ServiceProxy} from '@serviceProxies/service-proxies';
+import { TenantServiceProxy,ServiceProxy,FilterTenantsDto} from '@serviceProxies/service-proxies';
 import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
 import { TenantUpdateModalComponent } from './tenant-update-modal/tenant-update-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
@@ -35,19 +35,22 @@ export class TenantComponent implements OnInit {
     {title:'系统'},
     {title:'租户'},
   ]
+  filterTenants:FilterTenantsDto;
   constructor(
     private _tenantService: TenantServiceProxy,
     private modalService:NzModalService,
     private serviceProxy:ServiceProxy) {
+    this.filterTenants = new FilterTenantsDto();
   }
 
   ngOnInit() {
-    this.getTenants();
+    this.getTenants(null);
   }
 
-  getTenants(): void {
-    this._tenantService.doGet(null
-    ).subscribe(result => {
+  getTenants(filterTenants: FilterTenantsDto | null | undefined): void {
+    this.isLoading = true;
+    this._tenantService.doGet(filterTenants)
+    .subscribe(result => {
       this.dataSet = result.items;
       this.isLoading = false;
     });
@@ -71,5 +74,8 @@ export class TenantComponent implements OnInit {
       nzOkType:'danger',
       nzOnOk   : () => console.log('OK')
     });
+  }
+  handleSearch(){
+    this.getTenants(this.filterTenants);
   }
 }

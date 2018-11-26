@@ -19,7 +19,9 @@ const routes: Routes = [
   { path: 'user', component: UserComponent,children:[
     { path: '', redirectTo: 'account', pathMatch: 'full' },
     { path: 'permission', component: UserPermissionComponent },
+    { path: 'permission/:id', component: UserPermissionComponent },
     { path: 'account', component: UserAccountComponent },
+    { path: 'account/:id', component: UserAccountComponent },
   ]},
 ];
 

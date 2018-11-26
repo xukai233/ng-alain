@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd';
-import { AccountListDto,AccountServiceProxy} from '@serviceProxies/service-proxies';
+import { Router,ActivatedRoute,Params} from '@angular/router';
+import { AccountListDto,AccountServiceProxy,FilterAccountsDto} from '@serviceProxies/service-proxies';
 @Component({
   selector: 'user-account',
   templateUrl: './user-account.component.html'
@@ -8,21 +9,33 @@ import { AccountListDto,AccountServiceProxy} from '@serviceProxies/service-proxi
 export class UserAccountComponent implements OnInit {
   constructor(
     private modalService:NzModalService,
-    private accountServiceProxy:AccountServiceProxy) { }
+    private accountServiceProxy:AccountServiceProxy,
+    private router:Router,
+    private routerIonfo:ActivatedRoute
+  ) { 
+    this.filterAccountsDto = new FilterAccountsDto;
+  }
 
   dataSet:AccountListDto[];
   totalCount = 0;
-
+  tableLoading = true;
+  filterAccountsDto:FilterAccountsDto
   ngOnInit() {
-    this.getAccount();
+    this.routerIonfo.params
+    .subscribe((params:Params)=>{
+      this.filterAccountsDto.accountGroupId = this.routerIonfo.snapshot.params["id"]
+      this.getAccount(this.filterAccountsDto);
+    })
   }
 
-  getAccount(): void {
+  getAccount(filterAccounts: FilterAccountsDto | null | undefined): void {
+    this.tableLoading = true;
     this.accountServiceProxy
-    .doGet(null)
+    .doGet(filterAccounts)
     .subscribe(re=>{
       this.dataSet = re.items;
       this.totalCount = re.totalCount;
+      this.tableLoading = false;
     })
   }
 
@@ -34,5 +47,9 @@ export class UserAccountComponent implements OnInit {
       nzOkType:'danger',
       nzOnOk   : () => console.log('OK')
     });
+  }
+
+  handleSearch(): void {
+    this.getAccount(this.filterAccountsDto)
   }
 }

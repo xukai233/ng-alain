@@ -27,6 +27,7 @@ export class UserComponent implements OnInit {
   }
   tabs = ["平台账号","权限"]
   selectTab = "平台账号"
+  userGroupId = 0
   leftMenu = [
     {
       "id":0,
@@ -73,6 +74,7 @@ export class UserComponent implements OnInit {
     private router:Router,
     private route: ActivatedRoute,
     private accountGroupServiceProxy:AccountGroupServiceProxy,
+    private routerIonfo:ActivatedRoute,
     ) { 
   }
   ngOnInit() {
@@ -92,14 +94,14 @@ export class UserComponent implements OnInit {
     this.accountGroupServiceProxy
     .all()
     .subscribe(re=>{
-      //获取用户组信息
-      console.log(re)
-      //this.leftMenu = re.items;
+      this.router.navigate([`/system/user/account`,1]);
+      this.userGroupId = 1;
     })
   }
 
   handleLeftSelect(val){
-    console.log(val);
+    this.router.navigate([`/system/user/account`,val.id]);
+    this.userGroupId = val.id;
   }
   handleOperateClick(val){
     console.log(val)
@@ -107,10 +109,10 @@ export class UserComponent implements OnInit {
   handleTabSelect(val){
     switch (val) {
       case "平台账号":
-        this.router.navigate(['/system/user/account'])
+        this.router.navigate(['/system/user/account',this.userGroupId])
         break;
       case "权限":
-        this.router.navigate(['/system/user/permission'])
+        this.router.navigate(['/system/user/permission',this.userGroupId])
         break;
       default:
         // code...
