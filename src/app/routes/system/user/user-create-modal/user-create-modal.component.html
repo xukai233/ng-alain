@@ -1,23 +1,6 @@
 <nz-modal nzWidth="680" #createModal nzTitle="新建账号" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" >
   <form nz-form [formGroup]="validateForm" (ngSubmit)="handleSubmit()">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="avatar">账号</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-upload class="avatar-uploader"
-            nzAction="https://jsonplaceholder.typicode.com/posts/"
-            nzName="avatar"
-            nzListType="picture-card"
-            [nzShowUploadList]="false">
-            <ng-container *ngIf="!avatarUrl">
-              <i nz-icon type="plus"></i>
-              <div class="ant-upload-text">上传照片</div>
-            </ng-container>
-            <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar">
-          </nz-upload>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userCode">账号</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="userCode" id="userCode" placeholder="请输入账号">
