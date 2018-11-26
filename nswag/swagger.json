@@ -1,0 +1,1280 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "云平台基础业务",
+    "description" : "云平台基础业务/n"
+  },
+  "host" : "langwenda.com:7000",
+  "basePath" : "/mock/58",
+  "schemes" : [ "http" ],
+  "tags" : [ {
+    "name" : "工业App",
+    "description" : "App管理"
+  }, {
+    "name" : "租户",
+    "description" : "租户管理"
+  }, {
+    "name" : "认证",
+    "description" : "认证"
+  }, {
+    "name" : "账户",
+    "description" : "账户管理"
+  }, {
+    "name" : "权限",
+    "description" : "权限管理"
+  }, {
+    "name" : "审计日志",
+    "description" : "审计日志查询"
+  } ],
+  "paths" : {
+    "/passport/authenticate" : {
+      "post" : {
+        "tags" : [ "认证" ],
+        "summary" : "验证用户合法",
+        "description" : "",
+        "operationId" : "PassportAuthenticate",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "authenticateModel",
+          "in" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AuthenticateModel"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AuthenticateResultModel"
+            }
+          }
+        }
+      }
+    },
+    "/app/all" : {
+      "get" : {
+        "tags" : [ "工业App" ],
+        "summary" : "列出所有App",
+        "description" : "",
+        "operationId" : "ListAllApps",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ListResultDto[AppDto]"
+            }
+          }
+        }
+      }
+    },
+    "/app/find-by-tenant/{tenantId}" : {
+      "get" : {
+        "tags" : [ "工业App" ],
+        "summary" : "列出特定租户下的所有App",
+        "description" : "",
+        "operationId" : "ListTenantApps",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "tenantId",
+          "in" : "path",
+          "description" : "需要获得App的租户Id",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/TenantAppsDto"
+            }
+          }
+        }
+      }
+    },
+    "/app/do-create-authorize" : {
+      "post" : {
+        "tags" : [ "工业App" ],
+        "summary" : "授权租户App权限",
+        "description" : "授权租户App权限",
+        "parameters" : [ {
+          "name" : "CreateTenantDto",
+          "in" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AuthorizeTenantDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/app/do-update-authorize" : {
+      "put" : {
+        "tags" : [ "工业App" ],
+        "summary" : "更新租户App权限",
+        "description" : "更新租户App权限",
+        "parameters" : [ {
+          "name" : "UpdateTenantDto",
+          "in" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AuthorizeTenantDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/tenant/searches" : {
+      "post" : {
+        "tags" : [ "租户" ],
+        "summary" : "租户查询",
+        "description" : "",
+        "operationId" : "listTenants",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "filterTenants",
+          "description" : "按照查询条件过滤租户",
+          "schema" : {
+            "$ref" : "#/definitions/FilterTenantsDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/PagedResultDto[TenantListDto]"
+            }
+          }
+        }
+      }
+    },
+    "/tenant/do-create" : {
+      "post" : {
+        "tags" : [ "租户" ],
+        "summary" : "租户开立",
+        "description" : "",
+        "operationId" : "createTenant",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "CreateTenantDto",
+          "in" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CreateTenantDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/tenant/{tenantId}/do-get" : {
+      "get" : {
+        "tags" : [ "租户" ],
+        "summary" : "根据Id获取租户",
+        "description" : "",
+        "operationId" : "getTenantById",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "tenantId",
+          "description" : "租户Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/TenantDto"
+            }
+          }
+        }
+      }
+    },
+    "/tenant/{tenantId}/do-update" : {
+      "put" : {
+        "tags" : [ "租户" ],
+        "summary" : "更新租户",
+        "description" : "",
+        "operationId" : "UpdateTenant",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "tenantId",
+          "description" : "租户Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        }, {
+          "name" : "UpdateTenantDto",
+          "in" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/UpdateTenantDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/account/searches" : {
+      "post" : {
+        "tags" : [ "账户" ],
+        "summary" : "账户查询",
+        "description" : "",
+        "operationId" : "listAccount",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "filterAccounts",
+          "description" : "按照查询条件过滤租户",
+          "schema" : {
+            "$ref" : "#/definitions/FilterAccountsDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/PagedResultDto[AccountsListDto]"
+            }
+          }
+        }
+      }
+    },
+    "/account/do-create" : {
+      "post" : {
+        "tags" : [ "账户" ],
+        "summary" : "建立账户",
+        "description" : "",
+        "operationId" : "createAccount",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "createAccount",
+          "description" : "新建账户",
+          "schema" : {
+            "$ref" : "#/definitions/CreateAccountDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/account/{accountId}/do-update" : {
+      "put" : {
+        "tags" : [ "账户" ],
+        "summary" : "更新账户",
+        "description" : "",
+        "operationId" : "updateAccount",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "accountId",
+          "description" : "账户Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "updateAccount",
+          "description" : "更新账户",
+          "schema" : {
+            "$ref" : "#/definitions/UpdateAccountDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Succes"
+          }
+        }
+      }
+    },
+    "/account/{accountId}/do-delete" : {
+      "delete" : {
+        "tags" : [ "账户" ],
+        "summary" : "删除账户",
+        "description" : "",
+        "operationId" : "deleteAccount",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "accountId",
+          "description" : "账户Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Succes"
+          }
+        }
+      }
+    },
+    "/account/{accountId}/upload-image" : {
+      "post" : {
+        "tags" : [ "账户" ],
+        "summary" : "上传头像",
+        "operationId" : "uploadFile",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "path",
+          "description" : "ID of Account to update",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "additionalMetadata",
+          "in" : "formData",
+          "description" : "Additional data to pass to server",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "file",
+          "in" : "formData",
+          "description" : "file to upload",
+          "required" : false,
+          "type" : "file"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/account-group/all" : {
+      "get" : {
+        "tags" : [ "账户" ],
+        "summary" : "账户组查询",
+        "description" : "",
+        "operationId" : "listAccountGroups",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ListResultDto[AccountGroupDto]"
+            }
+          }
+        }
+      }
+    },
+    "/account-group/do-create" : {
+      "post" : {
+        "tags" : [ "账户" ],
+        "summary" : "新建账户组",
+        "description" : "",
+        "operationId" : "createAccountGroup",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "CreateAccountGroup",
+          "in" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CreateAccountGroupDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/account-group/{accountGroupId}/do-update" : {
+      "put" : {
+        "tags" : [ "账户" ],
+        "summary" : "更新账户组",
+        "description" : "",
+        "operationId" : "updateAccountGroup",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "accountGroupId",
+          "description" : "账户组Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "updateAccountGroup",
+          "description" : "更新账户组",
+          "schema" : {
+            "$ref" : "#/definitions/UpdateAccountGroupDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Succes"
+          }
+        }
+      }
+    },
+    "/account-group/{accountGroupId}/do-delete" : {
+      "delete" : {
+        "tags" : [ "账户" ],
+        "summary" : "删除账户组",
+        "description" : "",
+        "operationId" : "deleteAccountGroup",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "accountGroupId",
+          "description" : "账户组Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Succes"
+          }
+        }
+      }
+    },
+    "/audit-log/searches" : {
+      "post" : {
+        "tags" : [ "审计日志" ],
+        "summary" : "审计日志查询",
+        "description" : "",
+        "operationId" : "listAuditLogs",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "filterAuditLogs",
+          "description" : "按照查询条件过滤审计日志",
+          "schema" : {
+            "$ref" : "#/definitions/FilterAuditLogsDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/PagedResultDto[AuditLogsListDto]"
+            }
+          }
+        }
+      }
+    },
+    "/permission/all" : {
+      "get" : {
+        "tags" : [ "权限" ],
+        "summary" : "列出所有权限",
+        "description" : "",
+        "operationId" : "ListAllPermissions",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ListResultDto[PermissionDto]"
+            }
+          }
+        }
+      }
+    },
+    "/permission/account-group/{accountGroupId}/do-get" : {
+      "get" : {
+        "tags" : [ "权限" ],
+        "summary" : "列出用户组的所有权限",
+        "description" : "",
+        "operationId" : "ListAllPermissionsOfAccountGroup",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "accountGroupId",
+          "description" : "账户组Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ListResultDto[PermissionDto]"
+            }
+          }
+        }
+      }
+    },
+    "/permission/account-group/{accountGroupId}/do-update" : {
+      "post" : {
+        "tags" : [ "权限" ],
+        "summary" : "更新用户组的所有权限",
+        "description" : "",
+        "operationId" : "UpdateAllPermissionsOfAccountGroup",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "accountGroupId",
+          "description" : "账户组Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "updateAccountGroupPermission",
+          "description" : "更新账户组权限",
+          "schema" : {
+            "$ref" : "#/definitions/GrantedPermissionsDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/permission/account/{accountId}/do-get" : {
+      "get" : {
+        "tags" : [ "权限" ],
+        "summary" : "列出用户组的所有权限",
+        "description" : "",
+        "operationId" : "ListAllPermissionsOfAccount",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "accountId",
+          "description" : "账户Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ListResultDto[PermissionDto]"
+            }
+          }
+        }
+      }
+    },
+    "/permission/account/{accountId}/do-update" : {
+      "post" : {
+        "tags" : [ "权限" ],
+        "summary" : "更新用户组的所有权限",
+        "description" : "",
+        "operationId" : "UpdateAllPermissionsOfAccount",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "accountId",
+          "description" : "账户Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "updateAccountPermission",
+          "description" : "更新账户权限",
+          "schema" : {
+            "$ref" : "#/definitions/GrantedPermissionsDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "GrantedPermissionsDto" : {
+      "type" : "object",
+      "properties" : {
+        "ids" : {
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        }
+      }
+    },
+    "PermissionDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "level" : {
+          "type" : "integer"
+        },
+        "parentId" : {
+          "type" : "integer"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "desc" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ListResultDto[PermissionDto]" : {
+      "type" : "object",
+      "properties" : {
+        "items" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PermissionDto"
+          }
+        }
+      }
+    },
+    "FilterAuditLogsDto" : {
+      "type" : "object",
+      "properties" : {
+        "createTimeFrom" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "创建时间从"
+        },
+        "createTimeEnd" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "创建时间到"
+        },
+        "timeOfDurationFrom" : {
+          "type" : "integer"
+        },
+        "timeOfDurationEnd" : {
+          "type" : "integer"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "account" : {
+          "type" : "string"
+        }
+      }
+    },
+    "AuditLogsListDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "account" : {
+          "type" : "string"
+        },
+        "app" : {
+          "type" : "string"
+        },
+        "api" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "createTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "timeOfDuration" : {
+          "type" : "integer"
+        },
+        "ip" : {
+          "type" : "string"
+        },
+        "client" : {
+          "type" : "string"
+        }
+      }
+    },
+    "PagedResultDto[AuditLogsListDto]" : {
+      "type" : "object",
+      "properties" : {
+        "totalCount" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "items" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AuditLogsListDto"
+          }
+        }
+      }
+    },
+    "AccountDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "code" : {
+          "type" : "string",
+          "description" : "账户编号"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "账户名称"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "邮箱"
+        },
+        "isActive" : {
+          "type" : "boolean",
+          "description" : "账户是否启用"
+        },
+        "createTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "创建时间"
+        }
+      }
+    },
+    "FilterAccountsDto" : {
+      "type" : "object",
+      "properties" : {
+        "filter" : {
+          "type" : "string",
+          "description" : "综合过滤，by name or code"
+        },
+        "accountGroupId" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "CreateAccountDto" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "账户编号"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "账户名称"
+        },
+        "password" : {
+          "type" : "string"
+        },
+        "needChangePasswordInNextLogin" : {
+          "type" : "boolean",
+          "description" : "下次登录需要修改密码"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "邮箱"
+        },
+        "isActive" : {
+          "type" : "boolean",
+          "description" : "账户是否启用"
+        },
+        "accountGourps" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AccountGroupDto"
+          }
+        }
+      }
+    },
+    "UpdateAccountDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "description" : "账户Key"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "账户名称"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "邮箱"
+        },
+        "isActive" : {
+          "type" : "boolean",
+          "description" : "账户是否启用"
+        },
+        "accountGourps" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AccountGroupDto"
+          }
+        }
+      }
+    },
+    "AccountListDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "code" : {
+          "type" : "string",
+          "description" : "账户编号"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "账户名称"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "邮箱"
+        },
+        "isActive" : {
+          "type" : "boolean",
+          "description" : "账户是否启用"
+        },
+        "lastLoginTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "上次登录时间"
+        },
+        "createTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "创建时间"
+        }
+      }
+    },
+    "PagedResultDto[AccountsListDto]" : {
+      "type" : "object",
+      "properties" : {
+        "totalCount" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "items" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AccountListDto"
+          }
+        }
+      }
+    },
+    "AccountGroupDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "账户组名称"
+        },
+        "isDefault" : {
+          "type" : "boolean",
+          "description" : "是否是默认组"
+        },
+        "isStatic" : {
+          "type" : "boolean",
+          "description" : "是否静态（系统生成），不可删除"
+        }
+      }
+    },
+    "ListResultDto[AccountGroupDto]" : {
+      "type" : "object",
+      "properties" : {
+        "items" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AccountGroupDto"
+          }
+        }
+      }
+    },
+    "CreateAccountGroupDto" : {
+      "type" : "object",
+      "properties" : {
+        "displayName" : {
+          "type" : "string",
+          "description" : "账户组名称"
+        },
+        "isDefault" : {
+          "type" : "boolean",
+          "description" : "是否是默认组"
+        }
+      }
+    },
+    "UpdateAccountGroupDto" : {
+      "type" : "object",
+      "properties" : {
+        "displayName" : {
+          "type" : "string",
+          "description" : "账户组名称"
+        },
+        "isDefault" : {
+          "type" : "boolean",
+          "description" : "是否是默认组"
+        }
+      }
+    },
+    "AppStatus" : {
+      "type" : "string",
+      "enum" : [ "InUse", "NotInUse", "Overdue" ],
+      "description" : "使用中/未使用/逾期"
+    },
+    "AppEditionType" : {
+      "type" : "string",
+      "enum" : [ "Standard", "Customize" ],
+      "description" : "标准版/定制版"
+    },
+    "AuthorizeTenantDto" : {
+      "type" : "object",
+      "properties" : {
+        "tenantId" : {
+          "type" : "integer"
+        },
+        "appId" : {
+          "type" : "integer"
+        },
+        "basic" : {
+          "type" : "boolean",
+          "description" : "基础功能"
+        },
+        "basicExpiryTime" : {
+          "type" : "number",
+          "description" : "基础功能预期时间"
+        },
+        "pay" : {
+          "type" : "boolean",
+          "description" : "付费功能"
+        },
+        "payExpiryTime" : {
+          "type" : "number",
+          "description" : "付费功能预期时间"
+        }
+      }
+    },
+    "TenantAppsDto" : {
+      "type" : "object",
+      "properties" : {
+        "tenant" : {
+          "type" : "object",
+          "$ref" : "#/definitions/TenantDto"
+        },
+        "apps" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AppDto"
+          }
+        }
+      }
+    },
+    "AppDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "appKey" : {
+          "type" : "string"
+        },
+        "appEditionType" : {
+          "$ref" : "#/definitions/AppEditionType"
+        },
+        "status" : {
+          "$ref" : "#/definitions/AppStatus"
+        },
+        "basic" : {
+          "type" : "boolean",
+          "description" : "基础功能"
+        },
+        "basicExpiryTime" : {
+          "type" : "number",
+          "description" : "基础功能预期时间"
+        },
+        "pay" : {
+          "type" : "boolean",
+          "description" : "付费功能"
+        },
+        "payExpiryTime" : {
+          "type" : "number",
+          "description" : "付费功能预期时间"
+        }
+      }
+    },
+    "ListResultDto[AppDto]" : {
+      "type" : "object",
+      "properties" : {
+        "items" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AppDto"
+          }
+        }
+      }
+    },
+    "TenantDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "description" : "租户key"
+        },
+        "code" : {
+          "type" : "string",
+          "description" : "租户编号"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "租户名称"
+        },
+        "expiryTime" : {
+          "type" : "number",
+          "description" : "租户过期时间"
+        },
+        "isActive" : {
+          "type" : "boolean",
+          "description" : "是否激活租户"
+        }
+      }
+    },
+    "CreateTenantDto" : {
+      "type" : "object",
+      "required" : [ "code", "displayName", "adminEmail", "adminPassword" ],
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "租户编号"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "租户名称"
+        },
+        "desc" : {
+          "type" : "string",
+          "description" : "租户描述"
+        },
+        "adminEmail" : {
+          "type" : "string",
+          "description" : "租户管理员邮箱"
+        },
+        "adminPassword" : {
+          "type" : "string"
+        },
+        "shouldChangePasswordOnNextLogin" : {
+          "type" : "string",
+          "description" : "下次登录时密码重置"
+        },
+        "isActive" : {
+          "type" : "boolean",
+          "description" : "是否激活租户"
+        },
+        "expiryTime" : {
+          "type" : "number",
+          "description" : "租户过期时间"
+        }
+      }
+    },
+    "UpdateTenantDto" : {
+      "type" : "object",
+      "required" : [ "isActive" ],
+      "properties" : {
+        "displayName" : {
+          "type" : "string",
+          "description" : "租户名称"
+        },
+        "desc" : {
+          "type" : "string",
+          "description" : "租户描述"
+        },
+        "isActive" : {
+          "type" : "boolean",
+          "description" : "是否激活租户"
+        },
+        "expiryTime" : {
+          "type" : "number",
+          "description" : "租户过期时间"
+        }
+      }
+    },
+    "PagedResultDto[TenantListDto]" : {
+      "type" : "object",
+      "properties" : {
+        "totalCount" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "items" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TenantListDto"
+          }
+        }
+      }
+    },
+    "TenantListDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "code" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "isActive" : {
+          "type" : "boolean"
+        },
+        "createTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "创建时间"
+        },
+        "expiryTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "过期时间"
+        }
+      }
+    },
+    "FilterTenantsDto" : {
+      "type" : "object",
+      "properties" : {
+        "filter" : {
+          "type" : "string"
+        },
+        "tenantCode" : {
+          "type" : "string"
+        },
+        "tenantName" : {
+          "type" : "string"
+        },
+        "appId" : {
+          "type" : "integer"
+        },
+        "createDateStart" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "createDateEnd" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "pageIndex" : {
+          "type" : "integer"
+        },
+        "pageSize" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "AuthenticateResultModel" : {
+      "type" : "object",
+      "properties" : {
+        "accessToken" : {
+          "type" : "string",
+          "description" : "授权Token"
+        },
+        "expireInSeconds" : {
+          "format" : "int32",
+          "type" : "integer",
+          "description" : "有效时长"
+        },
+        "shouldResetPassword" : {
+          "type" : "boolean",
+          "description" : "是否需要重置密码"
+        },
+        "passwordResetCode" : {
+          "type" : "string",
+          "description" : "如果需要重置密码，生成ResetCode后返回前端"
+        },
+        "userId" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "returnUrl" : {
+          "type" : "string"
+        }
+      }
+    },
+    "AuthenticateModel" : {
+      "required" : [ "userName", "password" ],
+      "type" : "object",
+      "properties" : {
+        "userName" : {
+          "maxLength" : 256,
+          "type" : "string",
+          "description" : "用户名"
+        },
+        "password" : {
+          "maxLength" : 32,
+          "type" : "string"
+        },
+        "rememberClient" : {
+          "type" : "boolean"
+        },
+        "returnUrl" : {
+          "type" : "string",
+          "description" : "未登录时访问的页面，登录后需要重定向"
+        }
+      }
+    }
+  }
+}
