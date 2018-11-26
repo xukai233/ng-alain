@@ -1,3 +1,92 @@
-<p>
-  user-create-modal works!
-</p>
+<nz-modal nzWidth="680" #createModal nzTitle="新建账号" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" >
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="handleSubmit()">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="avatar">账号</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-upload class="avatar-uploader"
+            nzAction="https://jsonplaceholder.typicode.com/posts/"
+            nzName="avatar"
+            nzListType="picture-card"
+            [nzShowUploadList]="false">
+            <ng-container *ngIf="!avatarUrl">
+              <i nz-icon type="plus"></i>
+              <div class="ant-upload-text">上传照片</div>
+            </ng-container>
+            <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar">
+          </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userCode">账号</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="userCode" id="userCode" placeholder="请输入账号">
+        <nz-form-explain *ngIf="validateForm.get('userCode').dirty && validateForm.get('userCode').errors">请输入账号</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userCode">名称</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="userName" id="userName" placeholder="请输入名称">
+        <nz-form-explain *ngIf="validateForm.get('userName').dirty && validateForm.get('userName').errors">请输入名称</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">邮箱</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="email" id="email" placeholder="请输入邮箱">
+        <nz-form-explain *ngIf="validateForm.get('email').dirty && validateForm.get('email').errors">请输入邮箱</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password">密码</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input type="password" nz-input formControlName="password" id="password" placeholder="请输入密码">
+        <nz-form-explain *ngIf="validateForm.get('password').dirty && validateForm.get('password').errors">请输入密码</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="checkPassword">核对密码</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input type="password" nz-input formControlName="checkPassword" id="checkPassword" placeholder="请核对密码">
+      <nz-form-explain *ngIf="validateForm.get('checkPassword').dirty && validateForm.get('checkPassword').errors">
+        <ng-container *ngIf="validateForm.get('checkPassword').hasError('required')">
+          请输入核对密码！
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('checkPassword').hasError('confirm')">
+          两次密码输入不一致！
+        </ng-container>
+      </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <label nz-checkbox formControlName="needPassword">
+          <span>下次登录需要密码</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <label nz-checkbox formControlName="active">
+          <span>激活账号</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userGroup">用户组</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group>
+          <label nz-radio nzValue="A">系统管理员</label>
+          <label nz-radio nzValue="B">普通成员</label>
+          <label nz-radio nzValue="C">计划员</label>
+          <label nz-radio nzValue="D">线班长</label>
+          <label nz-radio nzValue="E">操作工</label>
+          <label nz-radio nzValue="D">车间主任</label>
+          <label nz-radio nzValue="D">自定义</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

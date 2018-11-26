@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router,ActivatedRoute,Params} from '@angular/router';
 import { AccountGroupDto,AccountGroupServiceProxy} from '@serviceProxies/service-proxies';
+import {UserCreateModalComponent} from './user-create-modal/user-create-modal.component'
+
 
 import {
   FormBuilder,
@@ -65,34 +67,14 @@ export class UserComponent implements OnInit {
       "operate":this.operate
     }
   ]
-
+  @ViewChild('createUserModal') createUserModal: UserCreateModalComponent;
   modalIsVisible = false;
-  validateForm:FormGroup;
   constructor(
     private router:Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder,
     private accountGroupServiceProxy:AccountGroupServiceProxy,
     ) { 
-
-    this.validateForm = this.fb.group({
-      userCode:[ null, [ Validators.required ] ],
-      userName:[ null, [ Validators.required ] ],
-      email : [ null, [ Validators.email,Validators.required ] ],
-      password:[ null, [ Validators.required ] ],
-      checkPassword:[ null, [ Validators.required,this.confirmationValidator ] ],
-      avatar:[ null, [ Validators.required ] ],
-      needPassword : [ true ],
-      active : [ true ],
-    });
   }
-  confirmationValidator = (control: FormControl): { [ s: string ]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-  };
   ngOnInit() {
     this.router.events
     .subscribe((event) => {
@@ -136,9 +118,6 @@ export class UserComponent implements OnInit {
     }
   }
   handleAddClick(){
-    this.modalIsVisible = true;
-  }
-  handleCancel(){
-    this.modalIsVisible = false;
+    this.createUserModal.show()
   }
 }
