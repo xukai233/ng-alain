@@ -1,0 +1,38 @@
+<wimi-breadcrumb title="APP管理" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
+<wimi-table>
+  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading" [nzFrontPagination]="false" [nzTotal]="totalCount">
+    <thead>
+      <tr>
+        <th>APP概览</th>
+        <th>对象租户</th>
+        <th>APP编号</th>
+        <th>状态</th>
+        <th>版本号</th>
+        <th>更新时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="app-des">
+          <img class="app-des-icon" src="http://dada-image-bed.oss-cn-shenzhen.aliyuncs.com/18-11-26/53428683.jpg"/>
+          <div>
+            <div class="app-title"><nz-tag [nzColor]="'cyan'">定制版</nz-tag>CPS-MDC</div>
+            <div class="app-subtitle">车间信息采集分析系统</div>
+          </div>
+        </td>
+        <td>A001</td>
+        <td>D181132</td>
+        <td>上架</td>
+        <td>V1.0</td>
+        <td>2018-11-20 14:03</td>
+        <td>
+          <a>下架</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #totalTemplate let-total>
+      共 {{total}} 条结果
+  </ng-template>
+</wimi-table>

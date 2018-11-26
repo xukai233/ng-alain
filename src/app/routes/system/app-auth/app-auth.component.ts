@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TenantServiceProxy,FilterTenantsDto,ServiceProxy,AppServiceProxy} from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -17,139 +18,10 @@ export class AppAuthComponent implements OnInit {
     {title:'APP授权'},
   ]
 
-  dataSet = [
-    {
-      key    : '1',
-      code   : 'A001',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '2',
-      code   : 'A002',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A003',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A004',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A005',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A006',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A007',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A008',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A009',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A0010',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A0011',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A0012',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A0013',
-      name   : '一汽解放汽车有限公司无锡柴油机厂',
-      endTime:'2020年1月1日 09:00',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    }
-  ];
+  dataSet = [];
 
-  appDatas = [
-    {
-      title:"CPS-MDC",
-      type:"定制版",
-      key:"a1AB7T4bFlg",
-      status:"使用中",
-      base:"2018-11-6 ~ 2019-11-5",
-      pay:"2018-11-6 ~ 2019-11-5"
-    },
-    {
-      title:"CPS-MDC1",
-      type:"标准版",
-      key:"a1AB7T4bFlg1",
-      status:"已逾期",
-      base:"2018-11-6 ~ 2019-11-5",
-      pay:"未授权"
-    },
-    {
-      title:"CPS-MDC2",
-      type:"标准版",
-      key:"a1AB7T4bFlg2",
-      status:"使用中",
-      base:"2018-11-6 ~ 2019-11-5",
-      pay:"未授权"
-    }
-  ]
+  appDatas = [];
+
   treeNodes= [ {
     title   : '分类1',
     selectable:false,
@@ -165,17 +37,24 @@ export class AppAuthComponent implements OnInit {
         isLeaf:true
       }]
     }];
-
-  selectItem= ""
+  tableLoading = true;
+  appLoading = true;
+  selectItem:number
   appDataIndex = 1;
   editModalIsVisible = false;
   newModalIsVisible = false;
+  selectTenantName = "";
   form={
     title:""
   }
+  filterTenantsDto:FilterTenantsDto
   validateForm: FormGroup;
   appAuthForm:FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private _tenantService: TenantServiceProxy,
+    private _appServiceProxy:AppServiceProxy
+  ) { }
 
   ngOnInit() {
     this.validateForm = this.fb.group({
@@ -190,8 +69,32 @@ export class AppAuthComponent implements OnInit {
       payControl       : [ null, [ Validators.required ] ],
       payControlDate       : [ null, [ Validators.required ] ],
     });
-    this.selectItem = this.dataSet[0].code;
+    this.filterTenantsDto = new FilterTenantsDto()
+    this.getTenants(null);
   }
+
+  getTenants(filterTenants: FilterTenantsDto | null | undefined): void {
+    this.tableLoading = true;
+    this._tenantService.doGet(filterTenants)
+    .subscribe(result => {
+      this.dataSet = result.items;
+      this.selectItem = this.dataSet[0].id;
+      this.selectTenantName = this.dataSet[0].name
+      this.tableLoading = false;
+      this.getAppList();
+    });
+  }
+
+  getAppList(){
+    this.appLoading = true;
+    this._appServiceProxy
+    .findByTenant(this.selectItem)
+    .subscribe(re=>{
+      this.appDatas = re.apps;
+      this.appLoading = false;
+    })
+  }
+
   handleAppAuth(){
     this.newModalIsVisible = true;
   }
@@ -199,7 +102,9 @@ export class AppAuthComponent implements OnInit {
     this.newModalIsVisible = false;
   }
   handleTrClick(data){
-    this.selectItem = data.code;
+    this.selectItem = data.id;
+    this.selectTenantName = data.name
+    this.getAppList();
   }
   handleAppEdit(data){
     this.editModalIsVisible = true;
@@ -211,5 +116,9 @@ export class AppAuthComponent implements OnInit {
   }
   handleEditSubmit(){
 
+  }
+  handleSearch(){
+    console.log(this.filterTenantsDto)
+    this.getTenants(this.filterTenantsDto);
   }
 }

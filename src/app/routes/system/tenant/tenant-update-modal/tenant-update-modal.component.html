@@ -1,16 +1,16 @@
 <nz-modal nzWidth="680" #updateModal nzTitle="修改租户" (nzOnCancel)="cancel()" (nzOnOk)="save()">
   <form nz-form [formGroup]="createTenantForm">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenant.tenantCode">租户编号</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenantCode">租户编号</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="tenantCode" id="tenantCode" [(ngModel)]="tenant.code">
+        <input nz-input formControlName="tenantCode" [(ngModel)]="tenant.code">
       </nz-form-control>
     </nz-form-item>
   
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenantName">租户名称</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="tenantName" id="tenantName" [(ngModel)]="tenant.displayName">
+        <input nz-input formControlName="tenantName" [(ngModel)]="tenant.displayName">
       </nz-form-control>
     </nz-form-item>
 

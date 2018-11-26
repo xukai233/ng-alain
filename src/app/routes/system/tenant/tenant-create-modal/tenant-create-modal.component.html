@@ -39,14 +39,14 @@
     <nz-form-item *ngIf="!setRandomPassword">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="adminPassword">管理员密码</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="adminPassword" id="adminPassword" [(ngModel)]="tenant.adminPassword">
+        <input type="password" nz-input formControlName="adminPassword" id="adminPassword" [(ngModel)]="tenant.adminPassword">
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item *ngIf="!setRandomPassword">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="passwordCheck">核对管理员密码</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="passwordCheck" id="passwordCheck">
+        <input type="password" nz-input formControlName="passwordCheck" id="passwordCheck">
       </nz-form-control>
     </nz-form-item>
 

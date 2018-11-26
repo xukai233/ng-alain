@@ -101,6 +101,18 @@ export class StartupService {
                     "i18n": ""
                   },
                   {
+                    "text": "APP管理",
+                    "icon": "anticon anticon-appstore",
+                    "link": "/system/app",
+                    "i18n": ""
+                  },
+                  {
+                    "text": "APP授权",
+                    "icon": "anticon anticon-appstore",
+                    "link": "/system/appauth",
+                    "i18n": ""
+                  },
+                  {
                     "text": "系统",
                     "i18n": "menu.system",
                     "icon": "anticon anticon-appstore",
