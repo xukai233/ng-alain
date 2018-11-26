@@ -103,12 +103,15 @@ export class UserComponent implements OnInit {
         this.selectTab = "权限"
       }
     });
+    this.getAccountGroup();
   }
 
   getAccountGroup(){
     this.accountGroupServiceProxy
     .all()
     .subscribe(re=>{
+      //获取用户组信息
+      console.log(re)
       //this.leftMenu = re.items;
     })
   }

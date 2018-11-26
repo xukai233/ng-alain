@@ -8,12 +8,14 @@ import { UserAccountComponent } from './user/user-account.component';
 import { UserPermissionComponent } from './user/user-permission.component';
 import { AuditComponent } from './audit/audit.component';
 import { AppAuthComponent } from './app-auth/app-auth.component';
+import { AppListComponent } from './app-list/app-list.component';
 
 const routes: Routes = [
   { path: 'theme', component: ThemeComponent },
   { path: 'tenant', component: TenantComponent },
   { path: 'audit', component: AuditComponent },
-  { path: 'app/auth', component: AppAuthComponent },
+  { path: 'appauth', component: AppAuthComponent },
+  { path: 'app', component: AppListComponent },
   { path: 'user', component: UserComponent,children:[
     { path: '', redirectTo: 'account', pathMatch: 'full' },
     { path: 'permission', component: UserPermissionComponent },

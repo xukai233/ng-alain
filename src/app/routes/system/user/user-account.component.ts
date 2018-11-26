@@ -23,7 +23,6 @@ export class UserAccountComponent implements OnInit {
     .subscribe(re=>{
       this.dataSet = re.items;
       this.totalCount = re.totalCount;
-      console.log(re)
     })
   }
 

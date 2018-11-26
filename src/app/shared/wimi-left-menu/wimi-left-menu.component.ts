@@ -15,7 +15,7 @@ export class WimiLeftMenuComponent implements OnInit {
   ngOnInit() {
   }
   handleMenuClick(menu){
-    this.select = menu.key;
+    this.select = menu.id;
     this.onSelect.emit(menu);
   }
 
