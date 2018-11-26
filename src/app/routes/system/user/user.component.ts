@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute,Params} from '@angular/router';
+import { AccountGroupDto,AccountGroupServiceProxy} from '@serviceProxies/service-proxies';
+
 import {
   FormBuilder,
   FormControl,
@@ -25,16 +27,16 @@ export class UserComponent implements OnInit {
   selectTab = "平台账号"
   leftMenu = [
     {
-      "key":0,
-      "title":"系统管理员",
-      "subtitle":"系统分组",
+      "id":0,
+      "displayName":"系统管理员",
+      "isStatic":true,
       "default":false,
       "operate":this.operate
     },
     {
-      "key":1,
-      "title":"普通成员",
-      "subtitle":"系统分组",
+      "id":1,
+      "displayName":"普通成员",
+      "isStatic":true,
       "default":true,
       "operate":{
         "text":"操作",
@@ -42,23 +44,23 @@ export class UserComponent implements OnInit {
       }
     },
     {
-      "key":2,
-      "title":"计划员",
-      "subtitle":"自定义分组",
+      "id":2,
+      "displayName":"计划员",
+      "isStatic":false,
       "default":false,
       "operate":this.operate
     },
     {
-      "key":3,
-      "title":"操作工",
-      "subtitle":"自定义分组",
+      "id":3,
+      "displayName":"操作工",
+      "isStatic":false,
       "default":false,
       "operate":this.operate
     },
     {
-      "key":4,
-      "title":"车间主任",
-      "subtitle":"自定义分组",
+      "id":4,
+      "displayName":"车间主任",
+      "isStatic":false,
       "default":false,
       "operate":this.operate
     }
@@ -69,7 +71,8 @@ export class UserComponent implements OnInit {
   constructor(
     private router:Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private accountGroupServiceProxy:AccountGroupServiceProxy,
     ) { 
 
     this.validateForm = this.fb.group({
@@ -100,6 +103,14 @@ export class UserComponent implements OnInit {
         this.selectTab = "权限"
       }
     });
+  }
+
+  getAccountGroup(){
+    this.accountGroupServiceProxy
+    .all()
+    .subscribe(re=>{
+      //this.leftMenu = re.items;
+    })
   }
 
   handleLeftSelect(val){

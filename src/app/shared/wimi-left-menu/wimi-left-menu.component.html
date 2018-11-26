@@ -1,12 +1,12 @@
-<div class="menu" *ngFor="let item of menu" key="item.key" 
+<div class="menu" *ngFor="let item of menu" key="item.id" 
 [ngClass]="item.key == select?'menu-select':''" (click)="handleMenuClick(item)">
   <div class="menu-left">
-    <div class="menu-left-title">{{item.title}} <nz-tag *ngIf="item.default" [nzColor]="'blue'">默认</nz-tag></div>
-    <div class="menu-left-subtitle">{{item.subtitle}}</div>
+    <div class="menu-left-title">{{item.displayName}} <nz-tag *ngIf="item.default" [nzColor]="'blue'">默认</nz-tag></div>
+    <div class="menu-left-subtitle">{{item.isStatic?'系统分组':'自定义分组'}}</div>
   </div>
   <div>
   <nz-dropdown>
-  <a nz-dropdown style="font-size: 12px;">
+  <a class="tool" nz-dropdown style="font-size: 12px;">
     {{item.operate.text}}
     <i nz-icon type="down"></i>
   </a>

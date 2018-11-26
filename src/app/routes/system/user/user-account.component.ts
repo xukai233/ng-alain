@@ -1,119 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd';
-
+import { AccountListDto,AccountServiceProxy} from '@serviceProxies/service-proxies';
 @Component({
   selector: 'user-account',
   templateUrl: './user-account.component.html'
 })
 export class UserAccountComponent implements OnInit {
-  constructor(private modalService:NzModalService) { }
-  dataSet = [
-    {
-      key    : '1',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '2',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    },
-    {
-      key    : '3',
-      code   : 'A001',
-      name   : '管理员',
-      email:'admin@wimisoft.com',
-      type :'已启用',
-      creatTime:'2018年11月15日 09:00'
-    }
-  ];
+  constructor(
+    private modalService:NzModalService,
+    private accountServiceProxy:AccountServiceProxy) { }
+
+  dataSet:AccountListDto[];
+  totalCount = 0;
+
   ngOnInit() {
+    this.getAccount();
+  }
+
+  getAccount(): void {
+    this.accountServiceProxy
+    .doGet(null)
+    .subscribe(re=>{
+      this.dataSet = re.items;
+      this.totalCount = re.totalCount;
+      console.log(re)
+    })
   }
 
   handleDelete():void{

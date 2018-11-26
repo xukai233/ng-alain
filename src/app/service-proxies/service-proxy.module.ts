@@ -11,6 +11,9 @@ import { JWTInterceptor } from '@delon/auth';
     ApiServiceProxies.TenantServiceProxy,
     ApiServiceProxies.AppServiceProxy,
     ApiServiceProxies.ServiceProxy,
+    ApiServiceProxies.AccountServiceProxy,
+    ApiServiceProxies.AuditLogServiceProxy,
+    ApiServiceProxies.AccountGroupServiceProxy,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: McInterceptor, multi: true }
   ],

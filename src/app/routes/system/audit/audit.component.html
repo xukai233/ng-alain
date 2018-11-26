@@ -54,7 +54,7 @@
     </div>
     <div nz-col nzSpan="4"><button nz-button nzType="primary" nzSearch>查询</button></div>
   </div>
-  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading">
+  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading" [nzFrontPagination]="false" [nzTotal]="totalCount">
     <thead>
       <tr>
         <th>账号</th>
@@ -69,9 +69,14 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data">
-        <td>{{data.code}}</td>
-        <td>{{data.name}}</td>
-        <td>{{data.endTime}}</td>
+        <td>{{data.account}}</td>
+        <td>{{data.app}}</td>
+        <td>{{data.api}}</td>
+        <td>{{data.status}}</td>
+        <td>{{data.createTime}}</td>
+        <td>{{data.timeOfDuration}}</td>
+        <td>{{data.ip}}</td>
+        <td>{{data.client}}</td>
       </tr>
     </tbody>
   </nz-table>

@@ -90,11 +90,13 @@ export class StartupService {
                 "hideInBreadcrumb": true,
                 "children": [{
                     "text": "工作台",
+                    "icon": "anticon anticon-inbox",
                     "link": "/dashboard/workplace",
                     "i18n": "menu.dashboard.workplace"
                   },
                   {
                     "text": "租户",
+                    "icon": "anticon anticon-team",
                     "link": "/system/tenant",
                     "i18n": ""
                   },
