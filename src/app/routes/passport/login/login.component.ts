@@ -1,4 +1,3 @@
-import { SettingsService } from '@delon/theme';
 import { Component, OnDestroy, Inject, Optional, Injector} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -27,10 +26,8 @@ export class UserLoginComponent implements OnDestroy {
   loading = false;
   constructor(
     fb: FormBuilder,
-    modalSrv: NzModalService,
     public msg: NzMessageService,
     private router: Router,
-    private settingsService: SettingsService,
     private socialService: SocialService,
     @Optional()
     @Inject(ReuseTabService)
@@ -45,7 +42,6 @@ export class UserLoginComponent implements OnDestroy {
       company: [null,Validators.required],
       remember: [true],
     });
-    modalSrv.closeAll();
   }
 
   // #region fields
