@@ -75,7 +75,7 @@ export class AppAuthComponent implements OnInit {
 
   getTenants(filterTenants: FilterTenantsDto | null | undefined): void {
     this.tableLoading = true;
-    this._tenantService.searches(filterTenants)
+    this._tenantService.list(filterTenants)
     .subscribe(result => {
       this.dataSet = result.items;
       this.selectItem = this.dataSet[0].id;

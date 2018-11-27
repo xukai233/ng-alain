@@ -31,7 +31,7 @@ export class AuditComponent implements OnInit {
   }
   getAudits(){
     this.auditLogServiceProxy
-    .searches(this.filterAuditLogsDto)
+    .list(this.filterAuditLogsDto)
     .subscribe(re=>{
       this.dataSet = re.items;
       this.totalCount = re.totalCount;

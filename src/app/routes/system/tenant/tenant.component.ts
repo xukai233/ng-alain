@@ -48,7 +48,7 @@ export class TenantComponent implements OnInit {
 
   getTenants(filterTenants: FilterTenantsDto | null | undefined): void {
     this.isLoading = true;
-    this._tenantService.searches(filterTenants)
+    this._tenantService.list(filterTenants)
     .subscribe(result => {
       this.dataSet = result.items;
       this.isLoading = false;

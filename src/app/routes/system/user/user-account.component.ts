@@ -31,7 +31,7 @@ export class UserAccountComponent implements OnInit {
   getAccount(filterAccounts: FilterAccountsDto | null | undefined): void {
     this.tableLoading = true;
     this.accountServiceProxy
-    .searches(filterAccounts)
+    .list(filterAccounts)
     .subscribe(re=>{
       this.dataSet = re.items;
       this.totalCount = re.totalCount;
