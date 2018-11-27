@@ -26,6 +26,9 @@
   }, {
     "name" : "审计日志",
     "description" : "审计日志查询"
+  }, {
+    "name" : "系统设定",
+    "description" : "系统设定"
   } ],
   "paths" : {
     "/passport/authenticate" : {
@@ -33,7 +36,7 @@
         "tags" : [ "认证" ],
         "summary" : "验证用户合法",
         "description" : "",
-        "operationId" : "PassportAuthenticate",
+        "operationId" : "passport_authenticate",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "authenticateModel",
@@ -58,7 +61,7 @@
         "tags" : [ "工业App" ],
         "summary" : "列出所有App",
         "description" : "",
-        "operationId" : "ListAllApps",
+        "operationId" : "app_listAll",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "responses" : {
@@ -76,7 +79,7 @@
         "tags" : [ "工业App" ],
         "summary" : "列出特定租户下的所有App",
         "description" : "",
-        "operationId" : "ListTenantApps",
+        "operationId" : "app_findByTenant",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -97,11 +100,12 @@
         }
       }
     },
-    "/app/do-create-authorize" : {
+    "/app/authorize" : {
       "post" : {
         "tags" : [ "工业App" ],
         "summary" : "授权租户App权限",
         "description" : "授权租户App权限",
+        "operationId" : "app_addAuthorize",
         "parameters" : [ {
           "name" : "CreateTenantDto",
           "in" : "body",
@@ -115,13 +119,12 @@
             "description" : "OK"
           }
         }
-      }
-    },
-    "/app/do-update-authorize" : {
+      },
       "put" : {
         "tags" : [ "工业App" ],
         "summary" : "更新租户App权限",
         "description" : "更新租户App权限",
+        "operationId" : "app_updateAuthorize",
         "parameters" : [ {
           "name" : "UpdateTenantDto",
           "in" : "body",
@@ -142,7 +145,7 @@
         "tags" : [ "租户" ],
         "summary" : "租户查询",
         "description" : "",
-        "operationId" : "listTenants",
+        "operationId" : "tenant_list",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -163,12 +166,12 @@
         }
       }
     },
-    "/tenant/do-create" : {
+    "/tenant" : {
       "post" : {
         "tags" : [ "租户" ],
         "summary" : "租户开立",
         "description" : "",
-        "operationId" : "createTenant",
+        "operationId" : "tenant_add",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -186,12 +189,12 @@
         }
       }
     },
-    "/tenant/{tenantId}/do-get" : {
+    "/tenant/{tenantId}" : {
       "get" : {
         "tags" : [ "租户" ],
         "summary" : "根据Id获取租户",
         "description" : "",
-        "operationId" : "getTenantById",
+        "operationId" : "tenant_get",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -210,14 +213,12 @@
             }
           }
         }
-      }
-    },
-    "/tenant/{tenantId}/do-update" : {
+      },
       "put" : {
         "tags" : [ "租户" ],
         "summary" : "更新租户",
         "description" : "",
-        "operationId" : "UpdateTenant",
+        "operationId" : "tenant_update",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -247,7 +248,7 @@
         "tags" : [ "账户" ],
         "summary" : "账户查询",
         "description" : "",
-        "operationId" : "listAccount",
+        "operationId" : "account_list",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -268,12 +269,12 @@
         }
       }
     },
-    "/account/do-create" : {
+    "/account" : {
       "post" : {
         "tags" : [ "账户" ],
         "summary" : "建立账户",
         "description" : "",
-        "operationId" : "createAccount",
+        "operationId" : "account_add",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -289,14 +290,12 @@
             "description" : "Success"
           }
         }
-      }
-    },
-    "/account/{accountId}/do-update" : {
+      },
       "put" : {
         "tags" : [ "账户" ],
         "summary" : "更新账户",
         "description" : "",
-        "operationId" : "updateAccount",
+        "operationId" : "account_update",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -321,12 +320,12 @@
         }
       }
     },
-    "/account/{accountId}/do-delete" : {
+    "/account/{accountId}" : {
       "delete" : {
         "tags" : [ "账户" ],
         "summary" : "删除账户",
         "description" : "",
-        "operationId" : "deleteAccount",
+        "operationId" : "account_delete",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -348,7 +347,7 @@
       "post" : {
         "tags" : [ "账户" ],
         "summary" : "上传头像",
-        "operationId" : "uploadFile",
+        "operationId" : "account_uploadImage",
         "consumes" : [ "multipart/form-data" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -383,7 +382,7 @@
         "tags" : [ "账户" ],
         "summary" : "账户组查询",
         "description" : "",
-        "operationId" : "listAccountGroups",
+        "operationId" : "accountGroup_list",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ ],
@@ -397,12 +396,12 @@
         }
       }
     },
-    "/account-group/do-create" : {
+    "/account-group" : {
       "post" : {
         "tags" : [ "账户" ],
         "summary" : "新建账户组",
         "description" : "",
-        "operationId" : "createAccountGroup",
+        "operationId" : "account_add",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -420,12 +419,12 @@
         }
       }
     },
-    "/account-group/{accountGroupId}/do-update" : {
+    "/account-group/{accountGroupId}" : {
       "put" : {
         "tags" : [ "账户" ],
         "summary" : "更新账户组",
         "description" : "",
-        "operationId" : "updateAccountGroup",
+        "operationId" : "accountGroup_update",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -448,14 +447,12 @@
             "description" : "Succes"
           }
         }
-      }
-    },
-    "/account-group/{accountGroupId}/do-delete" : {
+      },
       "delete" : {
         "tags" : [ "账户" ],
         "summary" : "删除账户组",
         "description" : "",
-        "operationId" : "deleteAccountGroup",
+        "operationId" : "accountGroup_delete",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -478,7 +475,7 @@
         "tags" : [ "审计日志" ],
         "summary" : "审计日志查询",
         "description" : "",
-        "operationId" : "listAuditLogs",
+        "operationId" : "auditLog_list",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -504,7 +501,7 @@
         "tags" : [ "权限" ],
         "summary" : "列出所有权限",
         "description" : "",
-        "operationId" : "ListAllPermissions",
+        "operationId" : "permission_listAll",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "responses" : {
@@ -517,12 +514,12 @@
         }
       }
     },
-    "/permission/account-group/{accountGroupId}/do-get" : {
+    "/permission/account-group/{accountGroupId}" : {
       "get" : {
         "tags" : [ "权限" ],
         "summary" : "列出用户组的所有权限",
         "description" : "",
-        "operationId" : "ListAllPermissionsOfAccountGroup",
+        "operationId" : "permission_listByAccountGroupId",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -541,14 +538,12 @@
             }
           }
         }
-      }
-    },
-    "/permission/account-group/{accountGroupId}/do-update" : {
+      },
       "post" : {
         "tags" : [ "权限" ],
         "summary" : "更新用户组的所有权限",
         "description" : "",
-        "operationId" : "UpdateAllPermissionsOfAccountGroup",
+        "operationId" : "permission_updateAccountGroupPermissions",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -573,12 +568,12 @@
         }
       }
     },
-    "/permission/account/{accountId}/do-get" : {
+    "/permission/account/{accountId}" : {
       "get" : {
         "tags" : [ "权限" ],
-        "summary" : "列出用户组的所有权限",
+        "summary" : "列出用户的所有权限",
         "description" : "",
-        "operationId" : "ListAllPermissionsOfAccount",
+        "operationId" : "permission_listByAccountId",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -597,14 +592,12 @@
             }
           }
         }
-      }
-    },
-    "/permission/account/{accountId}/do-update" : {
+      },
       "post" : {
         "tags" : [ "权限" ],
         "summary" : "更新用户组的所有权限",
         "description" : "",
-        "operationId" : "UpdateAllPermissionsOfAccount",
+        "operationId" : "permission_updateAccountPermissions",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -628,9 +621,62 @@
           }
         }
       }
+    },
+    "/settings/all" : {
+      "get" : {
+        "tags" : [ "系统设定" ],
+        "summary" : "列出租户的所有设定",
+        "description" : "",
+        "operationId" : "settings_listAll",
+        "consumes" : [ ],
+        "produces" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/SettingsDto"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "系统设定" ],
+        "summary" : "更新租户的所有设定",
+        "description" : "",
+        "operationId" : "settings_updateAll",
+        "consumes" : [ ],
+        "produces" : [ ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "UpdateTenantAllSettings",
+          "description" : "更新账户组权限",
+          "schema" : {
+            "$ref" : "#/definitions/SettingsDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
     }
   },
   "definitions" : {
+    "SettingsDto" : {
+      "type" : "object",
+      "properties" : {
+        "logo" : {
+          "type" : "string"
+        },
+        "themeColor" : {
+          "type" : "string"
+        },
+        "defalutMenuState" : {
+          "type" : "string"
+        }
+      }
+    },
     "GrantedPermissionsDto" : {
       "type" : "object",
       "properties" : {
