@@ -118,7 +118,8 @@ export class StartupService {
                     "icon": "anticon anticon-appstore",
                     "children": [{
                         "text": "账号管理",
-                        "link": "/system/user"
+                        "link": "/system/user",
+                        "i18n": ""
                       },
                       {
                         "text": "外观设定",

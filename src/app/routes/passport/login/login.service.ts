@@ -35,14 +35,18 @@ export class LoginService {
   }
   // 将token信息持久化
   private processAuthenticateResult(authenticateResult: AuthenticateResultModel, redirectUrl?: string) {
-    // 清空路由复用信息
-    this.reuseTabService.clear();
-    // 设置Token信息
-    this.tokenService.set({token: authenticateResult.accessToken});
-    if (authenticateResult.returnUrl) {
-      this.router.navigate([authenticateResult.returnUrl]);
-    } else { 
-      this.router.navigate(['/dashboard']);
+    if(authenticateResult.shouldResetPassword){
+      this.router.navigateByUrl('/passport/reset?code='+authenticateResult.passwordResetCode);
+    }else{
+      // 清空路由复用信息
+      this.reuseTabService.clear();
+      // 设置Token信息
+      this.tokenService.set({token: authenticateResult.accessToken});
+      if (authenticateResult.returnUrl) {
+        this.router.navigate([authenticateResult.returnUrl]);
+      } else { 
+        this.router.navigate(['/dashboard']);
+      }
     }
   }
 }
