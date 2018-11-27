@@ -10,7 +10,6 @@ import { JWTInterceptor } from '@delon/auth';
     ApiServiceProxies.PassportServiceProxy,
     ApiServiceProxies.TenantServiceProxy,
     ApiServiceProxies.AppServiceProxy,
-    ApiServiceProxies.ServiceProxy,
     ApiServiceProxies.AccountServiceProxy,
     ApiServiceProxies.AuditLogServiceProxy,
     ApiServiceProxies.AccountGroupServiceProxy,

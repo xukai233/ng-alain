@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuditLogsListDto,AuditLogServiceProxy} from '@serviceProxies/service-proxies';
+import { FilterAuditLogsDto,AuditLogsListDto,AuditLogServiceProxy} from '@serviceProxies/service-proxies';
 
 @Component({
   selector: 'audit',
@@ -19,19 +19,20 @@ export class AuditComponent implements OnInit {
   dataSet:AuditLogsListDto[];
   totalCount = 0;
   tableLoading = true;
-
+  filterAuditLogsDto:FilterAuditLogsDto;
   constructor(
     private auditLogServiceProxy:AuditLogServiceProxy
-    ) { }
+    ){ 
+    this.filterAuditLogsDto = new FilterAuditLogsDto();
+  }
 
   ngOnInit() {
     this.getAudits();
   }
   getAudits(){
     this.auditLogServiceProxy
-    .do(null)
+    .searches(this.filterAuditLogsDto)
     .subscribe(re=>{
-      console.log(re)
       this.dataSet = re.items;
       this.totalCount = re.totalCount;
       this.tableLoading = false;

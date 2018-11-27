@@ -54,7 +54,7 @@ export class CreateTenantModalComponent implements OnInit {
 
     console.dir(this.tenant);
 
-    this._tenantService.doPost(this.tenant)
+    this._tenantService.create(this.tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
         this.modal.close();
