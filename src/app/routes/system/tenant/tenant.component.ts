@@ -4,7 +4,7 @@ import {
   FormControl,
   FormGroup
 } from '@angular/forms';
-import { TenantServiceProxy,ServiceProxy,FilterTenantsDto} from '@serviceProxies/service-proxies';
+import { TenantServiceProxy,FilterTenantsDto} from '@serviceProxies/service-proxies';
 import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
 import { TenantUpdateModalComponent } from './tenant-update-modal/tenant-update-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
@@ -38,18 +38,17 @@ export class TenantComponent implements OnInit {
   filterTenants:FilterTenantsDto;
   constructor(
     private _tenantService: TenantServiceProxy,
-    private modalService:NzModalService,
-    private serviceProxy:ServiceProxy) {
+    private modalService:NzModalService) {
     this.filterTenants = new FilterTenantsDto();
   }
 
   ngOnInit() {
-    this.getTenants(null);
+    this.getTenants(this.filterTenants);
   }
 
   getTenants(filterTenants: FilterTenantsDto | null | undefined): void {
     this.isLoading = true;
-    this._tenantService.doGet(filterTenants)
+    this._tenantService.searches(filterTenants)
     .subscribe(result => {
       this.dataSet = result.items;
       this.isLoading = false;

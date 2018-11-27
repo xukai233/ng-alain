@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TenantServiceProxy,FilterTenantsDto,ServiceProxy,AppServiceProxy} from '@serviceProxies/service-proxies';
+import { TenantServiceProxy,FilterTenantsDto,AppServiceProxy} from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -70,12 +70,12 @@ export class AppAuthComponent implements OnInit {
       payControlDate       : [ null, [ Validators.required ] ],
     });
     this.filterTenantsDto = new FilterTenantsDto()
-    this.getTenants(null);
+    this.getTenants(this.filterTenantsDto);
   }
 
   getTenants(filterTenants: FilterTenantsDto | null | undefined): void {
     this.tableLoading = true;
-    this._tenantService.doGet(filterTenants)
+    this._tenantService.searches(filterTenants)
     .subscribe(result => {
       this.dataSet = result.items;
       this.selectItem = this.dataSet[0].id;

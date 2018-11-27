@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild,Input } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { UpdateTenantDto, ServiceProxy } from '@serviceProxies/service-proxies';
+import { UpdateTenantDto,TenantServiceProxy } from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -26,7 +26,7 @@ export class TenantUpdateModalComponent implements OnInit {
   tenant: UpdateTenantDto;
 
   constructor(private fb: FormBuilder,
-    private _Service: ServiceProxy) {
+    private tenantServiceProxy: TenantServiceProxy) {
       this.tenant = new UpdateTenantDto();
     }
 
@@ -40,14 +40,14 @@ export class TenantUpdateModalComponent implements OnInit {
   }
 
   show(id:number) {
-    this._Service.tenantGet(id)
+    this.tenantServiceProxy.get(id)
     .subscribe(re=>{
       this.tenant = re as UpdateTenantDto;
       this.modal.open();
     })
   }
   save() {
-    this._Service.tenantPut(0,this.tenant)
+    this.tenantServiceProxy.update(0,this.tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
         this.modal.close();

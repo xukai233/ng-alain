@@ -39,13 +39,8 @@
   <nz-form-item>
     <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loading" nzBlock>登录</button>
   </nz-form-item>
-  <nz-form-item>
-    <nz-col [nzSpan]="12">
-      <span class="login-link">忘记密码</span>
-    </nz-col>
-    <nz-col [nzSpan]="12" class="text-right">
-      <span class="login-link">注册用户</span>
-    </nz-col>
-  </nz-form-item>
+    <nz-divider [nzText]="text">
+      <ng-template #text><span (click)="handleFindPassword()" class="login-link">忘记密码</span></ng-template>
+    </nz-divider>
   </div>
 </form>

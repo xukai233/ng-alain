@@ -25,7 +25,7 @@ export class PassportServiceProxy {
     }
 
     /**
-     * éªŒè¯ç”¨æˆ·åˆæ³•
+     * ÑéÖ¤ÓÃ»§ºÏ·¨
      * @param authenticateModel (optional) 
      * @return Success
      */
@@ -94,7 +94,7 @@ export class AppServiceProxy {
     }
 
     /**
-     * åˆ—å‡ºæ‰€æœ‰App
+     * ÁĞ³öËùÓĞApp
      * @return Success
      */
     all(): Observable<ListResultDtoOfAppDto> {
@@ -146,8 +146,8 @@ export class AppServiceProxy {
     }
 
     /**
-     * åˆ—å‡ºç‰¹å®šç§Ÿæˆ·ä¸‹çš„æ‰€æœ‰App
-     * @param tenantId éœ€è¦è·å¾—Appçš„ç§Ÿæˆ·Id
+     * ÁĞ³öÌØ¶¨×â»§ÏÂµÄËùÓĞApp
+     * @param tenantId ĞèÒª»ñµÃAppµÄ×â»§Id
      * @return Success
      */
     findByTenant(tenantId: number): Observable<TenantAppsDto> {
@@ -202,7 +202,7 @@ export class AppServiceProxy {
     }
 
     /**
-     * æˆæƒç§Ÿæˆ·Appæƒé™
+     * ÊÚÈ¨×â»§AppÈ¨ÏŞ
      * @param createTenantDto (optional) 
      * @return OK
      */
@@ -255,7 +255,7 @@ export class AppServiceProxy {
     }
 
     /**
-     * æ›´æ–°ç§Ÿæˆ·Appæƒé™
+     * ¸üĞÂ×â»§AppÈ¨ÏŞ
      * @param updateTenantDto (optional) 
      * @return OK
      */
@@ -320,8 +320,8 @@ export class TenantServiceProxy {
     }
 
     /**
-     * ç§Ÿæˆ·æŸ¥è¯¢
-     * @param filterTenants (optional) æŒ‰ç…§æŸ¥è¯¢æ¡ä»¶è¿‡æ»¤ç§Ÿæˆ·
+     * ×â»§²éÑ¯
+     * @param filterTenants (optional) °´ÕÕ²éÑ¯Ìõ¼ş¹ıÂË×â»§
      * @return Success
      */
     searches(filterTenants: FilterTenantsDto | null | undefined): Observable<PagedResultDtoOfTenantListDto> {
@@ -329,7 +329,7 @@ export class TenantServiceProxy {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(filterTenants);
-        
+
         let options_ : any = {
             body: content_,
             observe: "response",
@@ -377,7 +377,7 @@ export class TenantServiceProxy {
     }
 
     /**
-     * ç§Ÿæˆ·å¼€ç«‹
+     * ×â»§¿ªÁ¢
      * @param createTenantDto (optional) 
      * @return Success
      */
@@ -430,8 +430,8 @@ export class TenantServiceProxy {
     }
 
     /**
-     * æ ¹æ®Idè·å–ç§Ÿæˆ·
-     * @param tenantId ç§Ÿæˆ·Id
+     * ¸ù¾İId»ñÈ¡×â»§
+     * @param tenantId ×â»§Id
      * @return Success
      */
     get(tenantId: number): Observable<TenantDto> {
@@ -486,8 +486,8 @@ export class TenantServiceProxy {
     }
 
     /**
-     * æ›´æ–°ç§Ÿæˆ·
-     * @param tenantId ç§Ÿæˆ·Id
+     * ¸üĞÂ×â»§
+     * @param tenantId ×â»§Id
      * @param updateTenantDto (optional) 
      * @return Success
      */
@@ -555,8 +555,8 @@ export class AccountServiceProxy {
     }
 
     /**
-     * è´¦æˆ·æŸ¥è¯¢
-     * @param filterAccounts (optional) æŒ‰ç…§æŸ¥è¯¢æ¡ä»¶è¿‡æ»¤ç§Ÿæˆ·
+     * ÕË»§²éÑ¯
+     * @param filterAccounts (optional) °´ÕÕ²éÑ¯Ìõ¼ş¹ıÂË×â»§
      * @return Success
      */
     searches(filterAccounts: FilterAccountsDto | null | undefined): Observable<PagedResultDtoOfAccountsListDto> {
@@ -612,8 +612,8 @@ export class AccountServiceProxy {
     }
 
     /**
-     * å»ºç«‹è´¦æˆ·
-     * @param createAccount (optional) æ–°å»ºè´¦æˆ·
+     * ½¨Á¢ÕË»§
+     * @param createAccount (optional) ĞÂ½¨ÕË»§
      * @return Success
      */
     create(createAccount: CreateAccountDto | null | undefined): Observable<void> {
@@ -665,9 +665,9 @@ export class AccountServiceProxy {
     }
 
     /**
-     * æ›´æ–°è´¦æˆ·
-     * @param accountId è´¦æˆ·Id
-     * @param updateAccount (optional) æ›´æ–°è´¦æˆ·
+     * ¸üĞÂÕË»§
+     * @param accountId ÕË»§Id
+     * @param updateAccount (optional) ¸üĞÂÕË»§
      * @return Succes
      */
     updatePut(accountId: number, updateAccount: UpdateAccountDto | null | undefined): Observable<void> {
@@ -722,8 +722,8 @@ export class AccountServiceProxy {
     }
 
     /**
-     * åˆ é™¤è´¦æˆ·
-     * @param accountId è´¦æˆ·Id
+     * É¾³ıÕË»§
+     * @param accountId ÕË»§Id
      * @return Succes
      */
     delete(accountId: number): Observable<void> {
@@ -774,7 +774,7 @@ export class AccountServiceProxy {
     }
 
     /**
-     * ä¸Šä¼ å¤´åƒ
+     * ÉÏ´«Í·Ïñ
      * @param accountId ID of Account to update
      * @param additionalMetadata (optional) Additional data to pass to server
      * @param file (optional) file to upload
@@ -835,8 +835,8 @@ export class AccountServiceProxy {
     }
 
     /**
-     * åˆ—å‡ºç”¨æˆ·ç»„çš„æ‰€æœ‰æƒé™
-     * @param accountId è´¦æˆ·Id
+     * ÁĞ³öÓÃ»§×éµÄËùÓĞÈ¨ÏŞ
+     * @param accountId ÕË»§Id
      * @return Success
      */
     get(accountId: number): Observable<ListResultDtoOfPermissionDto> {
@@ -891,9 +891,9 @@ export class AccountServiceProxy {
     }
 
     /**
-     * æ›´æ–°ç”¨æˆ·ç»„çš„æ‰€æœ‰æƒé™
-     * @param accountId è´¦æˆ·Id
-     * @param updateAccountPermission (optional) æ›´æ–°è´¦æˆ·æƒé™
+     * ¸üĞÂÓÃ»§×éµÄËùÓĞÈ¨ÏŞ
+     * @param accountId ÕË»§Id
+     * @param updateAccountPermission (optional) ¸üĞÂÕË»§È¨ÏŞ
      * @return Success
      */
     updatePost(accountId: number, updateAccountPermission: GrantedPermissionsDto | null | undefined): Observable<void> {
@@ -960,7 +960,7 @@ export class AccountGroupServiceProxy {
     }
 
     /**
-     * è´¦æˆ·ç»„æŸ¥è¯¢
+     * ÕË»§×é²éÑ¯
      * @return Success
      */
     all(): Observable<ListResultDtoOfAccountGroupDto> {
@@ -1012,7 +1012,7 @@ export class AccountGroupServiceProxy {
     }
 
     /**
-     * æ–°å»ºè´¦æˆ·ç»„
+     * ĞÂ½¨ÕË»§×é
      * @param createAccountGroup (optional) 
      * @return Success
      */
@@ -1065,9 +1065,9 @@ export class AccountGroupServiceProxy {
     }
 
     /**
-     * æ›´æ–°è´¦æˆ·ç»„
-     * @param accountGroupId è´¦æˆ·ç»„Id
-     * @param updateAccountGroup (optional) æ›´æ–°è´¦æˆ·ç»„
+     * ¸üĞÂÕË»§×é
+     * @param accountGroupId ÕË»§×éId
+     * @param updateAccountGroup (optional) ¸üĞÂÕË»§×é
      * @return Succes
      */
     updatePut(accountGroupId: number, updateAccountGroup: UpdateAccountGroupDto | null | undefined): Observable<void> {
@@ -1122,8 +1122,8 @@ export class AccountGroupServiceProxy {
     }
 
     /**
-     * åˆ é™¤è´¦æˆ·ç»„
-     * @param accountGroupId è´¦æˆ·ç»„Id
+     * É¾³ıÕË»§×é
+     * @param accountGroupId ÕË»§×éId
      * @return Succes
      */
     delete(accountGroupId: number): Observable<void> {
@@ -1174,8 +1174,8 @@ export class AccountGroupServiceProxy {
     }
 
     /**
-     * åˆ—å‡ºç”¨æˆ·ç»„çš„æ‰€æœ‰æƒé™
-     * @param accountGroupId è´¦æˆ·ç»„Id
+     * ÁĞ³öÓÃ»§×éµÄËùÓĞÈ¨ÏŞ
+     * @param accountGroupId ÕË»§×éId
      * @return Success
      */
     get(accountGroupId: number): Observable<ListResultDtoOfPermissionDto> {
@@ -1230,9 +1230,9 @@ export class AccountGroupServiceProxy {
     }
 
     /**
-     * æ›´æ–°ç”¨æˆ·ç»„çš„æ‰€æœ‰æƒé™
-     * @param accountGroupId è´¦æˆ·ç»„Id
-     * @param updateAccountGroupPermission (optional) æ›´æ–°è´¦æˆ·ç»„æƒé™
+     * ¸üĞÂÓÃ»§×éµÄËùÓĞÈ¨ÏŞ
+     * @param accountGroupId ÕË»§×éId
+     * @param updateAccountGroupPermission (optional) ¸üĞÂÕË»§×éÈ¨ÏŞ
      * @return Success
      */
     updatePost(accountGroupId: number, updateAccountGroupPermission: GrantedPermissionsDto | null | undefined): Observable<void> {
@@ -1299,8 +1299,8 @@ export class AuditLogServiceProxy {
     }
 
     /**
-     * å®¡è®¡æ—¥å¿—æŸ¥è¯¢
-     * @param filterAuditLogs (optional) æŒ‰ç…§æŸ¥è¯¢æ¡ä»¶è¿‡æ»¤å®¡è®¡æ—¥å¿—
+     * Éó¼ÆÈÕÖ¾²éÑ¯
+     * @param filterAuditLogs (optional) °´ÕÕ²éÑ¯Ìõ¼ş¹ıÂËÉó¼ÆÈÕÖ¾
      * @return Success
      */
     searches(filterAuditLogs: FilterAuditLogsDto | null | undefined): Observable<PagedResultDtoOfAuditLogsListDto> {
@@ -1368,7 +1368,7 @@ export class PermissionServiceProxy {
     }
 
     /**
-     * åˆ—å‡ºæ‰€æœ‰æƒé™
+     * ÁĞ³öËùÓĞÈ¨ÏŞ
      * @return Success
      */
     all(): Observable<ListResultDtoOfPermissionDto> {
@@ -1561,9 +1561,9 @@ export interface IListResultDtoOfPermissionDto {
 }
 
 export class FilterAuditLogsDto implements IFilterAuditLogsDto {
-    /** åˆ›å»ºæ—¶é—´ä» */
+    /** ´´½¨Ê±¼ä´Ó */
     createTimeFrom?: number | undefined;
-    /** åˆ›å»ºæ—¶é—´åˆ° */
+    /** ´´½¨Ê±¼äµ½ */
     createTimeEnd?: number | undefined;
     timeOfDurationFrom?: number | undefined;
     timeOfDurationEnd?: number | undefined;
@@ -1610,9 +1610,9 @@ export class FilterAuditLogsDto implements IFilterAuditLogsDto {
 }
 
 export interface IFilterAuditLogsDto {
-    /** åˆ›å»ºæ—¶é—´ä» */
+    /** ´´½¨Ê±¼ä´Ó */
     createTimeFrom?: number | undefined;
-    /** åˆ›å»ºæ—¶é—´åˆ° */
+    /** ´´½¨Ê±¼äµ½ */
     createTimeEnd?: number | undefined;
     timeOfDurationFrom?: number | undefined;
     timeOfDurationEnd?: number | undefined;
@@ -1738,15 +1738,15 @@ export interface IPagedResultDtoOfAuditLogsListDto {
 
 export class AccountDto implements IAccountDto {
     id?: number | undefined;
-    /** è´¦æˆ·ç¼–å· */
+    /** ÕË»§±àºÅ */
     code?: string | undefined;
-    /** è´¦æˆ·åç§° */
+    /** ÕË»§Ãû³Æ */
     displayName?: string | undefined;
-    /** é‚®ç®± */
+    /** ÓÊÏä */
     email?: string | undefined;
-    /** è´¦æˆ·æ˜¯å¦å¯ç”¨ */
+    /** ÕË»§ÊÇ·ñÆôÓÃ */
     isActive?: boolean | undefined;
-    /** åˆ›å»ºæ—¶é—´ */
+    /** ´´½¨Ê±¼ä */
     createTime?: number | undefined;
 
     constructor(data?: IAccountDto) {
@@ -1790,20 +1790,20 @@ export class AccountDto implements IAccountDto {
 
 export interface IAccountDto {
     id?: number | undefined;
-    /** è´¦æˆ·ç¼–å· */
+    /** ÕË»§±àºÅ */
     code?: string | undefined;
-    /** è´¦æˆ·åç§° */
+    /** ÕË»§Ãû³Æ */
     displayName?: string | undefined;
-    /** é‚®ç®± */
+    /** ÓÊÏä */
     email?: string | undefined;
-    /** è´¦æˆ·æ˜¯å¦å¯ç”¨ */
+    /** ÕË»§ÊÇ·ñÆôÓÃ */
     isActive?: boolean | undefined;
-    /** åˆ›å»ºæ—¶é—´ */
+    /** ´´½¨Ê±¼ä */
     createTime?: number | undefined;
 }
 
 export class FilterAccountsDto implements IFilterAccountsDto {
-    /** ç»¼åˆè¿‡æ»¤ï¼Œby name or code */
+    /** ×ÛºÏ¹ıÂË£¬by name or code */
     filter?: string | undefined;
     accountGroupId?: number | undefined;
 
@@ -1839,22 +1839,22 @@ export class FilterAccountsDto implements IFilterAccountsDto {
 }
 
 export interface IFilterAccountsDto {
-    /** ç»¼åˆè¿‡æ»¤ï¼Œby name or code */
+    /** ×ÛºÏ¹ıÂË£¬by name or code */
     filter?: string | undefined;
     accountGroupId?: number | undefined;
 }
 
 export class CreateAccountDto implements ICreateAccountDto {
-    /** è´¦æˆ·ç¼–å· */
+    /** ÕË»§±àºÅ */
     code?: string | undefined;
-    /** è´¦æˆ·åç§° */
+    /** ÕË»§Ãû³Æ */
     displayName?: string | undefined;
     password?: string | undefined;
-    /** ä¸‹æ¬¡ç™»å½•éœ€è¦ä¿®æ”¹å¯†ç  */
+    /** ÏÂ´ÎµÇÂ¼ĞèÒªĞŞ¸ÄÃÜÂë */
     needChangePasswordInNextLogin?: boolean | undefined;
-    /** é‚®ç®± */
+    /** ÓÊÏä */
     email?: string | undefined;
-    /** è´¦æˆ·æ˜¯å¦å¯ç”¨ */
+    /** ÕË»§ÊÇ·ñÆôÓÃ */
     isActive?: boolean | undefined;
     accountGourps?: AccountGroupDto[] | undefined;
 
@@ -1908,28 +1908,28 @@ export class CreateAccountDto implements ICreateAccountDto {
 }
 
 export interface ICreateAccountDto {
-    /** è´¦æˆ·ç¼–å· */
+    /** ÕË»§±àºÅ */
     code?: string | undefined;
-    /** è´¦æˆ·åç§° */
+    /** ÕË»§Ãû³Æ */
     displayName?: string | undefined;
     password?: string | undefined;
-    /** ä¸‹æ¬¡ç™»å½•éœ€è¦ä¿®æ”¹å¯†ç  */
+    /** ÏÂ´ÎµÇÂ¼ĞèÒªĞŞ¸ÄÃÜÂë */
     needChangePasswordInNextLogin?: boolean | undefined;
-    /** é‚®ç®± */
+    /** ÓÊÏä */
     email?: string | undefined;
-    /** è´¦æˆ·æ˜¯å¦å¯ç”¨ */
+    /** ÕË»§ÊÇ·ñÆôÓÃ */
     isActive?: boolean | undefined;
     accountGourps?: AccountGroupDto[] | undefined;
 }
 
 export class UpdateAccountDto implements IUpdateAccountDto {
-    /** è´¦æˆ·Key */
+    /** ÕË»§Key */
     id?: number | undefined;
-    /** è´¦æˆ·åç§° */
+    /** ÕË»§Ãû³Æ */
     displayName?: string | undefined;
-    /** é‚®ç®± */
+    /** ÓÊÏä */
     email?: string | undefined;
-    /** è´¦æˆ·æ˜¯å¦å¯ç”¨ */
+    /** ÕË»§ÊÇ·ñÆôÓÃ */
     isActive?: boolean | undefined;
     accountGourps?: AccountGroupDto[] | undefined;
 
@@ -1979,30 +1979,30 @@ export class UpdateAccountDto implements IUpdateAccountDto {
 }
 
 export interface IUpdateAccountDto {
-    /** è´¦æˆ·Key */
+    /** ÕË»§Key */
     id?: number | undefined;
-    /** è´¦æˆ·åç§° */
+    /** ÕË»§Ãû³Æ */
     displayName?: string | undefined;
-    /** é‚®ç®± */
+    /** ÓÊÏä */
     email?: string | undefined;
-    /** è´¦æˆ·æ˜¯å¦å¯ç”¨ */
+    /** ÕË»§ÊÇ·ñÆôÓÃ */
     isActive?: boolean | undefined;
     accountGourps?: AccountGroupDto[] | undefined;
 }
 
 export class AccountListDto implements IAccountListDto {
     id?: number | undefined;
-    /** è´¦æˆ·ç¼–å· */
+    /** ÕË»§±àºÅ */
     code?: string | undefined;
-    /** è´¦æˆ·åç§° */
+    /** ÕË»§Ãû³Æ */
     displayName?: string | undefined;
-    /** é‚®ç®± */
+    /** ÓÊÏä */
     email?: string | undefined;
-    /** è´¦æˆ·æ˜¯å¦å¯ç”¨ */
+    /** ÕË»§ÊÇ·ñÆôÓÃ */
     isActive?: boolean | undefined;
-    /** ä¸Šæ¬¡ç™»å½•æ—¶é—´ */
+    /** ÉÏ´ÎµÇÂ¼Ê±¼ä */
     lastLoginTime?: number | undefined;
-    /** åˆ›å»ºæ—¶é—´ */
+    /** ´´½¨Ê±¼ä */
     createTime?: number | undefined;
 
     constructor(data?: IAccountListDto) {
@@ -2048,17 +2048,17 @@ export class AccountListDto implements IAccountListDto {
 
 export interface IAccountListDto {
     id?: number | undefined;
-    /** è´¦æˆ·ç¼–å· */
+    /** ÕË»§±àºÅ */
     code?: string | undefined;
-    /** è´¦æˆ·åç§° */
+    /** ÕË»§Ãû³Æ */
     displayName?: string | undefined;
-    /** é‚®ç®± */
+    /** ÓÊÏä */
     email?: string | undefined;
-    /** è´¦æˆ·æ˜¯å¦å¯ç”¨ */
+    /** ÕË»§ÊÇ·ñÆôÓÃ */
     isActive?: boolean | undefined;
-    /** ä¸Šæ¬¡ç™»å½•æ—¶é—´ */
+    /** ÉÏ´ÎµÇÂ¼Ê±¼ä */
     lastLoginTime?: number | undefined;
-    /** åˆ›å»ºæ—¶é—´ */
+    /** ´´½¨Ê±¼ä */
     createTime?: number | undefined;
 }
 
@@ -2112,11 +2112,11 @@ export interface IPagedResultDtoOfAccountsListDto {
 
 export class AccountGroupDto implements IAccountGroupDto {
     id?: number | undefined;
-    /** è´¦æˆ·ç»„åç§° */
+    /** ÕË»§×éÃû³Æ */
     displayName?: string | undefined;
-    /** æ˜¯å¦æ˜¯é»˜è®¤ç»„ */
+    /** ÊÇ·ñÊÇÄ¬ÈÏ×é */
     isDefault?: boolean | undefined;
-    /** æ˜¯å¦é™æ€ï¼ˆç³»ç»Ÿç”Ÿæˆï¼‰ï¼Œä¸å¯åˆ é™¤ */
+    /** ÊÇ·ñ¾²Ì¬£¨ÏµÍ³Éú³É£©£¬²»¿ÉÉ¾³ı */
     isStatic?: boolean | undefined;
 
     constructor(data?: IAccountGroupDto) {
@@ -2156,11 +2156,11 @@ export class AccountGroupDto implements IAccountGroupDto {
 
 export interface IAccountGroupDto {
     id?: number | undefined;
-    /** è´¦æˆ·ç»„åç§° */
+    /** ÕË»§×éÃû³Æ */
     displayName?: string | undefined;
-    /** æ˜¯å¦æ˜¯é»˜è®¤ç»„ */
+    /** ÊÇ·ñÊÇÄ¬ÈÏ×é */
     isDefault?: boolean | undefined;
-    /** æ˜¯å¦é™æ€ï¼ˆç³»ç»Ÿç”Ÿæˆï¼‰ï¼Œä¸å¯åˆ é™¤ */
+    /** ÊÇ·ñ¾²Ì¬£¨ÏµÍ³Éú³É£©£¬²»¿ÉÉ¾³ı */
     isStatic?: boolean | undefined;
 }
 
@@ -2209,9 +2209,9 @@ export interface IListResultDtoOfAccountGroupDto {
 }
 
 export class CreateAccountGroupDto implements ICreateAccountGroupDto {
-    /** è´¦æˆ·ç»„åç§° */
+    /** ÕË»§×éÃû³Æ */
     displayName?: string | undefined;
-    /** æ˜¯å¦æ˜¯é»˜è®¤ç»„ */
+    /** ÊÇ·ñÊÇÄ¬ÈÏ×é */
     isDefault?: boolean | undefined;
 
     constructor(data?: ICreateAccountGroupDto) {
@@ -2246,16 +2246,16 @@ export class CreateAccountGroupDto implements ICreateAccountGroupDto {
 }
 
 export interface ICreateAccountGroupDto {
-    /** è´¦æˆ·ç»„åç§° */
+    /** ÕË»§×éÃû³Æ */
     displayName?: string | undefined;
-    /** æ˜¯å¦æ˜¯é»˜è®¤ç»„ */
+    /** ÊÇ·ñÊÇÄ¬ÈÏ×é */
     isDefault?: boolean | undefined;
 }
 
 export class UpdateAccountGroupDto implements IUpdateAccountGroupDto {
-    /** è´¦æˆ·ç»„åç§° */
+    /** ÕË»§×éÃû³Æ */
     displayName?: string | undefined;
-    /** æ˜¯å¦æ˜¯é»˜è®¤ç»„ */
+    /** ÊÇ·ñÊÇÄ¬ÈÏ×é */
     isDefault?: boolean | undefined;
 
     constructor(data?: IUpdateAccountGroupDto) {
@@ -2290,20 +2290,20 @@ export class UpdateAccountGroupDto implements IUpdateAccountGroupDto {
 }
 
 export interface IUpdateAccountGroupDto {
-    /** è´¦æˆ·ç»„åç§° */
+    /** ÕË»§×éÃû³Æ */
     displayName?: string | undefined;
-    /** æ˜¯å¦æ˜¯é»˜è®¤ç»„ */
+    /** ÊÇ·ñÊÇÄ¬ÈÏ×é */
     isDefault?: boolean | undefined;
 }
 
-/** ä½¿ç”¨ä¸­/æœªä½¿ç”¨/é€¾æœŸ */
+/** Ê¹ÓÃÖĞ/Î´Ê¹ÓÃ/ÓâÆÚ */
 export enum AppStatus {
     InUse = "InUse", 
     NotInUse = "NotInUse", 
     Overdue = "Overdue", 
 }
 
-/** æ ‡å‡†ç‰ˆ/å®šåˆ¶ç‰ˆ */
+/** ±ê×¼°æ/¶¨ÖÆ°æ */
 export enum AppEditionType {
     Standard = "Standard", 
     Customize = "Customize", 
@@ -2312,13 +2312,13 @@ export enum AppEditionType {
 export class AuthorizeTenantDto implements IAuthorizeTenantDto {
     tenantId?: number | undefined;
     appId?: number | undefined;
-    /** åŸºç¡€åŠŸèƒ½ */
+    /** »ù´¡¹¦ÄÜ */
     basic?: boolean | undefined;
-    /** åŸºç¡€åŠŸèƒ½é¢„æœŸæ—¶é—´ */
+    /** »ù´¡¹¦ÄÜÔ¤ÆÚÊ±¼ä */
     basicExpiryTime?: number | undefined;
-    /** ä»˜è´¹åŠŸèƒ½ */
+    /** ¸¶·Ñ¹¦ÄÜ */
     pay?: boolean | undefined;
-    /** ä»˜è´¹åŠŸèƒ½é¢„æœŸæ—¶é—´ */
+    /** ¸¶·Ñ¹¦ÄÜÔ¤ÆÚÊ±¼ä */
     payExpiryTime?: number | undefined;
 
     constructor(data?: IAuthorizeTenantDto) {
@@ -2363,13 +2363,13 @@ export class AuthorizeTenantDto implements IAuthorizeTenantDto {
 export interface IAuthorizeTenantDto {
     tenantId?: number | undefined;
     appId?: number | undefined;
-    /** åŸºç¡€åŠŸèƒ½ */
+    /** »ù´¡¹¦ÄÜ */
     basic?: boolean | undefined;
-    /** åŸºç¡€åŠŸèƒ½é¢„æœŸæ—¶é—´ */
+    /** »ù´¡¹¦ÄÜÔ¤ÆÚÊ±¼ä */
     basicExpiryTime?: number | undefined;
-    /** ä»˜è´¹åŠŸèƒ½ */
+    /** ¸¶·Ñ¹¦ÄÜ */
     pay?: boolean | undefined;
-    /** ä»˜è´¹åŠŸèƒ½é¢„æœŸæ—¶é—´ */
+    /** ¸¶·Ñ¹¦ÄÜÔ¤ÆÚÊ±¼ä */
     payExpiryTime?: number | undefined;
 }
 
@@ -2427,13 +2427,13 @@ export class AppDto implements IAppDto {
     appKey?: string | undefined;
     appEditionType?: AppEditionType | undefined;
     status?: AppStatus | undefined;
-    /** åŸºç¡€åŠŸèƒ½ */
+    /** »ù´¡¹¦ÄÜ */
     basic?: boolean | undefined;
-    /** åŸºç¡€åŠŸèƒ½é¢„æœŸæ—¶é—´ */
+    /** »ù´¡¹¦ÄÜÔ¤ÆÚÊ±¼ä */
     basicExpiryTime?: number | undefined;
-    /** ä»˜è´¹åŠŸèƒ½ */
+    /** ¸¶·Ñ¹¦ÄÜ */
     pay?: boolean | undefined;
-    /** ä»˜è´¹åŠŸèƒ½é¢„æœŸæ—¶é—´ */
+    /** ¸¶·Ñ¹¦ÄÜÔ¤ÆÚÊ±¼ä */
     payExpiryTime?: number | undefined;
 
     constructor(data?: IAppDto) {
@@ -2487,13 +2487,13 @@ export interface IAppDto {
     appKey?: string | undefined;
     appEditionType?: AppEditionType | undefined;
     status?: AppStatus | undefined;
-    /** åŸºç¡€åŠŸèƒ½ */
+    /** »ù´¡¹¦ÄÜ */
     basic?: boolean | undefined;
-    /** åŸºç¡€åŠŸèƒ½é¢„æœŸæ—¶é—´ */
+    /** »ù´¡¹¦ÄÜÔ¤ÆÚÊ±¼ä */
     basicExpiryTime?: number | undefined;
-    /** ä»˜è´¹åŠŸèƒ½ */
+    /** ¸¶·Ñ¹¦ÄÜ */
     pay?: boolean | undefined;
-    /** ä»˜è´¹åŠŸèƒ½é¢„æœŸæ—¶é—´ */
+    /** ¸¶·Ñ¹¦ÄÜÔ¤ÆÚÊ±¼ä */
     payExpiryTime?: number | undefined;
 }
 
@@ -2542,15 +2542,15 @@ export interface IListResultDtoOfAppDto {
 }
 
 export class TenantDto implements ITenantDto {
-    /** ç§Ÿæˆ·key */
+    /** ×â»§key */
     id?: number | undefined;
-    /** ç§Ÿæˆ·ç¼–å· */
+    /** ×â»§±àºÅ */
     code?: string | undefined;
-    /** ç§Ÿæˆ·åç§° */
+    /** ×â»§Ãû³Æ */
     displayName?: string | undefined;
-    /** ç§Ÿæˆ·è¿‡æœŸæ—¶é—´ */
+    /** ×â»§¹ıÆÚÊ±¼ä */
     expiryTime?: number | undefined;
-    /** æ˜¯å¦æ¿€æ´»ç§Ÿæˆ· */
+    /** ÊÇ·ñ¼¤»î×â»§ */
     isActive?: boolean | undefined;
 
     constructor(data?: ITenantDto) {
@@ -2591,33 +2591,33 @@ export class TenantDto implements ITenantDto {
 }
 
 export interface ITenantDto {
-    /** ç§Ÿæˆ·key */
+    /** ×â»§key */
     id?: number | undefined;
-    /** ç§Ÿæˆ·ç¼–å· */
+    /** ×â»§±àºÅ */
     code?: string | undefined;
-    /** ç§Ÿæˆ·åç§° */
+    /** ×â»§Ãû³Æ */
     displayName?: string | undefined;
-    /** ç§Ÿæˆ·è¿‡æœŸæ—¶é—´ */
+    /** ×â»§¹ıÆÚÊ±¼ä */
     expiryTime?: number | undefined;
-    /** æ˜¯å¦æ¿€æ´»ç§Ÿæˆ· */
+    /** ÊÇ·ñ¼¤»î×â»§ */
     isActive?: boolean | undefined;
 }
 
 export class CreateTenantDto implements ICreateTenantDto {
-    /** ç§Ÿæˆ·ç¼–å· */
+    /** ×â»§±àºÅ */
     code!: string;
-    /** ç§Ÿæˆ·åç§° */
+    /** ×â»§Ãû³Æ */
     displayName!: string;
-    /** ç§Ÿæˆ·æè¿° */
+    /** ×â»§ÃèÊö */
     desc?: string | undefined;
-    /** ç§Ÿæˆ·ç®¡ç†å‘˜é‚®ç®± */
+    /** ×â»§¹ÜÀíÔ±ÓÊÏä */
     adminEmail!: string;
     adminPassword!: string;
-    /** ä¸‹æ¬¡ç™»å½•æ—¶å¯†ç é‡ç½® */
+    /** ÏÂ´ÎµÇÂ¼Ê±ÃÜÂëÖØÖÃ */
     shouldChangePasswordOnNextLogin?: string | undefined;
-    /** æ˜¯å¦æ¿€æ´»ç§Ÿæˆ· */
+    /** ÊÇ·ñ¼¤»î×â»§ */
     isActive?: boolean | undefined;
-    /** ç§Ÿæˆ·è¿‡æœŸæ—¶é—´ */
+    /** ×â»§¹ıÆÚÊ±¼ä */
     expiryTime?: number | undefined;
 
     constructor(data?: ICreateTenantDto) {
@@ -2664,31 +2664,31 @@ export class CreateTenantDto implements ICreateTenantDto {
 }
 
 export interface ICreateTenantDto {
-    /** ç§Ÿæˆ·ç¼–å· */
+    /** ×â»§±àºÅ */
     code: string;
-    /** ç§Ÿæˆ·åç§° */
+    /** ×â»§Ãû³Æ */
     displayName: string;
-    /** ç§Ÿæˆ·æè¿° */
+    /** ×â»§ÃèÊö */
     desc?: string | undefined;
-    /** ç§Ÿæˆ·ç®¡ç†å‘˜é‚®ç®± */
+    /** ×â»§¹ÜÀíÔ±ÓÊÏä */
     adminEmail: string;
     adminPassword: string;
-    /** ä¸‹æ¬¡ç™»å½•æ—¶å¯†ç é‡ç½® */
+    /** ÏÂ´ÎµÇÂ¼Ê±ÃÜÂëÖØÖÃ */
     shouldChangePasswordOnNextLogin?: string | undefined;
-    /** æ˜¯å¦æ¿€æ´»ç§Ÿæˆ· */
+    /** ÊÇ·ñ¼¤»î×â»§ */
     isActive?: boolean | undefined;
-    /** ç§Ÿæˆ·è¿‡æœŸæ—¶é—´ */
+    /** ×â»§¹ıÆÚÊ±¼ä */
     expiryTime?: number | undefined;
 }
 
 export class UpdateTenantDto implements IUpdateTenantDto {
-    /** ç§Ÿæˆ·åç§° */
+    /** ×â»§Ãû³Æ */
     displayName?: string | undefined;
-    /** ç§Ÿæˆ·æè¿° */
+    /** ×â»§ÃèÊö */
     desc?: string | undefined;
-    /** æ˜¯å¦æ¿€æ´»ç§Ÿæˆ· */
+    /** ÊÇ·ñ¼¤»î×â»§ */
     isActive!: boolean;
-    /** ç§Ÿæˆ·è¿‡æœŸæ—¶é—´ */
+    /** ×â»§¹ıÆÚÊ±¼ä */
     expiryTime?: number | undefined;
 
     constructor(data?: IUpdateTenantDto) {
@@ -2727,13 +2727,13 @@ export class UpdateTenantDto implements IUpdateTenantDto {
 }
 
 export interface IUpdateTenantDto {
-    /** ç§Ÿæˆ·åç§° */
+    /** ×â»§Ãû³Æ */
     displayName?: string | undefined;
-    /** ç§Ÿæˆ·æè¿° */
+    /** ×â»§ÃèÊö */
     desc?: string | undefined;
-    /** æ˜¯å¦æ¿€æ´»ç§Ÿæˆ· */
+    /** ÊÇ·ñ¼¤»î×â»§ */
     isActive: boolean;
-    /** ç§Ÿæˆ·è¿‡æœŸæ—¶é—´ */
+    /** ×â»§¹ıÆÚÊ±¼ä */
     expiryTime?: number | undefined;
 }
 
@@ -2790,9 +2790,9 @@ export class TenantListDto implements ITenantListDto {
     code?: string | undefined;
     name?: string | undefined;
     isActive?: boolean | undefined;
-    /** åˆ›å»ºæ—¶é—´ */
+    /** ´´½¨Ê±¼ä */
     createTime?: number | undefined;
-    /** è¿‡æœŸæ—¶é—´ */
+    /** ¹ıÆÚÊ±¼ä */
     expiryTime?: number | undefined;
 
     constructor(data?: ITenantListDto) {
@@ -2839,9 +2839,9 @@ export interface ITenantListDto {
     code?: string | undefined;
     name?: string | undefined;
     isActive?: boolean | undefined;
-    /** åˆ›å»ºæ—¶é—´ */
+    /** ´´½¨Ê±¼ä */
     createTime?: number | undefined;
-    /** è¿‡æœŸæ—¶é—´ */
+    /** ¹ıÆÚÊ±¼ä */
     expiryTime?: number | undefined;
 }
 
@@ -2910,13 +2910,13 @@ export interface IFilterTenantsDto {
 }
 
 export class AuthenticateResultModel implements IAuthenticateResultModel {
-    /** æˆæƒToken */
+    /** ÊÚÈ¨Token */
     accessToken?: string | undefined;
-    /** æœ‰æ•ˆæ—¶é•¿ */
+    /** ÓĞĞ§Ê±³¤ */
     expireInSeconds?: number | undefined;
-    /** æ˜¯å¦éœ€è¦é‡ç½®å¯†ç  */
+    /** ÊÇ·ñĞèÒªÖØÖÃÃÜÂë */
     shouldResetPassword?: boolean | undefined;
-    /** å¦‚æœéœ€è¦é‡ç½®å¯†ç ï¼Œç”ŸæˆResetCodeåè¿”å›å‰ç«¯ */
+    /** Èç¹ûĞèÒªÖØÖÃÃÜÂë£¬Éú³ÉResetCodeºó·µ»ØÇ°¶Ë */
     passwordResetCode?: string | undefined;
     userId?: number | undefined;
     returnUrl?: string | undefined;
@@ -2961,24 +2961,24 @@ export class AuthenticateResultModel implements IAuthenticateResultModel {
 }
 
 export interface IAuthenticateResultModel {
-    /** æˆæƒToken */
+    /** ÊÚÈ¨Token */
     accessToken?: string | undefined;
-    /** æœ‰æ•ˆæ—¶é•¿ */
+    /** ÓĞĞ§Ê±³¤ */
     expireInSeconds?: number | undefined;
-    /** æ˜¯å¦éœ€è¦é‡ç½®å¯†ç  */
+    /** ÊÇ·ñĞèÒªÖØÖÃÃÜÂë */
     shouldResetPassword?: boolean | undefined;
-    /** å¦‚æœéœ€è¦é‡ç½®å¯†ç ï¼Œç”ŸæˆResetCodeåè¿”å›å‰ç«¯ */
+    /** Èç¹ûĞèÒªÖØÖÃÃÜÂë£¬Éú³ÉResetCodeºó·µ»ØÇ°¶Ë */
     passwordResetCode?: string | undefined;
     userId?: number | undefined;
     returnUrl?: string | undefined;
 }
 
 export class AuthenticateModel implements IAuthenticateModel {
-    /** ç”¨æˆ·å */
+    /** ÓÃ»§Ãû */
     userName!: string;
     password!: string;
     rememberClient?: boolean | undefined;
-    /** æœªç™»å½•æ—¶è®¿é—®çš„é¡µé¢ï¼Œç™»å½•åéœ€è¦é‡å®šå‘ */
+    /** Î´µÇÂ¼Ê±·ÃÎÊµÄÒ³Ãæ£¬µÇÂ¼ºóĞèÒªÖØ¶¨Ïò */
     returnUrl?: string | undefined;
 
     constructor(data?: IAuthenticateModel) {
@@ -3017,11 +3017,11 @@ export class AuthenticateModel implements IAuthenticateModel {
 }
 
 export interface IAuthenticateModel {
-    /** ç”¨æˆ·å */
+    /** ÓÃ»§Ãû */
     userName: string;
     password: string;
     rememberClient?: boolean | undefined;
-    /** æœªç™»å½•æ—¶è®¿é—®çš„é¡µé¢ï¼Œç™»å½•åéœ€è¦é‡å®šå‘ */
+    /** Î´µÇÂ¼Ê±·ÃÎÊµÄÒ³Ãæ£¬µÇÂ¼ºóĞèÒªÖØ¶¨Ïò */
     returnUrl?: string | undefined;
 }
 
