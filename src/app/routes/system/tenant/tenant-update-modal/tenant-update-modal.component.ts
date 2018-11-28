@@ -24,6 +24,7 @@ export class TenantUpdateModalComponent implements OnInit {
  
   saving = false;
   tenant: UpdateTenantDto;
+  tenantId:number；
 
   constructor(private fb: FormBuilder,
     private tenantServiceProxy: TenantServiceProxy) {
@@ -40,6 +41,7 @@ export class TenantUpdateModalComponent implements OnInit {
   }
 
   show(id:number) {
+    this.tenantId = id;
     this.tenantServiceProxy.get(id)
     .subscribe(re=>{
       this.tenant = re as UpdateTenantDto;
@@ -47,7 +49,7 @@ export class TenantUpdateModalComponent implements OnInit {
     })
   }
   save() {
-    this.tenantServiceProxy.update(0,this.tenant)
+    this.tenantServiceProxy.update(this.tenantId,this.tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
         this.modal.close();

@@ -4,7 +4,7 @@ import {
   FormControl,
   FormGroup
 } from '@angular/forms';
-import { TenantServiceProxy,FilterTenantsDto} from '@serviceProxies/service-proxies';
+import { TenantServiceProxy,FilterTenantsDto,TenantListDto,UpdateTenantDto} from '@serviceProxies/service-proxies';
 import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
 import { TenantUpdateModalComponent } from './tenant-update-modal/tenant-update-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
@@ -65,16 +65,15 @@ export class TenantComponent implements OnInit {
   toggleCollapse(): void {
     this.isCollapse = !this.isCollapse;
   }
-  handleDelete() : void {
-    this.modalService.confirm({
-      nzTitle  : '<i>回收租户</i>',
-      nzContent: '<b>该操作将清空该租户及所有内容，此操作不可逆，确认回收?</b>',
-      nzOkText:'回收',
-      nzOkType:'danger',
-      nzOnOk   : () => console.log('OK')
-    });
-  }
   handleSearch(){
     this.getTenants(this.filterTenants);
+  }
+  handelTenantStop(tenant:TenantListDto){
+    tenant.isActive = !tenant.isActive;
+    this._tenantService
+    .update(tenant.id,tenant as UpdateTenantDto)
+    .subscribe(()=>{
+      this.getTenants(this.filterTenants);
+    })
   }
 }

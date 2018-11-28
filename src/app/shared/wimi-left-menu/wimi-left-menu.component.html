@@ -1,18 +1,20 @@
 <div class="menu" *ngFor="let item of menu" key="item.id" 
 [ngClass]="item.id == select?'menu-select':''" (click)="handleMenuClick(item)">
   <div class="menu-left">
-    <div class="menu-left-title">{{item.displayName}} <nz-tag *ngIf="item.default" [nzColor]="'blue'">默认</nz-tag></div>
+    <div class="menu-left-title">{{item.displayName}} <nz-tag *ngIf="item.isDefault" [nzColor]="'blue'">默认</nz-tag></div>
     <div class="menu-left-subtitle">{{item.isStatic?'系统分组':'自定义分组'}}</div>
   </div>
   <div>
   <nz-dropdown>
     <a class="tool" nz-dropdown style="font-size: 12px;">
-      {{item.operate.text}}
+      操作
       <i nz-icon type="down"></i>
     </a>
     <ul nz-menu nzSelectable>
-      <li nz-menu-item *ngFor="let opt of item.operate.menu">
-        <a (click)="handelOperateClick(item,opt)">{{opt}}</a>
+      <li nz-menu-item>
+        <a (click)="handelOperateClick(item)">重命名</a>
+        <a (click)="handelOperateClick(item)" *ngIf="!item.isStatic">删除</a>
+        <a (click)="handelOperateClick(item)" *ngIf="!item.isDefault">设为默认</a>
       </li>
     </ul>
   </nz-dropdown>

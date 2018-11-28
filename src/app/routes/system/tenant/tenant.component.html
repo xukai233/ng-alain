@@ -57,9 +57,8 @@
         <td>
           <a (click)="handleUpdateTenant(data.id)">修改</a>
           <nz-divider nzType="vertical"></nz-divider>
-          <a (click)="handleDelete()">回收</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a nz-popconfirm nzTitle="确定停用该租户?">停用</a>
+          <a *ngIf="data.isActive" nz-popconfirm nzTitle="确定停用该租户?" (nzOnConfirm)="handelTenantStop(data)">停用</a>
+          <a *ngIf="!data.isActive" nz-popconfirm nzTitle="确定启用该租户?" (nzOnConfirm)="handelTenantStop(data)">启用</a>
         </td>
       </tr>
     </tbody>

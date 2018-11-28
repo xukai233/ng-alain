@@ -3136,6 +3136,7 @@ export interface IAuthenticateResultModel {
 
 export class AuthenticateModel implements IAuthenticateModel {
     /** 用户名 */
+    tenantCode!:string;
     userName!: string;
     password!: string;
     rememberClient?: boolean | undefined;
@@ -3155,6 +3156,7 @@ export class AuthenticateModel implements IAuthenticateModel {
         if (data) {
             this.userName = data["userName"];
             this.password = data["password"];
+            this.tenantCode = data["tenantCode"];
             this.rememberClient = data["rememberClient"];
             this.returnUrl = data["returnUrl"];
         }
@@ -3171,6 +3173,7 @@ export class AuthenticateModel implements IAuthenticateModel {
         data = typeof data === 'object' ? data : {};
         data["userName"] = this.userName;
         data["password"] = this.password;
+        data["tenantCode"] = this.tenantCode;
         data["rememberClient"] = this.rememberClient;
         data["returnUrl"] = this.returnUrl;
         return data; 
@@ -3181,6 +3184,7 @@ export interface IAuthenticateModel {
     /** 用户名 */
     userName: string;
     password: string;
+    tenantCode:string;
     rememberClient?: boolean | undefined;
     /** 未登录时访问的页面，登录后需要重定向 */
     returnUrl?: string | undefined;

@@ -5,7 +5,7 @@
   <wimi-tab name="top-right" [tabs]="tabs" [(select)]="selectTab" (onSelect)="handleTabSelect($event)"></wimi-tab>
   <button name="top-right" name="toolbar" nz-button nzType="primary" (click)="handleAddClick()"><i nz-icon type="plus"></i>新建账号</button>
 
-  <wimi-left-menu name="content-left" [menu]="leftMenu" select="1" 
+  <wimi-left-menu name="content-left" [menu]="leftMenu" [select]="userGroupId" 
     (onSelect)="handleLeftSelect($event)" 
     (onOperateClick)="handleOperateClick($event)">
   </wimi-left-menu>

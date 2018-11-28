@@ -29,44 +29,6 @@ export class UserComponent implements OnInit {
   selectTab = "平台账号"
   userGroupId = 0
   leftMenu = [
-    {
-      "id":0,
-      "displayName":"系统管理员",
-      "isStatic":true,
-      "default":false,
-      "operate":this.operate
-    },
-    {
-      "id":1,
-      "displayName":"普通成员",
-      "isStatic":true,
-      "default":true,
-      "operate":{
-        "text":"操作",
-        "menu":["重命名","删除"]
-      }
-    },
-    {
-      "id":2,
-      "displayName":"计划员",
-      "isStatic":false,
-      "default":false,
-      "operate":this.operate
-    },
-    {
-      "id":3,
-      "displayName":"操作工",
-      "isStatic":false,
-      "default":false,
-      "operate":this.operate
-    },
-    {
-      "id":4,
-      "displayName":"车间主任",
-      "isStatic":false,
-      "default":false,
-      "operate":this.operate
-    }
   ]
   @ViewChild('createUserModal') createUserModal: UserCreateModalComponent;
   modalIsVisible = false;
@@ -92,10 +54,11 @@ export class UserComponent implements OnInit {
 
   getAccountGroup(){
     this.accountGroupServiceProxy
-    .all()
+    .list()
     .subscribe(re=>{
-      this.router.navigate([`/system/user/account`,1]);
-      this.userGroupId = 1;
+      this.leftMenu = re.items;
+      this.router.navigate([`/system/user/account`,this.leftMenu[0].id]);
+      this.userGroupId = this.leftMenu[0].id;
     })
   }
 
