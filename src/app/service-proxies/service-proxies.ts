@@ -2775,7 +2775,7 @@ export class CreateTenantDto implements ICreateTenantDto {
     adminEmail!: string;
     adminPassword!: string;
     /** 下次登录时密码重置 */
-    shouldChangePasswordOnNextLogin?: string | undefined;
+    shouldChangePasswordOnNextLogin?: boolean | undefined;
     /** 是否激活租户 */
     isActive?: boolean | undefined;
     /** 租户过期时间 */
@@ -2835,7 +2835,7 @@ export interface ICreateTenantDto {
     adminEmail: string;
     adminPassword: string;
     /** 下次登录时密码重置 */
-    shouldChangePasswordOnNextLogin?: string | undefined;
+    shouldChangePasswordOnNextLogin?: boolean | undefined;
     /** 是否激活租户 */
     isActive?: boolean | undefined;
     /** 租户过期时间 */

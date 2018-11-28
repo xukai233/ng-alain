@@ -20,11 +20,11 @@ export class TenantUpdateModalComponent implements OnInit {
 
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
-  createTenantForm: FormGroup;
+  updateTenantForm: FormGroup;
  
   saving = false;
   tenant: UpdateTenantDto;
-  tenantId:number；
+  tenantId:number;
 
   constructor(private fb: FormBuilder,
     private tenantServiceProxy: TenantServiceProxy) {
@@ -32,9 +32,9 @@ export class TenantUpdateModalComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.createTenantForm = this.fb.group({
-      tenantCode : [null, []],
-      tenantName : [null, []],
+    this.updateTenantForm = this.fb.group({
+      desc : [null, []],
+      displayName : [null, [Validators.required]],
       expiryTime : [null, []],
       isActive : [true, []] 
     });
@@ -49,14 +49,23 @@ export class TenantUpdateModalComponent implements OnInit {
     })
   }
   save() {
+    for (const i in this.updateTenantForm.controls) {
+      this.updateTenantForm.controls[i].markAsDirty();
+      this.updateTenantForm.controls[i].updateValueAndValidity();
+    }
+    if (this.updateTenantForm.invalid) {
+      return;
+    }
     this.tenantServiceProxy.update(this.tenantId,this.tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
         this.modal.close();
+        this.updateTenantForm.reset();
         this.modalSave.emit(null);
       });
   }
   cancel() {
     this.modal.close();
+    this.updateTenantForm.reset();
   }
 }

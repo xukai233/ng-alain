@@ -24,6 +24,7 @@ export class CreateTenantModalComponent implements OnInit {
  
   saving = false;
   tenant: CreateTenantDto;
+  setRandomPassword =false;
 
   constructor(private fb: FormBuilder,
     private _tenantService: TenantServiceProxy) {
@@ -31,46 +32,66 @@ export class CreateTenantModalComponent implements OnInit {
      }
 
   ngOnInit() {
-
     this.createTenantForm = this.fb.group({
-      tenantCode : [null, []],
-      tenantName : [null, []],
+      tenantCode : [null, [Validators.required]],
+      tenantName : [null, [Validators.required]],
       tenantDesc : [null, []],
-      adminEmail : [null, []],
-      adminPassword : [null, []],
-      passwordCheck : [null, []],
-      setRandomPassword : [null, []],
+      adminEmail : [null, [Validators.email,Validators.required]],
+      adminPassword : [null, [Validators.required]],
+      passwordCheck : [null, [Validators.required,this.confirmationValidator]],
+      setRandomPassword : [null, [Validators.required]],
       expiryTime : [null, []],
-      shouldChangePasswordOnNextLogin : [true, []],
-      isActive : [true, []] 
+      shouldChangePasswordOnNextLogin : [null, []],
+      isActive : [null, []] 
     });
   }
+
+  confirmationValidator = (control: FormControl): { [ s: string ]: boolean } => {
+    if (!control.value) {
+      return { required: true };
+    } else if (control.value !== this.createTenantForm.controls.adminPassword.value) {
+      return { confirm: true, error: true };
+    }
+  };
 
   show() {
     this.init();
     this.modal.open();
   }
   save() {
-
-    console.dir(this.tenant);
-
+    for (const i in this.createTenantForm.controls) {
+      this.createTenantForm.controls[i].markAsDirty();
+      this.createTenantForm.controls[i].updateValueAndValidity();
+    }
+    if (this.createTenantForm.invalid) {
+      return;
+    }
     this._tenantService.add(this.tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
         this.modal.close();
+        this.createTenantForm.reset();
         this.modalSave.emit(null);
       });
   }
 
   cancel() {
     this.modal.close();
+    this.createTenantForm.reset();
   }
 
   init(): void {
     this.tenant = new CreateTenantDto();
+    this.setRandomPassword = false;
+    this.tenant.isActive = true;
+    this.tenant.shouldChangePasswordOnNextLogin = true;
   }
 
   onShown(): void {
     document.getElementById('tenantCode').focus();
+  }
+
+  handleRandomPassword(): void {
+    this.setRandomPassword = this.createTenantForm.controls.setRandomPassword.value;
   }
 }

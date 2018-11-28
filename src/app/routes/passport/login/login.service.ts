@@ -4,6 +4,7 @@ import { AuthenticateModel, AuthenticateResultModel, PassportServiceProxy } from
 import { finalize } from 'rxjs/operators';
 import { ReuseTabService } from '@delon/abc';
 import { Router } from '@angular/router';
+
 import {
   SocialService,
   SocialOpenType,
