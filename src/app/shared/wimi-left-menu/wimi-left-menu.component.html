@@ -7,14 +7,17 @@
   <div>
   <nz-dropdown>
     <a class="tool" nz-dropdown style="font-size: 12px;">
-      操作
       <i nz-icon type="down"></i>
     </a>
     <ul nz-menu nzSelectable>
       <li nz-menu-item>
-        <a (click)="handelOperateClick(item)">重命名</a>
-        <a (click)="handelOperateClick(item)" *ngIf="!item.isStatic">删除</a>
-        <a (click)="handelOperateClick(item)" *ngIf="!item.isDefault">设为默认</a>
+        <a (click)="handleChangeName(item)">重命名</a>
+      </li>
+      <li nz-menu-item *ngIf="!item.isStatic" >
+        <a (click)="handleDelete(item)">删除</a>
+      </li>
+      <li nz-menu-item *ngIf="!item.isDefault" >
+        <a (click)="handleSetDefault(item)">设为默认</a>
       </li>
     </ul>
   </nz-dropdown>

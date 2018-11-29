@@ -1,0 +1,40 @@
+<nz-modal nzWidth="680" #updateModal nzTitle="修改账号" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" >
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="handleSubmit()">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userCode">名称</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="userName" placeholder="请输入名称" [(ngModel)]="account.displayName">
+        <nz-form-explain *ngIf="validateForm.get('userName').dirty && validateForm.get('userName').errors">请输入名称</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">邮箱</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="email" placeholder="请输入邮箱" [(ngModel)]="account.email">
+        <nz-form-explain *ngIf="validateForm.get('email').dirty && validateForm.get('email').errors">请输入邮箱</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row style="margin-bottom:8px;">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <label nz-checkbox formControlName="active" [(ngModel)]="account.isActive">
+          <span>启用账号</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userGroup">用户组</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="accountGourps" [(ngModel)]="account.accountGourps">
+          <label nz-radio nzValue="A">系统管理员</label>
+          <label nz-radio nzValue="B">普通成员</label>
+          <label nz-radio nzValue="C">计划员</label>
+          <label nz-radio nzValue="D">线班长</label>
+          <label nz-radio nzValue="E">操作工</label>
+          <label nz-radio nzValue="D">车间主任</label>
+          <label nz-radio nzValue="D">自定义</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

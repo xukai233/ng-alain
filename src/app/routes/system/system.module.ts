@@ -15,6 +15,7 @@ import { AppAuthComponent } from './app-auth/app-auth.component';
 import { TenantUpdateModalComponent } from './tenant/tenant-update-modal/tenant-update-modal.component';
 import { AppListComponent } from './app-list/app-list.component';
 import { UserCreateModalComponent } from './user/user-create-modal/user-create-modal.component';
+import { UserUpdateModalComponent } from './user/user-update-modal/user-update-modal.component';
 
 @NgModule({
   imports: [SharedModule, SystemRoutingModule],
@@ -29,7 +30,8 @@ import { UserCreateModalComponent } from './user/user-create-modal/user-create-m
     AppAuthComponent,
     TenantUpdateModalComponent,
     AppListComponent,
-    UserCreateModalComponent
+    UserCreateModalComponent,
+    UserUpdateModalComponent
   ],
   providers: [],
 })

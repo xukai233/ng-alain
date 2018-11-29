@@ -7,14 +7,18 @@
 
   <wimi-left-menu name="content-left" [menu]="leftMenu" [select]="userGroupId" 
     (onSelect)="handleLeftSelect($event)" 
-    (onOperateClick)="handleOperateClick($event)">
+    (onChangeName)="handleChangeName($event)"
+    (onDelete)="handleAccountGroupDelete($event)">
+
   </wimi-left-menu>
   <div style="padding: 12px;" name="content-left">
-    <div class="add-new-group">
+    <div *ngIf="!showNewAccountGroup" class="add-new-group" (click)="handleShowCreateAccountGroup()">
       <i nz-icon type="plus" theme="outline"></i>
       新建分组
     </div>
-    <input  nz-input placeholder="请输入用户组名称">
+    <input *ngIf="showNewAccountGroup" [(ngModel)]="accountGroupName" nz-input placeholder="请输入用户组名称" 
+    (keyup)="($event.which === 13)?handleCreateAccountGroup(accountGroupName):0">
+    <button style="margin-top: 12px" *ngIf="showNewAccountGroup" (click)="handleCancle()" nzBlock nz-button nzType="default">取消</button>
   </div>
 
   <div name="content-right">

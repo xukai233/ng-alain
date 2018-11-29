@@ -9,7 +9,9 @@ export class WimiLeftMenuComponent implements OnInit {
   @Input() menu;
   @Input() select:number|string;
   @Output() onSelect = new EventEmitter<any>();
-  @Output() onOperateClick = new EventEmitter<any>();
+  @Output() onChangeName = new EventEmitter<any>();
+  @Output() onDelete = new EventEmitter<any>();
+  @Output() onSetDefault = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit() {
@@ -19,8 +21,13 @@ export class WimiLeftMenuComponent implements OnInit {
     this.onSelect.emit(menu);
   }
 
-  handelOperateClick(item,val){
-    item.operateClick = val;
-    this.onOperateClick.emit(item);
+  handleChangeName(item){
+    this.onChangeName.emit(item);
+  }
+  handleDelete(item){
+    this.onDelete.emit(item);
+  }
+  handleSetDefault(item){
+    this.onSetDefault.emit(item);
   }
 }
