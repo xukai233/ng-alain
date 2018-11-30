@@ -34,9 +34,12 @@
         <nz-range-picker [nzStyle]="rangePickerStyle" nzShowTime [(ngModel)]="filterTenants.createDateStart"></nz-range-picker>
       </wimi-form-item>
     </div>
-    <div nz-col nzSpan="4"><button nz-button nzType="primary" nzSearch>查询</button></div>
+    <div nz-col nzSpan="4"><button nz-button nzType="primary" (click)="handleSearch()" [nzLoading]="isLoading" nzSearch>查询</button></div>
   </div>
-  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading">
+  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading" [nzFrontPagination]="false" [nzTotal]="totalCount" nzNoResult="暂无数据"
+  (nzPageSizeChange)="handlePageSizeChange()"
+  (nzPageIndexChange)="handleIndexChange()"
+  >
     <thead>
       <tr>
         <th>租户编号</th>
@@ -52,8 +55,11 @@
         <td>{{data.code}}</td>
         <td>{{data.name}}</td>
         <td>{{data.expiryTime}}</td>
-        <td><nz-badge nzStatus="success" [nzText]="data.isActive"></nz-badge></td>
-        <td>{{data.createTime}}</td>
+        <td>
+          <nz-badge *ngIf="data.isActive" nzStatus="success" nzText="已启用"></nz-badge>
+          <nz-badge *ngIf="!data.isActive" nzStatus="error" nzText="已停用"></nz-badge>
+        </td>
+        <td>{{data.createTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>
           <a (click)="handleUpdateTenant(data.id)">修改</a>
           <nz-divider nzType="vertical"></nz-divider>

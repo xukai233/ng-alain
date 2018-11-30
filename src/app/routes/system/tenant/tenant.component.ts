@@ -22,6 +22,7 @@ export class TenantComponent implements OnInit {
 
   dataSet = [];
   isLoading = true;
+  totalCount = 0;
 
   filters: {
     filterText: string;
@@ -43,6 +44,8 @@ export class TenantComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.filterTenants.pageSize = 10;
+    this.filterTenants.pageIndex = 1;
     this.getTenants(this.filterTenants);
   }
 
@@ -51,8 +54,19 @@ export class TenantComponent implements OnInit {
     this._tenantService.list(filterTenants)
     .subscribe(result => {
       this.dataSet = result.items;
+      this.totalCount = result.totalCount;
       this.isLoading = false;
     });
+  }
+
+  handlePageSizeChange(num:number){
+    this.filterTenants.pageIndex = 1;
+    this.filterTenants.pageSize = num;
+    this.getTenants(this.filterTenants);
+  }
+  handleIndexChange(num:number){
+    this.filterTenants.pageIndex = num;
+    this.getTenants(this.filterTenants);
   }
 
   createTenant(): void {

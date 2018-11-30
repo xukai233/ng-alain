@@ -16,7 +16,7 @@
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="expiryTime">订阅日期</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-radio-group formControlName="expiryTime">
+        <nz-radio-group formControlName="expiryTime" [(ngModel)]="expiryTimeType">
           <label nz-radio nzValue="A">无期限</label>
           <label nz-radio nzValue="B">
             <nz-date-picker></nz-date-picker>

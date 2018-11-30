@@ -31,11 +31,9 @@ export class PassportServiceProxy {
      */
     authenticate(authenticateModel: AuthenticateModel | null | undefined): Observable<AuthenticateResultModel> {
         let url_ = this.baseUrl + "/passport/authenticate";
-        //url_ = "http://192.168.1.120:8001/api-v1/passport/authenticate";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(authenticateModel);
-        console.log(content_)
         let options_ : any = {
             body: content_,
             observe: "response",

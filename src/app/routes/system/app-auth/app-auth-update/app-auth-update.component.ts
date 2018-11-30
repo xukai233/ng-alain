@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { AppServiceProxy} from '@serviceProxies/service-proxies';
+import { AppServiceProxy,AppDto} from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -16,6 +16,7 @@ import {
 export class AppAuthUpdateComponent implements OnInit {
   @ViewChild('updateModal') modal: NzModalRef;
   validateForm: FormGroup;
+  appForm:AppDto;
   constructor(
     private fb: FormBuilder,
   ) { 
@@ -25,6 +26,7 @@ export class AppAuthUpdateComponent implements OnInit {
       payControl       : [ null, [ Validators.required ] ],
       payControlDate       : [ null, [ Validators.required ] ],
     });
+    this.appForm = new AppDto();
   }
 
   ngOnInit() {
@@ -32,7 +34,9 @@ export class AppAuthUpdateComponent implements OnInit {
   handleCancel(){
     this.modal.close();
   }
-  show(){
+  show(data:AppDto){
+    this.appForm = data;
+    console.log(data);
     this.modal.open();
   }
 

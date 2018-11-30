@@ -23,9 +23,9 @@ export class LoginService {
     private router: Router,
   ) 
   { 
-    this.authenticateModel.tenantCode = "wimi"
-    this.authenticateModel.userName = "langwenda"
-    this.authenticateModel.password = "123456"
+    this.authenticateModel.tenantCode = " "
+    this.authenticateModel.userName = "admin"
+    this.authenticateModel.password = "123qwe"
   }
   
   // 登陆

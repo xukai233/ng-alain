@@ -1,10 +1,10 @@
-<nz-modal #updateModal [nzTitle]="123" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" >
+<nz-modal #updateModal nzTitle="修改授权" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" >
   <form nz-form [formGroup]="validateForm" (ngSubmit)="handleSubmit()">
 
     <nz-form-item nz-row style="margin-bottom:8px;">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="baseControl">基础功能</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <label nz-checkbox formControlName="baseControl">
+        <label nz-checkbox formControlName="baseControl" [(ngModel)]="appForm.basic">
           <span>授权</span>
         </label>
       </nz-form-control>
@@ -25,7 +25,7 @@
     <nz-form-item nz-row style="margin-bottom:8px;">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="payControl">付费功能</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <label nz-checkbox formControlName="payControl">
+        <label nz-checkbox formControlName="payControl" [(ngModel)]="appForm.pay">
           <span>授权</span>
         </label>
       </nz-form-control>

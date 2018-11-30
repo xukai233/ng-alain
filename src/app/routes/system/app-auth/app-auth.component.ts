@@ -1,5 +1,5 @@
 import { Component, OnInit,ViewChild} from '@angular/core';
-import { TenantServiceProxy,FilterTenantsDto,AppServiceProxy} from '@serviceProxies/service-proxies';
+import { TenantServiceProxy,FilterTenantsDto,AppDto,AppServiceProxy} from '@serviceProxies/service-proxies';
 import {AppAuthCreateComponent} from './app-auth-create/app-auth-create.component'
 import {AppAuthUpdateComponent} from './app-auth-update/app-auth-update.component'
 import {
@@ -55,14 +55,18 @@ export class AppAuthComponent implements OnInit {
       this.selectItem = this.dataSet[0].id;
       this.selectTenantName = this.dataSet[0].name
       this.tableLoading = false;
-      this.getAppList();
+      this.getAppList(this.selectItem);
     });
   }
 
-  getAppList(){
+  /**
+   * 列出特定租户下的所有App
+   * @param tenantId 需要获得App的租户Id
+   */
+  getAppList(tenantID:number){
     this.appLoading = true;
     this._appServiceProxy
-    .findByTenant(this.selectItem)
+    .findByTenant(tenantID)
     .subscribe(re=>{
       this.appDatas = re.apps;
       this.appLoading = false;
@@ -75,18 +79,17 @@ export class AppAuthComponent implements OnInit {
   handleTrClick(data){
     this.selectItem = data.id;
     this.selectTenantName = data.name
-    this.getAppList();
+    this.getAppList(this.selectItem);
   }
 
   handleEditSubmit(){
 
   }
-  handleAppEdit(data){
-    this.updateAppAuth.show();
+  handleAppEdit(data:AppDto){
+    this.updateAppAuth.show(data);
   }
 
   handleSearch(){
-    console.log(this.filterTenantsDto)
     this.getTenants(this.filterTenantsDto);
   }
 }

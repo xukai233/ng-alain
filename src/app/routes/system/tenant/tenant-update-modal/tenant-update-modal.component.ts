@@ -25,6 +25,7 @@ export class TenantUpdateModalComponent implements OnInit {
   saving = false;
   tenant: UpdateTenantDto;
   tenantId:number;
+  expiryTimeType = "A";
 
   constructor(private fb: FormBuilder,
     private tenantServiceProxy: TenantServiceProxy) {
@@ -45,6 +46,8 @@ export class TenantUpdateModalComponent implements OnInit {
     this.tenantServiceProxy.get(id)
     .subscribe(re=>{
       this.tenant = re as UpdateTenantDto;
+      this.expiryTimeType = this.tenant.expiryTime === 1000 ? "A":"B";
+      console.log(this.tenant)
       this.modal.open();
     })
   }
