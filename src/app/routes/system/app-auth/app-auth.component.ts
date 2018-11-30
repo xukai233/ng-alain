@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
 import { TenantServiceProxy,FilterTenantsDto,AppServiceProxy} from '@serviceProxies/service-proxies';
+import {AppAuthCreateComponent} from './app-auth-create/app-auth-create.component'
+import {AppAuthUpdateComponent} from './app-auth-update/app-auth-update.component'
 import {
   FormBuilder,
   FormControl,
@@ -22,34 +24,18 @@ export class AppAuthComponent implements OnInit {
 
   appDatas = [];
 
-  treeNodes= [ {
-    title   : '分类1',
-    selectable:false,
-    children: [ 
-      {
-        title   : 'CPS-DNC',
-        key     : '1001',
-        isLeaf : true
-      }, 
-      {
-        title   : 'CPS-MDC',
-        key     : '1002',
-        isLeaf:true
-      }]
-    }];
+
   tableLoading = true;
   appLoading = true;
   selectItem:number
   appDataIndex = 1;
-  editModalIsVisible = false;
-  newModalIsVisible = false;
   selectTenantName = "";
   form={
     title:""
   }
   filterTenantsDto:FilterTenantsDto
-  validateForm: FormGroup;
-  appAuthForm:FormGroup;
+  @ViewChild('createAppAuth') createAppAuth: AppAuthCreateComponent;
+  @ViewChild('updateAppAuth') updateAppAuth: AppAuthUpdateComponent;
   constructor(
     private fb: FormBuilder,
     private _tenantService: TenantServiceProxy,
@@ -57,18 +43,6 @@ export class AppAuthComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.validateForm = this.fb.group({
-      baseControl       : [ null, [ Validators.required ] ],
-      baseControlDate       : [ null, [ Validators.required ] ],
-      payControl       : [ null, [ Validators.required ] ],
-      payControlDate       : [ null, [ Validators.required ] ],
-    });
-    this.appAuthForm = this.fb.group({
-      baseControl       : [ null, [ Validators.required ] ],
-      baseControlDate       : [ null, [ Validators.required ] ],
-      payControl       : [ null, [ Validators.required ] ],
-      payControlDate       : [ null, [ Validators.required ] ],
-    });
     this.filterTenantsDto = new FilterTenantsDto()
     this.getTenants(this.filterTenantsDto);
   }
@@ -96,27 +70,21 @@ export class AppAuthComponent implements OnInit {
   }
 
   handleAppAuth(){
-    this.newModalIsVisible = true;
-  }
-  handleNewCancel(){
-    this.newModalIsVisible = false;
+    this.createAppAuth.show();
   }
   handleTrClick(data){
     this.selectItem = data.id;
     this.selectTenantName = data.name
     this.getAppList();
   }
-  handleAppEdit(data){
-    this.editModalIsVisible = true;
-    this.form.title = data.title + "授权";
-    console.log(data)
-  }
-  handleEditCancel(){
-    this.editModalIsVisible = false;
-  }
+
   handleEditSubmit(){
 
   }
+  handleAppEdit(data){
+    this.updateAppAuth.show();
+  }
+
   handleSearch(){
     console.log(this.filterTenantsDto)
     this.getTenants(this.filterTenantsDto);

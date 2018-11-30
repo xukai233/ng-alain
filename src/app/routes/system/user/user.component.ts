@@ -1,6 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router,ActivatedRoute,Params} from '@angular/router';
-import { AccountGroupDto,AccountGroupServiceProxy,AccountServiceProxy,CreateAccountGroupDto,UpdateAccountGroupDto} from '@serviceProxies/service-proxies';
+import { AccountGroupDto,AccountGroupServiceProxy,
+  AccountServiceProxy,CreateAccountGroupDto,UpdateAccountGroupDto} from '@serviceProxies/service-proxies';
 import {UserCreateModalComponent} from './user-create-modal/user-create-modal.component'
 import { NzMessageService,NzModalService } from 'ng-zorro-antd';
 import {
