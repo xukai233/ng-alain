@@ -299,7 +299,7 @@ export class McInterceptor implements HttpInterceptor {
 
             errorObservable.complete();
             
-            // interceptObservable.error(error);
+            interceptObservable.error(error);
             interceptObservable.complete();
         });
         
