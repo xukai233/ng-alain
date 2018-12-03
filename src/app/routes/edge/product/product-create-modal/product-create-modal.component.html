@@ -1,0 +1,11 @@
+<nz-modal nzWidth="680" #createModal nzTitle="新建产品" (nzOnCancel)="cancel()" (nzOnOk)="save()">
+  <form nz-form [formGroup]="creatForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">产品名称</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="name" >
+        <nz-form-explain *ngIf="creatForm.get('name').dirty && creatForm.get('name').errors">请输入产品名称</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

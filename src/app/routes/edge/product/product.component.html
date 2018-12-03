@@ -1,0 +1,44 @@
+<wimi-breadcrumb title="产品" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
+<wimi-table>
+  <div name="head" style="display: flex;justify-content: flex-end;align-items: center;">
+    <button nz-button nzType="primary" (click)="handleCreate()"><i nz-icon type="plus"></i>新建产品</button>
+  </div>
+  <nz-table name="table" #basicTable [nzData]="(dataSet$ | async)?.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="(loading$ | async)" [nzFrontPagination]="false" [nzTotal]="(dataSet$ | async)?.totalCount" nzNoResult="暂无数据"
+  (nzPageSizeChange)="handlePageSizeChange()"
+  (nzPageIndexChange)="handleIndexChange()"
+  >
+    <thead>
+      <tr>
+        <th>产品概览</th>
+        <th>产品版本</th>
+        <th>ProductKey</th>
+        <th>节点类型</th>
+        <th>设备数</th>
+        <th>创建时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{data.code}}</td>
+        <td>{{data.name}}</td>
+        <td>{{data.expiryTime}}</td>
+        <td>
+          <nz-badge *ngIf="data.isActive" nzStatus="success" nzText="已启用"></nz-badge>
+          <nz-badge *ngIf="!data.isActive" nzStatus="error" nzText="已停用"></nz-badge>
+        </td>
+        <td>{{data.createTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>
+          <a (click)="handleUpdateTenant(data.id)">修改</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a *ngIf="data.isActive" nz-popconfirm nzTitle="确定停用该租户?" (nzOnConfirm)="handelTenantStop(data)">停用</a>
+          <a *ngIf="!data.isActive" nz-popconfirm nzTitle="确定启用该租户?" (nzOnConfirm)="handelTenantStop(data)">启用</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #totalTemplate let-total>
+      共 {{total}} 条结果
+  </ng-template>
+</wimi-table>
+<product-create-modal #createProductModal></product-create-modal>

@@ -99,18 +99,23 @@ export class StartupService {
                     "icon": "anticon anticon-team",
                     "link": "/system/tenant",
                     "i18n": ""
-                  },
-                  {
+                  },{
                     "text": "APP管理",
                     "icon": "anticon anticon-appstore",
-                    "link": "/system/app",
-                    "i18n": ""
-                  },
-                  {
-                    "text": "APP授权",
-                    "icon": "anticon anticon-appstore",
-                    "link": "/system/appauth",
-                    "i18n": ""
+                    "children":[
+                      {
+                        "text": "APP管理",
+                        "icon": "anticon anticon-appstore",
+                        "link": "/system/app",
+                        "i18n": ""
+                      },
+                      {
+                        "text": "APP授权",
+                        "icon": "anticon anticon-appstore",
+                        "link": "/system/appauth",
+                        "i18n": ""
+                      }
+                    ]
                   },
                   {
                     "text": "系统",
@@ -129,6 +134,15 @@ export class StartupService {
                       {
                         "text": "审计日志",
                         "link": "/system/audit",
+                        "i18n": ""
+                      }
+                    ]
+                  },{
+                    "text": "边缘管理",
+                    "icon": "anticon anticon-appstore",
+                    "children": [{
+                        "text": "产品管理",
+                        "link": "/edge/product",
                         "i18n": ""
                       }
                     ]

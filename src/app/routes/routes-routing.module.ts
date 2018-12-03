@@ -42,6 +42,10 @@ const routes: Routes = [
         loadChildren: './system/system.module#SystemModule'
       },
       {
+        path:'edge',
+        loadChildren:'./edge/edge.module#EdgeModule'
+      },
+      {
         path: 'widgets',
         loadChildren: './widgets/widgets.module#WidgetsModule',
       },
