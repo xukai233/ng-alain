@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild,Input } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { UpdateTenantDto,TenantServiceProxy } from '@serviceProxies/service-proxies';
+import { UpdateTenantDto } from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -8,7 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
-
+import {TenantService} from '../tenant.service'
 @Component({
   selector: 'app-tenant-update-modal',
   templateUrl: './tenant-update-modal.component.html',
@@ -28,7 +28,7 @@ export class TenantUpdateModalComponent implements OnInit {
   expiryTimeType = "A";
 
   constructor(private fb: FormBuilder,
-    private tenantServiceProxy: TenantServiceProxy) {
+    private tenantService: TenantService) {
       this.tenant = new UpdateTenantDto();
     }
 
@@ -43,7 +43,7 @@ export class TenantUpdateModalComponent implements OnInit {
 
   show(id:number) {
     this.tenantId = id;
-    this.tenantServiceProxy.get(id)
+    this.tenantService.get(id)
     .subscribe(re=>{
       this.tenant = re as UpdateTenantDto;
       this.expiryTimeType = this.tenant.expiryTime === 1000 ? "A":"B";
@@ -59,12 +59,11 @@ export class TenantUpdateModalComponent implements OnInit {
     if (this.updateTenantForm.invalid) {
       return;
     }
-    this.tenantServiceProxy.update(this.tenantId,this.tenant)
+    this.tenantService.update(this.tenantId,this.tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
         this.modal.close();
         this.updateTenantForm.reset();
-        this.modalSave.emit(null);
       });
   }
   cancel() {

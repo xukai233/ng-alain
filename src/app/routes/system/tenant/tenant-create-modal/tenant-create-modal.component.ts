@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { CreateTenantDto, TenantServiceProxy } from '@serviceProxies/service-proxies';
+import { CreateTenantDto } from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -8,6 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
+import { TenantService } from '../tenant.service'
 
 @Component({
   selector: 'app-tenant-create-modal',
@@ -27,7 +28,8 @@ export class CreateTenantModalComponent implements OnInit {
   setRandomPassword =false;
 
   constructor(private fb: FormBuilder,
-    private _tenantService: TenantServiceProxy) {
+    private tenantService:TenantService
+  ) {
       this.tenant = new CreateTenantDto();
      }
 
@@ -63,16 +65,15 @@ export class CreateTenantModalComponent implements OnInit {
       this.createTenantForm.controls[i].markAsDirty();
       this.createTenantForm.controls[i].updateValueAndValidity();
     }
-    if (this.createTenantForm.invalid) {
+    if (!this.createTenantForm.invalid) {
       return;
     }
-    this._tenantService.add(this.tenant)
-      .pipe(finalize(() => this.saving = false))
-      .subscribe(() => {
-        this.modal.close();
-        this.createTenantForm.reset();
-        this.modalSave.emit(null);
-      });
+    this.tenantService
+    .create(this.tenant)
+    .subscribe(()=>{
+      this.modal.close();
+      this.createTenantForm.reset();
+    })
   }
 
   cancel() {

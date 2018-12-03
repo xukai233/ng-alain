@@ -13,7 +13,7 @@
           <input type="text" nz-input placeholder="编号/名称" name="filter" [(ngModel)]="filterTenants.filter">
         </nz-input-group>
         <ng-template #suffixButton>
-          <button nz-button nzType="primary" nzSearch (click)="handleSearch()" [nzLoading]="isLoading">查询</button>
+          <button nz-button nzType="primary" nzSearch (click)="handleSearch()" [nzLoading]="(loading$ | async)">查询</button>
         </ng-template>
       </div>
     </form>
@@ -34,11 +34,12 @@
         <nz-range-picker [nzStyle]="rangePickerStyle" nzShowTime [(ngModel)]="filterTenants.createDateStart"></nz-range-picker>
       </wimi-form-item>
     </div>
-    <div nz-col nzSpan="4"><button nz-button nzType="primary" (click)="handleSearch()" [nzLoading]="isLoading" nzSearch>查询</button></div>
+    <div nz-col nzSpan="4"><button nz-button nzType="primary" (click)="handleSearch()" [nzLoading]="(loading$ | async)" nzSearch>查询</button></div>
   </div>
-  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading" [nzFrontPagination]="false" [nzTotal]="totalCount" nzNoResult="暂无数据"
+  <nz-table name="table" #basicTable [nzData]="(dataSet$ | async)?.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="(loading$ | async)" [nzFrontPagination]="false" [nzTotal]="(dataSet$ | async)?.totalCount" nzNoResult="暂无数据"
   (nzPageSizeChange)="handlePageSizeChange()"
   (nzPageIndexChange)="handleIndexChange()"
+  autoHeight
   >
     <thead>
       <tr>

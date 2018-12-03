@@ -1,13 +1,15 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
   FormBuilder,
   FormControl,
   FormGroup
 } from '@angular/forms';
-import { TenantServiceProxy,FilterTenantsDto,TenantListDto,UpdateTenantDto} from '@serviceProxies/service-proxies';
+import { FilterTenantsDto,TenantListDto,UpdateTenantDto} from '@serviceProxies/service-proxies';
 import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
 import { TenantUpdateModalComponent } from './tenant-update-modal/tenant-update-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { TenantService } from './tenant.service' 
 
 
 @Component({
@@ -20,8 +22,9 @@ export class TenantComponent implements OnInit {
   @ViewChild('createTenantModal') createTenantModal: CreateTenantModalComponent;
   @ViewChild('updateTenantModal') updateTenantModal: TenantUpdateModalComponent;
 
-  dataSet = [];
-  isLoading = true;
+  dataSet$: Observable<TenantListDto>;
+  loading$: Observable<boolean>;
+
   totalCount = 0;
 
   filters: {
@@ -38,7 +41,7 @@ export class TenantComponent implements OnInit {
   ]
   filterTenants:FilterTenantsDto;
   constructor(
-    private _tenantService: TenantServiceProxy,
+    private tenantService:TenantService,
     private modalService:NzModalService) {
     this.filterTenants = new FilterTenantsDto();
   }
@@ -46,27 +49,21 @@ export class TenantComponent implements OnInit {
   ngOnInit() {
     this.filterTenants.pageSize = 10;
     this.filterTenants.pageIndex = 1;
-    this.getTenants(this.filterTenants);
+
+    this.dataSet$ = this.tenantService.data$;
+    this.loading$ = this.tenantService.loading$;
+    this.tenantService.list(this.filterTenants)
   }
 
-  getTenants(filterTenants: FilterTenantsDto | null | undefined): void {
-    this.isLoading = true;
-    this._tenantService.list(filterTenants)
-    .subscribe(result => {
-      this.dataSet = result.items;
-      this.totalCount = result.totalCount;
-      this.isLoading = false;
-    });
-  }
 
   handlePageSizeChange(num:number){
     this.filterTenants.pageIndex = 1;
     this.filterTenants.pageSize = num;
-    this.getTenants(this.filterTenants);
+    this.tenantService.list(this.filterTenants)
   }
+
   handleIndexChange(num:number){
     this.filterTenants.pageIndex = num;
-    this.getTenants(this.filterTenants);
   }
 
   createTenant(): void {
@@ -80,14 +77,9 @@ export class TenantComponent implements OnInit {
     this.isCollapse = !this.isCollapse;
   }
   handleSearch(){
-    this.getTenants(this.filterTenants);
+    this.tenantService.list(this.filterTenants)
   }
   handelTenantStop(tenant:TenantListDto){
-    tenant.isActive = !tenant.isActive;
-    this._tenantService
-    .update(tenant.id,tenant as UpdateTenantDto)
-    .subscribe(()=>{
-      this.getTenants(this.filterTenants);
-    })
+    this.tenantService.stop(tenant);
   }
 }
