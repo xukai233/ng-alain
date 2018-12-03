@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd';
 import { Router,ActivatedRoute,Params} from '@angular/router';
 import { AccountListDto,AccountServiceProxy,FilterAccountsDto} from '@serviceProxies/service-proxies';
+import {UserUpdateModalComponent} from './user-update-modal/user-update-modal.component'
+
 @Component({
   selector: 'user-account',
   templateUrl: './user-account.component.html'
@@ -20,6 +22,8 @@ export class UserAccountComponent implements OnInit {
   totalCount = 0;
   tableLoading = true;
   filterAccountsDto:FilterAccountsDto
+  @ViewChild('updateUserModal') updateUserModal: UserUpdateModalComponent;
+
   ngOnInit() {
     this.routerIonfo.params
     .subscribe((params:Params)=>{
@@ -31,7 +35,7 @@ export class UserAccountComponent implements OnInit {
   getAccount(filterAccounts: FilterAccountsDto | null | undefined): void {
     this.tableLoading = true;
     this.accountServiceProxy
-    .searches(filterAccounts)
+    .list(filterAccounts)
     .subscribe(re=>{
       this.dataSet = re.items;
       this.totalCount = re.totalCount;
@@ -47,6 +51,10 @@ export class UserAccountComponent implements OnInit {
       nzOkType:'danger',
       nzOnOk   : () => console.log('OK')
     });
+  }
+
+  handleChange(data:AccountListDto):void {
+    this.updateUserModal.show(data);
   }
 
   handleSearch(): void {

@@ -1,23 +1,22 @@
 <nz-modal nzWidth="680" #updateModal nzTitle="修改租户" (nzOnCancel)="cancel()" (nzOnOk)="save()">
-  <form nz-form [formGroup]="createTenantForm">
+  <form nz-form [formGroup]="updateTenantForm">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenantCode">租户编号</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="displayName">租户名称</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="tenantCode" [(ngModel)]="tenant.code">
+        <input nz-input formControlName="displayName" [(ngModel)]="tenant.displayName">
+        <nz-form-explain *ngIf="updateTenantForm.get('displayName').dirty && updateTenantForm.get('displayName').errors">请输入租户名称</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
-  
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tenantName">租户名称</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desc">租户描述</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="tenantName" [(ngModel)]="tenant.displayName">
+        <input nz-input formControlName="desc" [(ngModel)]="tenant.desc">
       </nz-form-control>
     </nz-form-item>
-
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="expiryTime">订阅日期</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-radio-group formControlName="expiryTime">
+        <nz-radio-group formControlName="expiryTime" [(ngModel)]="expiryTimeType">
           <label nz-radio nzValue="A">无期限</label>
           <label nz-radio nzValue="B">
             <nz-date-picker></nz-date-picker>

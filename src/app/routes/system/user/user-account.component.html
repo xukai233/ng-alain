@@ -24,7 +24,7 @@
       <td>{{data.createTime}}</td>
       <td>{{data.createTime}}</td>
       <td>
-        <a>修改</a>
+        <a (click)="handleChange(data)">修改</a>
         <nz-divider nzType="vertical"></nz-divider>
         <a>权限</a>
         <nz-divider nzType="vertical"></nz-divider>
@@ -36,3 +36,4 @@
 <ng-template name="content-right" #totalTemplate let-total>
     共 {{totalCount}} 条结果
 </ng-template>
+<user-update-modal #updateUserModal></user-update-modal>

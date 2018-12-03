@@ -110,7 +110,6 @@ export class McHttpConfiguration {
 
     handleNonMcErrorResponse(response: HttpResponse<any>) {
         const self = this;
-
         switch (response.status) {
             case 401:
                 self.handleUnAuthorizedRequest(
@@ -132,7 +131,6 @@ export class McHttpConfiguration {
 
     handleMcResponse(response: HttpResponse<any>, ajaxResponse: IAjaxResponse): HttpResponse<any> {
         let newResponse: HttpResponse<any>;
-        
         if (ajaxResponse.success) {
             
             newResponse = response.clone({

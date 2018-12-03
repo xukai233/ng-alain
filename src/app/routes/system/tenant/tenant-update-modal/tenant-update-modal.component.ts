@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild,Input } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { UpdateTenantDto,TenantServiceProxy } from '@serviceProxies/service-proxies';
+import { UpdateTenantDto } from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -8,7 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
-
+import {TenantService} from '../tenant.service'
 @Component({
   selector: 'app-tenant-update-modal',
   templateUrl: './tenant-update-modal.component.html',
@@ -20,41 +20,54 @@ export class TenantUpdateModalComponent implements OnInit {
 
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
-  createTenantForm: FormGroup;
+  updateTenantForm: FormGroup;
  
   saving = false;
   tenant: UpdateTenantDto;
+  tenantId:number;
+  expiryTimeType = "A";
 
   constructor(private fb: FormBuilder,
-    private tenantServiceProxy: TenantServiceProxy) {
+    private tenantService: TenantService) {
       this.tenant = new UpdateTenantDto();
     }
 
   ngOnInit() {
-    this.createTenantForm = this.fb.group({
-      tenantCode : [null, []],
-      tenantName : [null, []],
+    this.updateTenantForm = this.fb.group({
+      desc : [null, []],
+      displayName : [null, [Validators.required]],
       expiryTime : [null, []],
       isActive : [true, []] 
     });
   }
 
   show(id:number) {
-    this.tenantServiceProxy.get(id)
+    this.tenantId = id;
+    this.tenantService.get(id)
     .subscribe(re=>{
       this.tenant = re as UpdateTenantDto;
+      this.expiryTimeType = this.tenant.expiryTime === 1000 ? "A":"B";
+      console.log(this.tenant)
       this.modal.open();
     })
   }
   save() {
-    this.tenantServiceProxy.update(0,this.tenant)
+    for (const i in this.updateTenantForm.controls) {
+      this.updateTenantForm.controls[i].markAsDirty();
+      this.updateTenantForm.controls[i].updateValueAndValidity();
+    }
+    if (this.updateTenantForm.invalid) {
+      return;
+    }
+    this.tenantService.update(this.tenantId,this.tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
         this.modal.close();
-        this.modalSave.emit(null);
+        this.updateTenantForm.reset();
       });
   }
   cancel() {
     this.modal.close();
+    this.updateTenantForm.reset();
   }
 }

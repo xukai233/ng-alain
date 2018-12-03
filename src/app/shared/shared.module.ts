@@ -25,7 +25,8 @@ import { WimiLeftMenuComponent } from './wimi-left-menu/wimi-left-menu.component
 import { WimiTabComponent } from './wimi-tab/wimi-tab.component';
 import { WimiFourGridComponent } from './wimi-four-grid/wimi-four-grid.component';
 import { WimiAppBoardComponent } from './wimi-app-board/wimi-app-board.component';
-import { WimiVerifyComponent } from './wimi-verify/wimi-verify.component'
+import { WimiVerifyComponent } from './wimi-verify/wimi-verify.component';
+import { AutoHeightDirective } from './directives/auto-height.directive'
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -48,7 +49,9 @@ const COMPONENTS = [
     WimiAppBoardComponent,
     WimiVerifyComponent
   ];
-const DIRECTIVES = [];
+const DIRECTIVES = [
+    AutoHeightDirective
+  ];
 // #endregion
 
 @NgModule({
@@ -68,7 +71,7 @@ const DIRECTIVES = [];
   declarations: [
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
   ],
   exports: [
     CommonModule,

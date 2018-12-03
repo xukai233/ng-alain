@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { CreateTenantDto, TenantServiceProxy } from '@serviceProxies/service-proxies';
+import { CreateTenantDto } from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -8,6 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
+import { TenantService } from '../tenant.service'
 
 @Component({
   selector: 'app-tenant-create-modal',
@@ -24,53 +25,74 @@ export class CreateTenantModalComponent implements OnInit {
  
   saving = false;
   tenant: CreateTenantDto;
+  setRandomPassword =false;
 
   constructor(private fb: FormBuilder,
-    private _tenantService: TenantServiceProxy) {
+    private tenantService:TenantService
+  ) {
       this.tenant = new CreateTenantDto();
      }
 
   ngOnInit() {
-
     this.createTenantForm = this.fb.group({
-      tenantCode : [null, []],
-      tenantName : [null, []],
+      tenantCode : [null, [Validators.required]],
+      tenantName : [null, [Validators.required]],
       tenantDesc : [null, []],
-      adminEmail : [null, []],
-      adminPassword : [null, []],
-      passwordCheck : [null, []],
-      setRandomPassword : [null, []],
+      adminEmail : [null, [Validators.email,Validators.required]],
+      adminPassword : [null, [Validators.required]],
+      passwordCheck : [null, [Validators.required,this.confirmationValidator]],
+      setRandomPassword : [null, [Validators.required]],
       expiryTime : [null, []],
-      shouldChangePasswordOnNextLogin : [true, []],
-      isActive : [true, []] 
+      shouldChangePasswordOnNextLogin : [null, []],
+      isActive : [null, []] 
     });
   }
+
+  confirmationValidator = (control: FormControl): { [ s: string ]: boolean } => {
+    if (!control.value) {
+      return { required: true };
+    } else if (control.value !== this.createTenantForm.controls.adminPassword.value) {
+      return { confirm: true, error: true };
+    }
+  };
 
   show() {
     this.init();
     this.modal.open();
   }
   save() {
-
-    console.dir(this.tenant);
-
-    this._tenantService.create(this.tenant)
-      .pipe(finalize(() => this.saving = false))
-      .subscribe(() => {
-        this.modal.close();
-        this.modalSave.emit(null);
-      });
+    for (const i in this.createTenantForm.controls) {
+      this.createTenantForm.controls[i].markAsDirty();
+      this.createTenantForm.controls[i].updateValueAndValidity();
+    }
+    if (!this.createTenantForm.invalid) {
+      return;
+    }
+    this.tenantService
+    .create(this.tenant)
+    .subscribe(()=>{
+      this.modal.close();
+      this.createTenantForm.reset();
+    })
   }
 
   cancel() {
     this.modal.close();
+    this.createTenantForm.reset();
   }
 
   init(): void {
     this.tenant = new CreateTenantDto();
+    this.setRandomPassword = false;
+    this.tenant.isActive = true;
+    this.tenant.shouldChangePasswordOnNextLogin = true;
   }
 
   onShown(): void {
     document.getElementById('tenantCode').focus();
+  }
+
+  handleRandomPassword(): void {
+    this.setRandomPassword = this.createTenantForm.controls.setRandomPassword.value;
   }
 }

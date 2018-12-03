@@ -4,6 +4,7 @@ import { AuthenticateModel, AuthenticateResultModel, PassportServiceProxy } from
 import { finalize } from 'rxjs/operators';
 import { ReuseTabService } from '@delon/abc';
 import { Router } from '@angular/router';
+
 import {
   SocialService,
   SocialOpenType,
@@ -20,12 +21,16 @@ export class LoginService {
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
     private router: Router,
-  ) { }
+  ) 
+  { 
+    this.authenticateModel.tenantCode = " "
+    this.authenticateModel.userName = "admin"
+    this.authenticateModel.password = "123qwe"
+  }
   
   // 登陆
   authenticate(finallyCallback?: () => void, redirectUrl?: string): void {
 
-    finallyCallback = finallyCallback || (() => { });
     this._passportService
       .authenticate(this.authenticateModel)
       .pipe(finalize(finallyCallback))

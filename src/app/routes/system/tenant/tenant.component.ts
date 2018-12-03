@@ -1,13 +1,15 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
   FormBuilder,
   FormControl,
   FormGroup
 } from '@angular/forms';
-import { TenantServiceProxy,FilterTenantsDto} from '@serviceProxies/service-proxies';
+import { FilterTenantsDto,TenantListDto,UpdateTenantDto} from '@serviceProxies/service-proxies';
 import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
 import { TenantUpdateModalComponent } from './tenant-update-modal/tenant-update-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { TenantService } from './tenant.service' 
 
 
 @Component({
@@ -20,8 +22,10 @@ export class TenantComponent implements OnInit {
   @ViewChild('createTenantModal') createTenantModal: CreateTenantModalComponent;
   @ViewChild('updateTenantModal') updateTenantModal: TenantUpdateModalComponent;
 
-  dataSet = [];
-  isLoading = true;
+  dataSet$: Observable<TenantListDto>;
+  loading$: Observable<boolean>;
+
+  totalCount = 0;
 
   filters: {
     filterText: string;
@@ -37,22 +41,29 @@ export class TenantComponent implements OnInit {
   ]
   filterTenants:FilterTenantsDto;
   constructor(
-    private _tenantService: TenantServiceProxy,
+    private tenantService:TenantService,
     private modalService:NzModalService) {
     this.filterTenants = new FilterTenantsDto();
   }
 
   ngOnInit() {
-    this.getTenants(this.filterTenants);
+    this.filterTenants.pageSize = 10;
+    this.filterTenants.pageIndex = 1;
+
+    this.dataSet$ = this.tenantService.data$;
+    this.loading$ = this.tenantService.loading$;
+    this.tenantService.list(this.filterTenants)
   }
 
-  getTenants(filterTenants: FilterTenantsDto | null | undefined): void {
-    this.isLoading = true;
-    this._tenantService.searches(filterTenants)
-    .subscribe(result => {
-      this.dataSet = result.items;
-      this.isLoading = false;
-    });
+
+  handlePageSizeChange(num:number){
+    this.filterTenants.pageIndex = 1;
+    this.filterTenants.pageSize = num;
+    this.tenantService.list(this.filterTenants)
+  }
+
+  handleIndexChange(num:number){
+    this.filterTenants.pageIndex = num;
   }
 
   createTenant(): void {
@@ -65,16 +76,10 @@ export class TenantComponent implements OnInit {
   toggleCollapse(): void {
     this.isCollapse = !this.isCollapse;
   }
-  handleDelete() : void {
-    this.modalService.confirm({
-      nzTitle  : '<i>回收租户</i>',
-      nzContent: '<b>该操作将清空该租户及所有内容，此操作不可逆，确认回收?</b>',
-      nzOkText:'回收',
-      nzOkType:'danger',
-      nzOnOk   : () => console.log('OK')
-    });
-  }
   handleSearch(){
-    this.getTenants(this.filterTenants);
+    this.tenantService.list(this.filterTenants)
+  }
+  handelTenantStop(tenant:TenantListDto){
+    this.tenantService.stop(tenant);
   }
 }
