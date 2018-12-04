@@ -28,6 +28,7 @@ export class UserAccountComponent implements OnInit {
     this.routerIonfo.params
     .subscribe((params:Params)=>{
       this.filterAccountsDto.accountGroupId = this.routerIonfo.snapshot.params["id"]
+      console.log(this.filterAccountsDto)
       this.getAccount(this.filterAccountsDto);
     })
   }

@@ -3,8 +3,34 @@
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">产品名称</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="name" >
+        <input nz-input formControlName="name" placeholder="请输入产品名称">
         <nz-form-explain *ngIf="creatForm.get('name').dirty && creatForm.get('name').errors">请输入产品名称</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="version">产品版本</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="version" placeholder="请输入产品名称" >
+        <nz-form-explain *ngIf="creatForm.get('version').dirty && creatForm.get('version').errors">请输入产品名称</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="group">节点类型</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="group">
+          <label nz-radio nzValue="A">终端</label>
+          <label nz-radio nzValue="B">网关</label>
+          <label nz-radio nzValue="C">Hub</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24">产品描述</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea formControlName="comment" nz-input rows="2" placeholder="请输入产品描述"></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>

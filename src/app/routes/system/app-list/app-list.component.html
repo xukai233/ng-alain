@@ -1,6 +1,6 @@
 <wimi-breadcrumb title="APP管理" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
 <wimi-table>
-  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading" [nzFrontPagination]="false" [nzTotal]="totalCount">
+  <nz-table name="table" #basicTable [nzData]="dataSet.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading" [nzFrontPagination]="false" [nzTotal]="totalCount">
     <thead>
       <tr>
         <th>APP概览</th>
@@ -13,11 +13,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor="let data of basicTable.data">
         <td class="app-des">
           <img class="app-des-icon" src="http://dada-image-bed.oss-cn-shenzhen.aliyuncs.com/18-11-26/53428683.jpg"/>
           <div>
-            <div class="app-title"><nz-tag [nzColor]="'cyan'">定制版</nz-tag>CPS-MDC</div>
+            <div class="app-title"><nz-tag [nzColor]="'cyan'">定制版</nz-tag>{{data.displayName}}</div>
             <div class="app-subtitle">车间信息采集分析系统</div>
           </div>
         </td>

@@ -1,0 +1,95 @@
+<wimi-breadcrumb title="登记注册" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
+<wimi-four-grid leftWidth="450px">
+  <div name="top-left" class="flex">
+    <wimi-tab  [tabs]="tabs" [(select)]="selectTab" (onSelect)="handleTabSelect($event)"></wimi-tab>
+    <button nz-button nzType="primary" (click)="handleAddClick()"><i nz-icon type="plus"></i>新建登记</button>
+  </div>
+  <div name="top-right" class="flex">
+    <div>标题</div>
+    <div>
+      <button nz-button>启用</button>
+      <button nz-button>删除</button>
+    </div>
+  </div>
+  <div name="content-left" style="padding: 12px;">
+    <nz-radio-group [(ngModel)]="radioValue" style="margin-bottom:12px;">
+      <label nz-radio-button nzValue="all">全部</label>
+      <label nz-radio-button nzValue="using">已启用</label>
+      <label nz-radio-button nzValue="stop">已停用</label>
+    </nz-radio-group>
+
+    <nz-table #basicTable [nzData]="dataSet" nzSize="small"  [nzLoading]="tableLoading">
+      <thead>
+        <tr>
+          <th>串号规则</th>
+          <th>产品</th>
+          <th>激活/授权台数</th>
+          <th>状态</th>
+          <th>登记时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data" [class.trSelect]="selectItem == data.id" (click)="handleTrClick(data)">
+          <td [nzChecked]="true">{{data.code}}</td>
+          <td>{{data.name}}</td>
+          <td><nz-badge nzStatus="success" [nzText]="data.isActive"></nz-badge></td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <div name="content-right">
+    <div style="font-weight: 550">密钥信息</div>
+    <div style="padding: 12px;">
+      <div class="group">
+        <div class="title">所属产品：</div>
+        <div class="content">MasterLink H1</div>
+        <div class="title">产品类型：</div>
+        <div class="content">终端</div>
+      </div>
+      <div class="group">
+        <div class="title">串号规则：</div>
+        <div class="content">HO;fncxli54932jklgfds</div>
+      </div>
+      <div class="group">
+        <div class="title">激活密钥：</div>
+        <div class="content"><wimi-ciphertext text="123456"></wimi-ciphertext></div>
+        <div class="title">ProductKey：</div>
+        <div class="content"><wimi-ciphertext text="123456"></wimi-ciphertext></div>
+      </div>
+      <div class="group">
+        <div class="title">登记人员：</div>
+        <div class="content">张三</div>
+        <div class="title">登记时间：</div>
+        <div class="content">2018-11-24 17:04</div>
+      </div>
+      <div class="group">
+        <div class="title">授权台数：</div>
+        <div class="content">100</div>
+        <div class="title">已激活台数：</div>
+        <div class="content">87</div>
+      </div>
+      <div class="group">
+        <div class="title">默认授权点数：</div>
+        <div class="content">1</div>
+      </div>
+      <div style="font-weight: 550;margin-bottom: 12px;margin-top: 18px;">已激活设备列表</div>
+      <nz-table #basicTable [nzData]="dataSet"  [nzLoading]="tableLoading">
+        <thead>
+          <tr>
+            <th>设备串号</th>
+            <th>激活地点</th>
+            <th>激活时间</th>
+            <th>Token</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data" [class.trSelect]="selectItem == data.id" (click)="handleTrClick(data)">
+            <td [nzChecked]="true">{{data.code}}</td>
+            <td>{{data.name}}</td>
+            <td><nz-badge nzStatus="success" [nzText]="data.isActive"></nz-badge></td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</wimi-four-grid>

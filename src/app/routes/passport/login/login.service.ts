@@ -24,7 +24,7 @@ export class LoginService {
   ) 
   { 
     this.authenticateModel.tenantCode = " "
-    this.authenticateModel.userName = "admin"
+    this.authenticateModel.userName = "langwenda"
     this.authenticateModel.password = "123qwe"
   }
   

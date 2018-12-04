@@ -128,16 +128,18 @@ export class UserComponent implements OnInit {
       .subscribe(re=>{
         this.accountGroupName = "";
         this.showNewAccountGroup = false;
+        this.getAccountGroup();
       })
     }else{
       let updateAccountGroupDto = new UpdateAccountGroupDto();
       updateAccountGroupDto.displayName = name;
       this.accountGroupServiceProxy
-      .update(this.userGroupId,updateAccountGroupDto)
+      .update(this.accountGroutId,updateAccountGroupDto)
       .subscribe(re=>{
         this.accountGroupName = "";
         this.accountGroutId = 0;
         this.showNewAccountGroup = false;
+        this.getAccountGroup();
       })
     }
   }

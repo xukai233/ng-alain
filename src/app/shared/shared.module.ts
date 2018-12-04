@@ -26,7 +26,8 @@ import { WimiTabComponent } from './wimi-tab/wimi-tab.component';
 import { WimiFourGridComponent } from './wimi-four-grid/wimi-four-grid.component';
 import { WimiAppBoardComponent } from './wimi-app-board/wimi-app-board.component';
 import { WimiVerifyComponent } from './wimi-verify/wimi-verify.component';
-import { AutoHeightDirective } from './directives/auto-height.directive'
+import { AutoHeightDirective } from './directives/auto-height.directive';
+import { WimiCiphertextComponent } from './wimi-ciphertext/wimi-ciphertext.component'
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -47,7 +48,8 @@ const COMPONENTS = [
     WimiTabComponent,
     WimiFourGridComponent,
     WimiAppBoardComponent,
-    WimiVerifyComponent
+    WimiVerifyComponent,
+    WimiCiphertextComponent
   ];
 const DIRECTIVES = [
     AutoHeightDirective

@@ -1,6 +1,6 @@
 <wimi-breadcrumb title="APP授权" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
 <wimi-four-grid leftWidth="518px">
-  <div name="top-left" style="font-weight: 550">租户列表</div>
+  <div name="top-left" style="font-weight: 550;padding: 12px;">租户列表</div>
   <div name="top-right" style="display: flex;justify-content: space-between;width: 100%;align-items: center;">
     <div style="font-weight: 550">{{selectTenantName}}</div>
     <button name="top-right" nz-button nzType="primary" (click)="handleAppAuth()">APP授权</button>
@@ -12,7 +12,7 @@
     <ng-template #suffixButton>
       <button nz-button nzType="primary" nzSearch (click)="handleSearch()">查询</button>
     </ng-template>
-    <nz-table  #basicTable [nzData]="dataSet" nzSize="small"  [nzLoading]="tableLoading">
+    <nz-table  #basicTable [nzData]="dataSet" nzSize="small"  [nzLoading]="tableLoading" [nzFrontPagination]="false" [nzTotal]="(tenantCount | async)" nzNoResult="暂无数据">
       <thead>
         <tr>
           <th>租户编号</th>

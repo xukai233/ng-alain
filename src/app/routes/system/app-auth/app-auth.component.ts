@@ -21,6 +21,7 @@ export class AppAuthComponent implements OnInit {
   ]
 
   dataSet = [];
+  tenantCount = 0;
 
   appDatas = [];
 
@@ -44,6 +45,8 @@ export class AppAuthComponent implements OnInit {
 
   ngOnInit() {
     this.filterTenantsDto = new FilterTenantsDto()
+    this.filterTenantsDto.pageIndex = 1;
+    this.filterTenantsDto.pageSize = 10;
     this.getTenants(this.filterTenantsDto);
   }
 
@@ -52,6 +55,7 @@ export class AppAuthComponent implements OnInit {
     this._tenantService.list(filterTenants)
     .subscribe(result => {
       this.dataSet = result.items;
+      this.tenantCount = result.totalCount;
       this.selectItem = this.dataSet[0].id;
       this.selectTenantName = this.dataSet[0].name
       this.tableLoading = false;

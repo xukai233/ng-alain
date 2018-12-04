@@ -19,7 +19,9 @@ export class ProductCreateModalComponent implements OnInit {
 
   ngOnInit() {
     this.creatForm = this.fb.group({
-      name : [null, [Validators.required]]
+      name : [null, [Validators.required]],
+      version : [null, [Validators.required]],
+      group : [null,[]]
     });
   }
 

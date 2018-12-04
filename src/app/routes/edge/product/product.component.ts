@@ -14,7 +14,10 @@ export class ProductComponent implements OnInit {
   @ViewChild('createProductModal') createProductModal: ProductCreateModalComponent;
 
   constructor() { }
-
+  dataSet={
+    items:[],
+    totalCount:10
+  }
   ngOnInit() {
   }
 

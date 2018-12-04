@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TenantServiceProxy,FilterTenantsDto,ListResultDtoOfAppDto,AppServiceProxy} from '@serviceProxies/service-proxies';
 
 @Component({
   selector: 'app-list',
@@ -12,23 +13,26 @@ export class AppListComponent implements OnInit {
     {title:'APP管理'},
   ]
   totalCount= 20;
-  isLoading = true;
-  dataSet = [
-    {
-      "id": 0,
-      "displayName": "string",
-      "appKey": "string",
-      "status": "InUse",
-      "basic": true,
-      "basicExpiryTime": 0,
-      "pay": true,
-      "payExpiryTime": 0
-    }
-  ]
-  constructor() { }
+  isLoading = false;
+  dataSet:ListResultDtoOfAppDto;
+  constructor(
+    private appServiceProxy:AppServiceProxy
+    ) { 
+    this.dataSet = new ListResultDtoOfAppDto();
+  }
 
   ngOnInit() {
-    this.isLoading = false;
+    this.listApp()
+  }
+  listApp(){
+    this.isLoading = true;
+    this.appServiceProxy
+    .listAll()
+    .subscribe(re=>{
+      this.isLoading = false;
+      this.dataSet = re;
+      console.log(re);
+    })
   }
 
 }

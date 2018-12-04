@@ -24,6 +24,7 @@ export class TenantComponent implements OnInit {
 
   dataSet$: Observable<TenantListDto>;
   loading$: Observable<boolean>;
+  dateRage=[];
 
   totalCount = 0;
 
@@ -77,6 +78,10 @@ export class TenantComponent implements OnInit {
     this.isCollapse = !this.isCollapse;
   }
   handleSearch(){
+    if(this.dateRage){
+      this.filterTenants.createDateEnd = Date.parse(this.dateRage[1])
+      this.filterTenants.createDateStart = Date.parse(this.dateRage[0])
+    }
     this.tenantService.list(this.filterTenants)
   }
   handelTenantStop(tenant:TenantListDto){

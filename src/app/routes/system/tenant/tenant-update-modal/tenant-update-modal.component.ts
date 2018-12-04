@@ -26,6 +26,7 @@ export class TenantUpdateModalComponent implements OnInit {
   tenant: UpdateTenantDto;
   tenantId:number;
   expiryTimeType = "A";
+  expiryTime:any;
 
   constructor(private fb: FormBuilder,
     private tenantService: TenantService) {
@@ -37,7 +38,8 @@ export class TenantUpdateModalComponent implements OnInit {
       desc : [null, []],
       displayName : [null, [Validators.required]],
       expiryTime : [null, []],
-      isActive : [true, []] 
+      isActive : [true, []],
+      expiryTimeType:[]
     });
   }
 
@@ -47,8 +49,9 @@ export class TenantUpdateModalComponent implements OnInit {
     .subscribe(re=>{
       this.tenant = re as UpdateTenantDto;
       this.expiryTimeType = this.tenant.expiryTime === 1000 ? "A":"B";
-      console.log(this.tenant)
+      this.expiryTime = new Date(this.tenant.expiryTime);
       this.modal.open();
+      console.log(this.tenant)
     })
   }
   save() {
