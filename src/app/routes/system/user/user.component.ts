@@ -123,8 +123,8 @@ export class UserComponent implements OnInit {
       let createAccountGroupDto = new CreateAccountGroupDto();
       createAccountGroupDto.displayName = name;
       createAccountGroupDto.isDefault = false;
-      this.accountServiceProxy
-      .add2(createAccountGroupDto)
+      this.accountGroupServiceProxy
+      .add(createAccountGroupDto)
       .subscribe(re=>{
         this.accountGroupName = "";
         this.showNewAccountGroup = false;
@@ -142,5 +142,9 @@ export class UserComponent implements OnInit {
         this.getAccountGroup();
       })
     }
+  }
+
+  handleUserCreated(){
+    this.router.navigate(['/system/user/account',this.userGroupId])
   }
 }

@@ -23,7 +23,7 @@ export class CreateTenantModalComponent implements OnInit {
 
   createTenantForm: FormGroup;
  
-  saving = false;
+  loading = false;
   tenant: CreateTenantDto;
   setRandomPassword =false;
 
@@ -68,9 +68,11 @@ export class CreateTenantModalComponent implements OnInit {
     if (!this.createTenantForm.invalid) {
       return;
     }
+    this.loading = true;
     this.tenantService
     .create(this.tenant)
     .subscribe(()=>{
+      this.loading = false;
       this.modal.close();
       this.createTenantForm.reset();
     })

@@ -37,8 +37,8 @@
     <div nz-col nzSpan="4"><button nz-button nzType="primary" (click)="handleSearch()" [nzLoading]="(loading$ | async)" nzSearch>查询</button></div>
   </div>
   <nz-table name="table" #basicTable [nzData]="(dataSet$ | async)?.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="(loading$ | async)" [nzFrontPagination]="false" [nzTotal]="(dataSet$ | async)?.totalCount" nzNoResult="暂无数据"
-  (nzPageSizeChange)="handlePageSizeChange()"
-  (nzPageIndexChange)="handleIndexChange()"
+  (nzPageSizeChange)="handlePageSizeChange($event)"
+  (nzPageIndexChange)="handleIndexChange($event)"
   >
     <thead>
       <tr>

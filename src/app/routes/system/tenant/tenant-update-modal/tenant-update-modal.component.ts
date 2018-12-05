@@ -21,7 +21,6 @@ export class TenantUpdateModalComponent implements OnInit {
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
   updateTenantForm: FormGroup;
- 
   saving = false;
   tenant: UpdateTenantDto;
   tenantId:number;
@@ -51,7 +50,7 @@ export class TenantUpdateModalComponent implements OnInit {
       this.expiryTimeType = this.tenant.expiryTime === 1000 ? "A":"B";
       this.expiryTime = new Date(this.tenant.expiryTime);
       this.modal.open();
-      console.log(this.tenant)
+      
     })
   }
   save() {
@@ -62,7 +61,13 @@ export class TenantUpdateModalComponent implements OnInit {
     if (this.updateTenantForm.invalid) {
       return;
     }
-    this.tenantService.update(this.tenantId,this.tenant)
+    let tenant = new UpdateTenantDto();
+    tenant.displayName = this.tenant.displayName;
+    tenant.expiryTime = this.tenant.expiryTime;
+    tenant.desc = this.tenant.desc;
+    tenant.isActive = this.tenant.isActive;
+    this.saving = true;
+    this.tenantService.update(this.tenantId,tenant)
       .pipe(finalize(() => this.saving = false))
       .subscribe(() => {
         this.modal.close();

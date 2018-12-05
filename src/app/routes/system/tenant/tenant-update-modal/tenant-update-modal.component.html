@@ -1,4 +1,4 @@
-<nz-modal nzWidth="680" #updateModal nzTitle="修改租户" (nzOnCancel)="cancel()" (nzOnOk)="save()">
+<nz-modal nzWidth="680" #updateModal nzTitle="修改租户" (nzOnCancel)="cancel()" (nzOnOk)="save()" [nzOkLoading]="saving">
   <form nz-form [formGroup]="updateTenantForm">
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="displayName">租户名称</nz-form-label>

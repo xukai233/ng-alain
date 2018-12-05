@@ -20,15 +20,15 @@
       <td>{{data.code}}</td>
       <td>{{data.displayName}}</td>
       <td>{{data.email}}</td>
-      <td><nz-badge nzStatus="success" [nzText]="data.isActive"></nz-badge></td>
-      <td>{{data.createTime}}</td>
-      <td>{{data.createTime}}</td>
+      <td><nz-badge nzStatus="success" [nzText]="data.isActive?'已激活':'未激活'"></nz-badge></td>
+      <td>{{data.createTime|date:'yyyy-MM-dd HH:mm'}}</td>
+      <td>{{data.createTime|date:'yyyy-MM-dd HH:mm'}}</td>
       <td>
         <a (click)="handleChange(data)">修改</a>
         <nz-divider nzType="vertical"></nz-divider>
         <a>权限</a>
         <nz-divider nzType="vertical"></nz-divider>
-        <a (click)="handleDelete()">删除</a>
+        <a (click)="handleDelete(data)">删除</a>
       </td>
     </tr>
   </tbody>
@@ -36,4 +36,4 @@
 <ng-template name="content-right" #totalTemplate let-total>
     共 {{totalCount}} 条结果
 </ng-template>
-<user-update-modal #updateUserModal></user-update-modal>
+<user-update-modal #updateUserModal (modalSave)="handleModalSave()"></user-update-modal>

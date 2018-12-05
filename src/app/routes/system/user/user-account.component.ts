@@ -27,9 +27,12 @@ export class UserAccountComponent implements OnInit {
   ngOnInit() {
     this.routerIonfo.params
     .subscribe((params:Params)=>{
-      this.filterAccountsDto.accountGroupId = this.routerIonfo.snapshot.params["id"]
-      console.log(this.filterAccountsDto)
-      this.getAccount(this.filterAccountsDto);
+      if(this.routerIonfo.snapshot.params["id"] && this.routerIonfo.snapshot.params["id"] > 0){
+        this.filterAccountsDto.accountGroupId = this.routerIonfo.snapshot.params["id"]
+        this.filterAccountsDto.pageIndex = 1;
+        this.filterAccountsDto.pageSize = 10;
+        this.getAccount(this.filterAccountsDto);
+      }
     })
   }
 
@@ -44,14 +47,22 @@ export class UserAccountComponent implements OnInit {
     })
   }
 
-  handleDelete():void{
+  handleDelete(data:AccountListDto):void{
     this.modalService.confirm({
-      nzTitle  : '<i>删除账号</i>',
+      nzTitle  : `<i>删除账号:${data.displayName}</i>`,
       nzContent: '<b>该操作将删除账号且不可逆，确认删除?</b>',
       nzOkText:'删除',
       nzOkType:'danger',
-      nzOnOk   : () => console.log('OK')
+      nzOnOk   : () => this.deleteAccount(data)
     });
+  }
+
+  deleteAccount(data:AccountListDto){
+    this.accountServiceProxy
+    .delete(data.id)
+    .subscribe(re=>{
+      this.getAccount(this.filterAccountsDto);
+    })
   }
 
   handleChange(data:AccountListDto):void {
@@ -59,6 +70,9 @@ export class UserAccountComponent implements OnInit {
   }
 
   handleSearch(): void {
-    this.getAccount(this.filterAccountsDto)
+    this.getAccount(this.filterAccountsDto);
+  }
+  handleModalSave(){
+    this.getAccount(this.filterAccountsDto);
   }
 }

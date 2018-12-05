@@ -29,8 +29,49 @@
   }, {
     "name" : "系统设定",
     "description" : "系统设定"
+  }, {
+    "name" : "IoT",
+    "description" : "边缘IoT"
   } ],
   "paths" : {
+    "/iot/summary" : {
+      "get" : {
+        "tags" : [ "IoT" ],
+        "summary" : "统计平台上IoT的信息",
+        "description" : "",
+        "operationId" : "iot_summary",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/IoTSummaryDto"
+            }
+          }
+        }
+      }
+    },
+    "/iot/map" : {
+      "get" : {
+        "tags" : [ "IoT" ],
+        "summary" : "统计平台上IoT的分布",
+        "description" : "",
+        "operationId" : "iot_map",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/IoTMapDto"
+            }
+          }
+        }
+      }
+    },
     "/passport/authenticate" : {
       "post" : {
         "tags" : [ "认证" ],
@@ -68,7 +109,25 @@
           "200" : {
             "description" : "Success",
             "schema" : {
-              "$ref" : "#/definitions/ListResultDto[AppDto]"
+              "$ref" : "#/definitions/ListResultDto[AppListDto]"
+            }
+          }
+        }
+      }
+    },
+    "/app/all-brief" : {
+      "get" : {
+        "tags" : [ "工业App" ],
+        "summary" : "列出所有App",
+        "description" : "",
+        "operationId" : "app_listAllBrief",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ListResultDto[NameValueDto]"
             }
           }
         }
@@ -136,6 +195,55 @@
         "responses" : {
           "200" : {
             "description" : "OK"
+          }
+        }
+      }
+    },
+    "/app/{appId}/set-stage" : {
+      "put" : {
+        "tags" : [ "工业App" ],
+        "summary" : "操作App上下架",
+        "description" : "",
+        "operationId" : "app_setStage",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "appId",
+          "description" : "app id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        }, {
+          "name" : "AppStage",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AppStage"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/app/summary" : {
+      "get" : {
+        "tags" : [ "工业App" ],
+        "summary" : "统计平台上App的信息",
+        "description" : "",
+        "operationId" : "app_summary",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AppSummaryDto"
+            }
           }
         }
       }
@@ -243,6 +351,63 @@
         }
       }
     },
+    "/tenant/summary" : {
+      "get" : {
+        "tags" : [ "租户" ],
+        "summary" : "统计平台上租户的信息",
+        "description" : "",
+        "operationId" : "tenant_summary",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/TenantSummaryDto"
+            }
+          }
+        }
+      }
+    },
+    "/account/summary" : {
+      "get" : {
+        "tags" : [ "账户" ],
+        "summary" : "统计平台上用户的信息",
+        "description" : "",
+        "operationId" : "account_summary",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AccountSummaryDto"
+            }
+          }
+        }
+      }
+    },
+    "/account/map" : {
+      "get" : {
+        "tags" : [ "账户" ],
+        "summary" : "统计平台上用户的分布",
+        "description" : "",
+        "operationId" : "account_map",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AccountMapDto"
+            }
+          }
+        }
+      }
+    },
     "/account/searches" : {
       "post" : {
         "tags" : [ "账户" ],
@@ -321,6 +486,30 @@
       }
     },
     "/account/{accountId}" : {
+      "get" : {
+        "tags" : [ "账户" ],
+        "summary" : "查询特定账户",
+        "description" : "",
+        "operationId" : "account_get",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "accountId",
+          "description" : "账户Id",
+          "format" : "int32",
+          "type" : "integer",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Succes",
+            "schema" : {
+              "$ref" : "#/definitions/AccountDto"
+            }
+          }
+        }
+      },
       "delete" : {
         "tags" : [ "账户" ],
         "summary" : "删除账户",
@@ -401,7 +590,7 @@
         "tags" : [ "账户" ],
         "summary" : "新建账户组",
         "description" : "",
-        "operationId" : "account_add",
+        "operationId" : "accountGroup_add",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -595,7 +784,7 @@
       },
       "post" : {
         "tags" : [ "权限" ],
-        "summary" : "更新用户组的所有权限",
+        "summary" : "更新用户的所有权限",
         "description" : "",
         "operationId" : "permission_updateAccountPermissions",
         "consumes" : [ ],
@@ -660,9 +849,69 @@
           }
         }
       }
+    },
+    "/settings/startup" : {
+      "get" : {
+        "tags" : [ "系统设定" ],
+        "summary" : "用户登录后，返回菜单、权限和设定数据",
+        "description" : "",
+        "operationId" : "settings_startup",
+        "consumes" : [ ],
+        "produces" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/StartupDto"
+            }
+          }
+        }
+      }
     }
   },
   "definitions" : {
+    "MenuItemDto" : {
+      "type" : "object",
+      "properties" : {
+        "text" : {
+          "type" : "string"
+        },
+        "icon" : {
+          "type" : "string"
+        },
+        "link" : {
+          "type" : "string"
+        },
+        "children" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MenuItemDto"
+          }
+        }
+      }
+    },
+    "StartupDto" : {
+      "type" : "object",
+      "properties" : {
+        "grantedPermissions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "menus" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MenuItemDto"
+          }
+        },
+        "settings" : {
+          "$ref" : "#/definitions/SettingsDto"
+        }
+      }
+    },
     "SettingsDto" : {
       "type" : "object",
       "properties" : {
@@ -744,6 +993,12 @@
         },
         "account" : {
           "type" : "string"
+        },
+        "pageIndex" : {
+          "type" : "integer"
+        },
+        "pageSize" : {
+          "type" : "integer"
         }
       }
     },
@@ -824,6 +1079,90 @@
           "type" : "integer",
           "format" : "int64",
           "description" : "创建时间"
+        },
+        "OwnGroupIds" : {
+          "description" : "用户所在组",
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        }
+      }
+    },
+    "AccountSummaryDto" : {
+      "type" : "object",
+      "properties" : {
+        "totalCount" : {
+          "type" : "integer",
+          "description" : "账户总数"
+        },
+        "activeCount" : {
+          "type" : "integer",
+          "description" : "启用的账户总数"
+        },
+        "inactiveCount" : {
+          "type" : "integer",
+          "description" : "停用的账户总数"
+        }
+      }
+    },
+    "DistributedMapDto" : {
+      "type" : "object",
+      "properties" : {
+        "lng" : {
+          "type" : "number",
+          "description" : "经度"
+        },
+        "lat" : {
+          "type" : "number",
+          "description" : "纬度"
+        },
+        "city" : {
+          "type" : "string",
+          "description" : "城市"
+        },
+        "count" : {
+          "type" : "integer",
+          "description" : "分布数量"
+        }
+      }
+    },
+    "AccountMapDto" : {
+      "type" : "object",
+      "properties" : {
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/DistributedMapDto"
+          }
+        }
+      }
+    },
+    "IoTSummaryDto" : {
+      "type" : "object",
+      "properties" : {
+        "totalCount" : {
+          "type" : "integer",
+          "description" : "设备总数"
+        },
+        "onlineCount" : {
+          "type" : "integer",
+          "description" : "在线设备总数"
+        },
+        "offlineCount" : {
+          "type" : "integer",
+          "description" : "离线设备总数"
+        }
+      }
+    },
+    "IoTMapDto" : {
+      "type" : "object",
+      "properties" : {
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/DistributedMapDto"
+          }
         }
       }
     },
@@ -837,6 +1176,12 @@
         "accountGroupId" : {
           "type" : "integer",
           "format" : "int32"
+        },
+        "pageIndex" : {
+          "type" : "integer"
+        },
+        "pageSize" : {
+          "type" : "integer"
         }
       }
     },
@@ -1016,10 +1361,37 @@
       "enum" : [ "InUse", "NotInUse", "Overdue" ],
       "description" : "使用中/未使用/逾期"
     },
+    "AppStage" : {
+      "type" : "string",
+      "enum" : [ "preparatory", "forSale" ],
+      "description" : "准备（下架）/出售（上架）"
+    },
+    "AppAuthorizeScope" : {
+      "type" : "string",
+      "enum" : [ "All", "ToTenants", "ToTenantGroups" ],
+      "description" : "面向所有/面向租户/面向租户组"
+    },
     "AppEditionType" : {
       "type" : "string",
       "enum" : [ "Standard", "Customize" ],
       "description" : "标准版/定制版"
+    },
+    "AppSummaryDto" : {
+      "type" : "object",
+      "properties" : {
+        "totalCount" : {
+          "type" : "integer",
+          "description" : "App总数"
+        },
+        "CountForSale" : {
+          "type" : "integer",
+          "description" : "上架(出售)的App总数"
+        },
+        "CountInPreparatory" : {
+          "type" : "integer",
+          "description" : "下架(准备阶段)的App总数"
+        }
+      }
     },
     "AuthorizeTenantDto" : {
       "type" : "object",
@@ -1061,6 +1433,58 @@
           "items" : {
             "$ref" : "#/definitions/AppDto"
           }
+        }
+      }
+    },
+    "ListResultDto[AppListDto]" : {
+      "type" : "object",
+      "properties" : {
+        "items" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AppListDto"
+          }
+        }
+      }
+    },
+    "AppListDto" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "summary" : {
+          "type" : "string",
+          "description" : "概要"
+        },
+        "imageUrl" : {
+          "type" : "string",
+          "description" : "图片地址"
+        },
+        "appKey" : {
+          "type" : "string"
+        },
+        "appEditionType" : {
+          "$ref" : "#/definitions/AppEditionType"
+        },
+        "authorizeScope" : {
+          "$ref" : "#/definitions/AppAuthorizeScope"
+        },
+        "version" : {
+          "type" : "string",
+          "description" : "版本号"
+        },
+        "appStage" : {
+          "$ref" : "#/definitions/AppStage"
+        },
+        "updateTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "更新时间"
         }
       }
     },
@@ -1127,6 +1551,10 @@
           "type" : "string",
           "description" : "租户名称"
         },
+        "desc" : {
+          "type" : "string",
+          "description" : "租户描述"
+        },
         "expiryTime" : {
           "type" : "number",
           "description" : "租户过期时间"
@@ -1134,6 +1562,23 @@
         "isActive" : {
           "type" : "boolean",
           "description" : "是否激活租户"
+        }
+      }
+    },
+    "TenantSummaryDto" : {
+      "type" : "object",
+      "properties" : {
+        "totalCount" : {
+          "type" : "integer",
+          "description" : "租户总数"
+        },
+        "activeCount" : {
+          "type" : "integer",
+          "description" : "启用的租户总数"
+        },
+        "inactiveCount" : {
+          "type" : "integer",
+          "description" : "停用的租户总数"
         }
       }
     },
@@ -1161,7 +1606,7 @@
           "type" : "string"
         },
         "shouldChangePasswordOnNextLogin" : {
-          "type" : "string",
+          "type" : "boolean",
           "description" : "下次登录时密码重置"
         },
         "isActive" : {
@@ -1304,6 +1749,9 @@
       "required" : [ "userName", "password" ],
       "type" : "object",
       "properties" : {
+        "tenantCode" : {
+          "type" : "string"
+        },
         "userName" : {
           "maxLength" : 256,
           "type" : "string",
@@ -1319,6 +1767,29 @@
         "returnUrl" : {
           "type" : "string",
           "description" : "未登录时访问的页面，登录后需要重定向"
+        }
+      }
+    },
+    "ListResultDto[NameValueDto]" : {
+      "type" : "object",
+      "properties" : {
+        "items" : {
+          "uniqueItems" : false,
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/NameValueDto"
+          }
+        }
+      }
+    },
+    "NameValueDto" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
         }
       }
     }

@@ -25,4 +25,4 @@
     <router-outlet></router-outlet>
   </div>
 </wimi-four-grid>
-<user-create-modal #createUserModal></user-create-modal>
+<user-create-modal #createUserModal (modalSave)="handleUserCreated()"></user-create-modal>

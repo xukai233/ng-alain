@@ -40,8 +40,10 @@ export class TenantService {
 
   stop(tenant:TenantListDto):void{
     tenant.isActive = !tenant.isActive;
+    let updateTenantDto = new UpdateTenantDto();
+    updateTenantDto.isActive = tenant.isActive;
     this._tenantService
-    .update(tenant.id,tenant as UpdateTenantDto)
+    .update(tenant.id,updateTenantDto)
     .subscribe(()=>{
       this.list(this.filterTenants)
     })

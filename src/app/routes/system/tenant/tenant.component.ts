@@ -65,6 +65,7 @@ export class TenantComponent implements OnInit {
 
   handleIndexChange(num:number){
     this.filterTenants.pageIndex = num;
+    this.tenantService.list(this.filterTenants)
   }
 
   createTenant(): void {

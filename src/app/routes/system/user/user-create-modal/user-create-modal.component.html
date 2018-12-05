@@ -1,4 +1,4 @@
-<nz-modal nzWidth="680" #createModal nzTitle="新建账号" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" >
+<nz-modal nzWidth="680" #createModal nzTitle="新建账号" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" [nzOkLoading]="loading">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="handleSubmit()">
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userCode">账号</nz-form-label>
@@ -60,15 +60,7 @@
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userGroup">用户组</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-radio-group formControlName="accountGourps" [(ngModel)]="account.accountGourps">
-          <label nz-radio nzValue="A">系统管理员</label>
-          <label nz-radio nzValue="B">普通成员</label>
-          <label nz-radio nzValue="C">计划员</label>
-          <label nz-radio nzValue="D">线班长</label>
-          <label nz-radio nzValue="E">操作工</label>
-          <label nz-radio nzValue="D">车间主任</label>
-          <label nz-radio nzValue="D">自定义</label>
-        </nz-radio-group>
+        <nz-checkbox-group formControlName="accountGourps" [(ngModel)]="checkOptionsOne"></nz-checkbox-group>
       </nz-form-control>
     </nz-form-item>
   </form>
