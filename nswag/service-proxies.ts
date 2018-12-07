@@ -211,16 +211,21 @@ export class AppServiceProxy {
 
     /**
      * 列出所有App
+     * @param pageSerchDto (optional) 按照分页条件过滤APP
      * @return Success
      */
-    listAll(): Observable<ListResultDtoOfAppListDto> {
+    listAll(pageSerchDto: PageSearchDto | null | undefined): Observable<ListResultDtoOfAppListDto> {
         let url_ = this.baseUrl + "/app/all";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(pageSerchDto);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -480,21 +485,20 @@ export class AppServiceProxy {
      * @param appId app id
      * @return Success
      */
-    setStage(appId: number, appStage: AppStage): Observable<void> {
-        let url_ = this.baseUrl + "/app/{appId}/set-stage";
+    setStage(appId: number, stage: string): Observable<void> {
+        let url_ = this.baseUrl + "/app/{appId}/set-stage/{stage}";
         if (appId === undefined || appId === null)
             throw new Error("The parameter 'appId' must be defined.");
         url_ = url_.replace("{appId}", encodeURIComponent("" + appId)); 
+        if (stage === undefined || stage === null)
+            throw new Error("The parameter 'stage' must be defined.");
+        url_ = url_.replace("{stage}", encodeURIComponent("" + stage)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(appStage);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
             })
         };
 
@@ -4445,6 +4449,46 @@ export class NameValueDto implements INameValueDto {
 export interface INameValueDto {
     name?: string | undefined;
     value?: string | undefined;
+}
+
+export class PageSearchDto implements IPageSearchDto {
+    pageSize?: number | undefined;
+    pageIndex?: number | undefined;
+
+    constructor(data?: IPageSearchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pageSize = data["pageSize"];
+            this.pageIndex = data["pageIndex"];
+        }
+    }
+
+    static fromJS(data: any): PageSearchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PageSearchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageSize"] = this.pageSize;
+        data["pageIndex"] = this.pageIndex;
+        return data; 
+    }
+}
+
+export interface IPageSearchDto {
+    pageSize?: number | undefined;
+    pageIndex?: number | undefined;
 }
 
 export interface FileParameter {

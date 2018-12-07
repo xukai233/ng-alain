@@ -1,6 +1,8 @@
 <wimi-breadcrumb title="APP管理" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
 <wimi-table>
-  <nz-table name="table" #basicTable [nzData]="dataSet.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading" [nzFrontPagination]="false" [nzTotal]="totalCount">
+  <nz-table name="table" #basicTable [nzData]="dataSet.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading" [nzFrontPagination]="false" [nzTotal]="totalCount"
+    (nzPageSizeChange)="handlePageSizeChange($event)"
+  (nzPageIndexChange)="handleIndexChange($event)">
     <thead>
       <tr>
         <th>APP概览</th>
@@ -18,16 +20,17 @@
           <img class="app-des-icon" src="http://dada-image-bed.oss-cn-shenzhen.aliyuncs.com/18-11-26/53428683.jpg"/>
           <div>
             <div class="app-title"><nz-tag [nzColor]="'cyan'">定制版</nz-tag>{{data.displayName}}</div>
-            <div class="app-subtitle">车间信息采集分析系统</div>
+            <div class="app-subtitle">{{data.summary}}</div>
           </div>
         </td>
-        <td>A001</td>
-        <td>D181132</td>
-        <td>上架</td>
-        <td>V1.0</td>
-        <td>2018-11-20 14:03</td>
+        <td>{{data.authorizeScope}}</td>
+        <td>{{data.appKey}}</td>
+        <td>{{data.appStage}}</td>
+        <td>{{data.version}}</td>
+        <td>{{data.updateTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>
-          <a>下架</a>
+          <a *ngIf="data.appStage==='preparatory'" (click)="handUpApp(data)">上架</a>
+          <a *ngIf="data.appStage==='forSale'"  nz-popconfirm nzTitle="确定下架该APP?" (nzOnConfirm)="handDownApp(data)">下架</a>
         </td>
       </tr>
     </tbody>

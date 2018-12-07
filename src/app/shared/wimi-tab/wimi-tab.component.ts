@@ -7,14 +7,7 @@ import { Component, OnInit, Input, Output,EventEmitter} from '@angular/core';
 })
 export class WimiTabComponent implements OnInit {
   @Input() tabs;
-  @Input()
-  get select(){
-   return this.selectTab;
-  }
-  set select(val:string){
-    this.selectTab = val;
-    this.handleTabSelect(val)
-  }
+  @Input() select;
 
   @Output() onSelect = new EventEmitter<any>();
   selectTab = ""

@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,Output,EventEmitter } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
-import { AppServiceProxy,AppDto} from '@serviceProxies/service-proxies';
+import { AppServiceProxy,AppDto,AuthorizeTenantDto} from '@serviceProxies/service-proxies';
 import {
   FormBuilder,
   FormControl,
@@ -17,14 +17,24 @@ export class AppAuthUpdateComponent implements OnInit {
   @ViewChild('updateModal') modal: NzModalRef;
   validateForm: FormGroup;
   appForm:AppDto;
+  baseControlDate = "";
+  payControlDate = "";
+  payDate:any;
+  baseDate:any;
+  tenantID = 0;
+  loading= false;
+  @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private fb: FormBuilder,
+    private _appServiceProxy:AppServiceProxy
   ) { 
     this.validateForm = this.fb.group({
       baseControl       : [ null, [ Validators.required ] ],
       baseControlDate       : [ null, [ Validators.required ] ],
       payControl       : [ null, [ Validators.required ] ],
       payControlDate       : [ null, [ Validators.required ] ],
+      payExpiryTime:[],
+      baseExpiryTime:[]
     });
     this.appForm = new AppDto();
   }
@@ -34,9 +44,34 @@ export class AppAuthUpdateComponent implements OnInit {
   handleCancel(){
     this.modal.close();
   }
-  show(data:AppDto){
+  handleSubmit(){
+    const authorizeTenantDto = new AuthorizeTenantDto();
+    authorizeTenantDto.appId = this.appForm.id;
+    authorizeTenantDto.tenantId = this.tenantID;
+    authorizeTenantDto.basic = this.appForm.basic;
+    authorizeTenantDto.pay = this.appForm.pay;
+    authorizeTenantDto.basicExpiryTime = this.baseControlDate == "A"?1000:new Date(this.baseDate).getTime();
+    authorizeTenantDto.payExpiryTime = this.payControlDate == "A"?1000:new Date(this.payDate).getTime();
+    this.loading = true;
+    this._appServiceProxy
+    .updateAuthorize(authorizeTenantDto)
+    .subscribe(re=>{
+      this.loading = false;
+      this.modalSave.emit(null);
+      this.modal.close();
+    })
+  }
+  show(data:AppDto,tenantID:number){
+    this.tenantID = tenantID;
     this.appForm = data;
-    console.log(data);
+    if(data.basic){
+      this.baseControlDate = data.basicExpiryTime === 1000 ? "A":"B";
+      this.baseDate = new Date(data.basicExpiryTime);
+    }
+    if(data.pay){
+      this.payControlDate = data.payExpiryTime === 1000 ? "A":"B";
+      this.payDate = new Date(data.payExpiryTime);
+    }
     this.modal.open();
   }
 

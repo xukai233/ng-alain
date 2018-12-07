@@ -211,21 +211,24 @@ export class AppServiceProxy {
 
     /**
      * 列出所有App
+     * @param pageSerchDto (optional) 按照分页条件过滤APP
      * @return Success
      */
-    listAll(): Observable<ListResultDtoOfAppListDto> {
+    listAll(pageSerchDto: PageSearchDto | null | undefined): Observable<ListResultDtoOfAppListDto> {
         let url_ = this.baseUrl + "/app/all";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(pageSerchDto);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Content-Type": "application/json"
             })
         };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processListAll(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -480,21 +483,20 @@ export class AppServiceProxy {
      * @param appId app id
      * @return Success
      */
-    setStage(appId: number, appStage: AppStage): Observable<void> {
-        let url_ = this.baseUrl + "/app/{appId}/set-stage";
+    setStage(appId: number, stage: string): Observable<void> {
+        let url_ = this.baseUrl + "/app/{appId}/set-stage/{stage}";
         if (appId === undefined || appId === null)
             throw new Error("The parameter 'appId' must be defined.");
         url_ = url_.replace("{appId}", encodeURIComponent("" + appId)); 
+        if (stage === undefined || stage === null)
+            throw new Error("The parameter 'stage' must be defined.");
+        url_ = url_.replace("{stage}", encodeURIComponent("" + stage)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(appStage);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
             })
         };
 
@@ -994,8 +996,8 @@ export class AccountServiceProxy {
     list(filterAccounts: FilterAccountsDto | null | undefined): Observable<PagedResultDtoOfAccountsListDto> {
         let url_ = this.baseUrl + "/account/searches";
         url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(filterAccounts);
+        filterAccounts.toJSON
+        const content_ = filterAccounts.toJSON();
 
         let options_ : any = {
             body: content_,
@@ -1103,7 +1105,7 @@ export class AccountServiceProxy {
      * @return Succes
      */
     update(accountId: number, updateAccount: UpdateAccountDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/account/{accountId}";
+        let url_ = this.baseUrl + "/account";
         if (accountId === undefined || accountId === null)
             throw new Error("The parameter 'accountId' must be defined.");
         url_ = url_.replace("{accountId}", encodeURIComponent("" + accountId)); 
@@ -1189,7 +1191,6 @@ export class AccountServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<AccountDto> {
         const status = response.status;
-            
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
@@ -2594,10 +2595,8 @@ export class AccountDto implements IAccountDto {
             this.email = data["email"];
             this.isActive = data["isActive"];
             this.createTime = data["createTime"];
-            console.log(data);
             if (data["ownGroupIds"] && data["ownGroupIds"].constructor === Array) {
                 this.ownGroupIds = [];
-
                 for (let item of data["ownGroupIds"])
                     this.ownGroupIds.push(item);
             }
@@ -2620,9 +2619,9 @@ export class AccountDto implements IAccountDto {
         data["isActive"] = this.isActive;
         data["createTime"] = this.createTime;
         if (this.ownGroupIds && this.ownGroupIds.constructor === Array) {
-            data["OwnGroupIds"] = [];
+            data["ownGroupIds"] = [];
             for (let item of this.ownGroupIds)
-                data["OwnGroupIds"].push(item);
+                data["ownGroupIds"].push(item);
         }
         return data; 
     }
@@ -3065,11 +3064,8 @@ export class UpdateAccountDto implements IUpdateAccountDto {
         data["isActive"] = this.isActive;
         if (this.accountGourps && this.accountGourps.constructor === Array) {
             data["accountGourps"] = [];
-            for (let item  of this.accountGourps)
-            {
-                console.log(item)
-                data["accountGourps"].push((item as AccountGroupDto).toJSON());
-            }
+            for (let item of this.accountGourps)
+                data["accountGourps"].push(item.toJSON());
         }
         return data; 
     }
@@ -4451,6 +4447,46 @@ export class NameValueDto implements INameValueDto {
 export interface INameValueDto {
     name?: string | undefined;
     value?: string | undefined;
+}
+
+export class PageSearchDto implements IPageSearchDto {
+    pageSize?: number | undefined;
+    pageIndex?: number | undefined;
+
+    constructor(data?: IPageSearchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.pageSize = data["pageSize"];
+            this.pageIndex = data["pageIndex"];
+        }
+    }
+
+    static fromJS(data: any): PageSearchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PageSearchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageSize"] = this.pageSize;
+        data["pageIndex"] = this.pageIndex;
+        return data; 
+    }
+}
+
+export interface IPageSearchDto {
+    pageSize?: number | undefined;
+    pageIndex?: number | undefined;
 }
 
 export interface FileParameter {

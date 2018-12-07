@@ -12,7 +12,8 @@ import { JWTInterceptor } from '@delon/auth';
     ApiServiceProxies.AppServiceProxy,
     ApiServiceProxies.AccountServiceProxy,
     ApiServiceProxies.AuditLogServiceProxy,
-    ApiServiceProxies.AccountGroupServiceProxy
+    ApiServiceProxies.AccountGroupServiceProxy,
+    ApiServiceProxies.PermissionServiceProxy
   ],
   imports: [
     CommonModule

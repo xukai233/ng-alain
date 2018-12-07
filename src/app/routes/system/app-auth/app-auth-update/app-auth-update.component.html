@@ -1,5 +1,5 @@
-<nz-modal #updateModal nzTitle="修改授权" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" >
-  <form nz-form [formGroup]="validateForm" (ngSubmit)="handleSubmit()">
+<nz-modal #updateModal nzTitle="修改授权" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" [nzOkLoading]="loading">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="handleSubmit()" >
 
     <nz-form-item nz-row style="margin-bottom:8px;">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="baseControl">基础功能</nz-form-label>
@@ -13,10 +13,10 @@
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="baseControlDate">授权有限日期</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-radio-group formControlName="baseControlDate">
+        <nz-radio-group formControlName="baseControlDate" [(ngModel)]="baseControlDate">
           <label nz-radio nzValue="A">无期限</label>
           <label nz-radio nzValue="B">
-            <nz-range-picker></nz-range-picker>
+            <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" formControlName="baseExpiryTime" [(ngModel)]="baseDate"></nz-date-picker>
           </label>
         </nz-radio-group>
       </nz-form-control>
@@ -33,10 +33,10 @@
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="payControlDate">授权有限日期</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-radio-group formControlName="payControlDate">
+        <nz-radio-group formControlName="payControlDate" [(ngModel)]="payControlDate">
           <label nz-radio nzValue="A">无期限</label>
           <label nz-radio nzValue="B">
-            <nz-range-picker></nz-range-picker>
+            <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" formControlName="payExpiryTime" [(ngModel)]="payDate"></nz-date-picker>
           </label>
         </nz-radio-group>
       </nz-form-control>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TenantServiceProxy,FilterTenantsDto,ListResultDtoOfAppDto,AppServiceProxy} from '@serviceProxies/service-proxies';
+import { TenantServiceProxy,FilterTenantsDto,ListResultDtoOfAppDto,AppServiceProxy,AppDto,AppStage,PageSearchDto} from '@serviceProxies/service-proxies';
 
 @Component({
   selector: 'app-list',
@@ -15,6 +15,7 @@ export class AppListComponent implements OnInit {
   totalCount= 20;
   isLoading = false;
   dataSet:ListResultDtoOfAppDto;
+  pageSearchDto:PageSearchDto;
   constructor(
     private appServiceProxy:AppServiceProxy
     ) { 
@@ -22,17 +23,46 @@ export class AppListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.pageSearchDto = new PageSearchDto();
+    this.pageSearchDto.pageIndex = 1;
+    this.pageSearchDto.pageSize = 10;
     this.listApp()
   }
   listApp(){
     this.isLoading = true;
     this.appServiceProxy
-    .listAll()
+    .listAll(this.pageSearchDto)
     .subscribe(re=>{
       this.isLoading = false;
       this.dataSet = re;
-      console.log(re);
     })
+  }
+  handUpApp(data:AppDto){
+    this.appServiceProxy
+    .setStage(data.id,AppStage.ForSale)
+    .subscribe(re=>{
+      this.listApp();
+    })
+  }
+
+  handDownApp(data:AppDto){
+    this.appServiceProxy
+    .setStage(data.id,AppStage.Preparatory)
+    .subscribe(re=>{
+      this.listApp();
+    })
+  }
+
+  //分页功能后端还没有实现
+  handlePageSizeChange(num){
+    this.pageSearchDto.pageSize = num;
+    this.pageSearchDto.pageSize = 1;
+    this.listApp();
+  }
+
+  handleIndexChange(num){
+    this.pageSearchDto.pageSize = num;
+    this.listApp();
   }
 
 }

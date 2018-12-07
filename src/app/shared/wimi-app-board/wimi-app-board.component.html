@@ -10,16 +10,19 @@
   </div>
   <div style="flex:0.6;text-align: left;">
     <div style="display: flex;align-items: center;">
-      <nz-badge *ngIf="data.status === 'InUse'" nzStatus="success" nzText="使用中"></nz-badge>
-      <nz-badge *ngIf="data.status === 'NotInUse'" nzStatus="success" nzText="未使用"></nz-badge>
-      <nz-badge *ngIf="data.status === 'Overdue'" nzStatus="warning" nzText="已逾期"></nz-badge>
+      <nz-badge *ngIf="data.status === '0'" nzStatus="success" nzText="使用中"></nz-badge>
+      <nz-badge *ngIf="data.status === '1'" nzStatus="success" nzText="未使用"></nz-badge>
+      <nz-badge *ngIf="data.status === '2'" nzStatus="warning" nzText="已逾期"></nz-badge>
     </div>
-    <div [style.color]="data.basic === '未授权'?'#b1b1b1':''">
-      {{data.basicExpiryTime}}
+    <div *ngIf="data.basic">
+      {{data.basicExpiryTime|date:'yyyy-MM-dd HH:mm:ss'}}
     </div>
-    <div [style.color]="data.pay === '未授权'?'#b1b1b1':''">
-      {{data.payExpiryTime}}
+     <div *ngIf="!data.basic" [style.color]="'#b1b1b1'">未授权</div>
+
+    <div *ngIf="data.pay">
+      {{data.payExpiryTime|date:'yyyy-MM-dd HH:mm:ss'}}
     </div>
+    <div *ngIf="!data.pay" [style.color]="'#b1b1b1'">未授权</div>
   </div>
 </div>
 <div class="boardedit" (click)="handleEditClick()">

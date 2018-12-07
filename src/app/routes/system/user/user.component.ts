@@ -65,7 +65,9 @@ export class UserComponent implements OnInit {
   }
 
   handleLeftSelect(val){
-    this.router.navigate([`/system/user/account`,val.id]);
+    const urls = this.router.url.split('/');
+    urls[urls.length - 1] = val.id;
+    this.router.navigate([urls.join('/')]);
     this.userGroupId = val.id;
   }
   handleChangeName(data){

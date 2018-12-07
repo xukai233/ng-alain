@@ -24,6 +24,8 @@ export class AuditComponent implements OnInit {
     private auditLogServiceProxy:AuditLogServiceProxy
     ){ 
     this.filterAuditLogsDto = new FilterAuditLogsDto();
+    this.filterAuditLogsDto.pageIndex = 1;
+    this.filterAuditLogsDto.pageSize = 10;
   }
 
   ngOnInit() {
@@ -41,6 +43,21 @@ export class AuditComponent implements OnInit {
 
   toggleCollapse(){
     this.isCollapse = !this.isCollapse
+  }
+
+  handlePageSizeChange(num){
+    this.filterAuditLogsDto.pageSize = num;
+    this.getAudits();
+  }
+
+  handleIndexChange(num){
+    this.filterAuditLogsDto.pageIndex = num;
+    this.getAudits();
+  }
+
+  handleSearch(){
+    this.filterAuditLogsDto.pageIndex = 1;
+    this.getAudits();
   }
 
 }

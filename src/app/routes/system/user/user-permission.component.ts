@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PermissionServiceProxy,PermissionDto,GrantedPermissionsDto} from '@serviceProxies/service-proxies';
+import { Router,ActivatedRoute,Params} from '@angular/router';
 
 @Component({
   selector: 'user-permission',
@@ -6,49 +8,105 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-permission.component.less']
 })
 export class UserPermissionComponent implements OnInit {
-  constructor() { }
+  accountGroupId:number;
+  allPermission:PermissionDto[];
+  permission:PermissionDto[];
+  constructor(
+    private _permissionServiceProxy:PermissionServiceProxy,
+    private routerIonfo:ActivatedRoute
+    ) { }
   data = [
-    {
-      label:"系统",
-      key:"系统",
-      indeterminate:true,
-      checked:false,
-      description:"系统功能描述系统功能描述系统功能描述系统功能描述系统功能描述系统功能描述",
-      childs:[
-        {
-           label:"用户管理",
-           key:"用户管理",
-           checked:false,
-           indeterminate:true,
-           childs:[
-            { label: '新建',key:'新建', value: '1', checked: true },
-            { label: '编辑',key:'编辑', value: '2', checked: false },
-            { label: '删除',key:'删除', value: '3', checked: false }
-           ]
-        },{
-          label:"用户权限管理",
-          key:"用户权限管理",
-          checked:true,
-          indeterminate:false,
-          childs:[
-            { label: '权限管理1',key:"权限管理1", value: '1', checked: true },
-            { label: '权限管理2',key:"权限管理2", value: '1', checked: true },
-            { label: '权限管理3',key:"权限管理3", value: '1', checked: true },
-            { label: '权限管理4',key:"权限管理4", value: '1', checked: true },
-            { label: '权限管理5',key:"权限管理5", value: '1', checked: true },
-            { label: '权限管理6',key:"权限管理6", value: '1', checked: true },
-            { label: '权限管理7',key:"权限管理7", value: '1', checked: true },
-            { label: '权限管理8',key:"权限管理8", value: '1', checked: true },
-            { label: '权限管理9',key:"权限管理9", value: '1', checked: true }
-          ]
-        }
-      ]
-    }
+    
   ]
   ngOnInit() {
+    this.routerIonfo.params
+    .subscribe((params:Params)=>{
+      if(this.routerIonfo.snapshot.params["id"] && this.routerIonfo.snapshot.params["id"] > 0){
+        this.accountGroupId = this.routerIonfo.snapshot.params["id"];
+        this.getPermission(this.accountGroupId);
+        
+      }
+    })
   }
+  getPermission(accountGroupId:number){
+    this._permissionServiceProxy
+    .listByAccountGroupId(accountGroupId)
+    .subscribe(re=>{
+      this.getAllPermission();
+      this.permission = re.items;
+    })
+  }
+
+  getAllPermission(){
+    this._permissionServiceProxy
+    .listAll()
+    .subscribe(re=>{
+      this.allPermission = re.items;
+      this.data = this.getChildPermission(null);
+      console.log(this.data)
+    })
+  }
+
+  getChildPermission(parentId:number|null){
+    const childPermission = this.allPermission.filter(data=>data.parentId === parentId)
+    if(!childPermission){
+      return null;
+    }
+    let child = [];
+    for(let chd of childPermission){
+      child.push({
+        id:chd.id,
+        label:chd.displayName,
+        key:chd.displayName,
+        indeterminate:this.childChecked(chd.id),
+        checked:this.childAllChecked(chd.id),
+        description:chd.desc,
+        childs:this.getChildPermission(chd.id)
+      })
+    }
+    return child;
+  }
+
+  childChecked(id:number){
+    return this.permission.filter(data=>data.parentId === id).length > 0;
+  }
+
+  childAllChecked(id:number){
+    if(this.permission.filter(data=>data.parentId === id).length > 0)
+      return this.permission.filter(data=>data.parentId === id).length === this.allPermission.filter(data=>data.parentId === id).length;
+    else
+      return false;
+  }
+
+  getChildPer(item){
+    let arr = [];
+    if(item.child){
+      if(item.child.indeterminate || item.child.checked){
+        arr.push(item.child.id);
+      }
+    }
+    return arr;
+  }
+
+  savePermission(){
+    const grantedPermissiond = new GrantedPermissionsDto();
+    let per = [];
+    for(let item of this.data){
+      if(item.indeterminate || item.checked){
+         per.push(item.id)
+      }
+      per.push(this.getChildPer(item))
+    }
+    this._permissionServiceProxy
+    .updateAccountGroupPermissions(this.accountGroupId,grantedPermissiond)
+    .subscribe(re=>{
+      this.ngOnInit();
+    })
+  }
+
   updateAllChecked(key){
     this.checkChange(key,this.data)
+    this.savePermission();
   }
   updateMenuChecked(key){
     this.checkChange(key,this.data)
@@ -57,6 +115,7 @@ export class UserPermissionComponent implements OnInit {
          this.setParentStatus(item)
        }
     }
+    this.savePermission();
   }
   updateItemChecked(key){
     this.checkChange(key,this.data)
@@ -68,6 +127,7 @@ export class UserPermissionComponent implements OnInit {
        }
       }
     }
+    this.savePermission();
   }
 
   checkChange(key,data){

@@ -15,10 +15,10 @@
       </div>
       <div style="flex:auto">
         <nz-input-group *ngIf="isCollapse" nzSearch [nzSuffix]="suffixButton" style="width: 60%">
-          <input type="text" nz-input placeholder="账号/APP/Api">
+          <input type="text" nz-input placeholder="账号/APP/Api" [(ngModel)]="filterAuditLogsDto.account">
         </nz-input-group>
         <ng-template #suffixButton>
-          <button nz-button nzType="primary" nzSearch>查询</button>
+          <button nz-button nzType="primary" nzSearch (click)="handleSearch()">查询</button>
         </ng-template>
       </div>
     </form>
@@ -26,7 +26,7 @@
   <div *ngIf="!isCollapse" class="search-detail" name="head" nz-row nzType="flex">
     <div nz-col nzSpan="20">
       <wimi-form-item text="账号" class="wimi-form-item">
-        <input nz-input placeholder="请输入" >
+        <input nz-input placeholder="请输入" [(ngModel)]="filterAuditLogsDto.account">
       </wimi-form-item>
       <wimi-form-item text="APP" class="wimi-form-item">
         <input nz-input placeholder="请输入" >
@@ -35,7 +35,7 @@
         <input nz-input placeholder="请输入" >
       </wimi-form-item>
       <wimi-form-item text="状态" class="wimi-form-item">
-        <nz-select nzAllowClear nzPlaceHolder="请选择" style="width: 100%">
+        <nz-select nzAllowClear nzPlaceHolder="请选择" [(ngModel)]="filterAuditLogsDto.status" style="width: 100%">
           <nz-option nzValue="200" nzLabel="200成功"></nz-option>
           <nz-option nzValue="400" nzLabel="400错误"></nz-option>
           <nz-option nzValue="300" nzLabel="300错误"></nz-option>
@@ -54,7 +54,9 @@
     </div>
     <div nz-col nzSpan="4"><button nz-button nzType="primary" nzSearch>查询</button></div>
   </div>
-  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading" [nzFrontPagination]="false" [nzTotal]="totalCount">
+  <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading" [nzFrontPagination]="false" [nzTotal]="totalCount"
+    (nzPageSizeChange)="handlePageSizeChange($event)"
+  (nzPageIndexChange)="handleIndexChange($event)">
     <thead>
       <tr>
         <th>账号</th>

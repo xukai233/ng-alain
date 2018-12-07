@@ -90,10 +90,13 @@ export class AppAuthComponent implements OnInit {
 
   }
   handleAppEdit(data:AppDto){
-    this.updateAppAuth.show(data);
+    this.updateAppAuth.show(data,this.selectItem);
   }
 
   handleSearch(){
     this.getTenants(this.filterTenantsDto);
+  }
+  handleUpdateSave(){
+    this.getAppList(this.selectItem);
   }
 }

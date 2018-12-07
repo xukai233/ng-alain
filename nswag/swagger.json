@@ -105,6 +105,14 @@
         "operationId" : "app_listAll",
         "consumes" : [ ],
         "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "pageSerchDto",
+          "description" : "按照分页条件过滤APP",
+          "schema" : {
+            "$ref" : "#/definitions/PageSearchDto"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "Success",
@@ -199,7 +207,7 @@
         }
       }
     },
-    "/app/{appId}/set-stage" : {
+    "/app/{appId}/set-stage/{stage}" : {
       "put" : {
         "tags" : [ "工业App" ],
         "summary" : "操作App上下架",
@@ -215,12 +223,10 @@
           "type" : "integer",
           "required" : true
         }, {
-          "name" : "AppStage",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/AppStage"
-          }
+          "name" : "stage",
+          "in" : "path",
+          "type" : "string",
+          "required" : true
         } ],
         "responses" : {
           "200" : {
@@ -1790,6 +1796,17 @@
         },
         "value" : {
           "type" : "string"
+        }
+      }
+    },
+    "PageSearchDto" : {
+      "type" : "object",
+      "properties" : {
+        "pageSize" : {
+          "type" : "number"
+        },
+        "pageIndex" : {
+          "type" : "number"
         }
       }
     }
