@@ -18,7 +18,7 @@ export class AuditComponent implements OnInit {
   isCollapse = true;
   dataSet:AuditLogsListDto[];
   totalCount = 0;
-  tableLoading = true;
+  tableLoading = false;
   filterAuditLogsDto:FilterAuditLogsDto;
   constructor(
     private auditLogServiceProxy:AuditLogServiceProxy
@@ -32,6 +32,7 @@ export class AuditComponent implements OnInit {
     this.getAudits();
   }
   getAudits(){
+    this.tableLoading = true;
     this.auditLogServiceProxy
     .list(this.filterAuditLogsDto)
     .subscribe(re=>{

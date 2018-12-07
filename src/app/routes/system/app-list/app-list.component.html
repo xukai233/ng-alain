@@ -17,7 +17,9 @@
     <tbody>
       <tr *ngFor="let data of basicTable.data">
         <td class="app-des">
-          <img class="app-des-icon" src="http://dada-image-bed.oss-cn-shenzhen.aliyuncs.com/18-11-26/53428683.jpg"/>
+          <img class="app-des-icon"
+          (error)="handleImageErr(data)"
+          [src]="data.imageUrl?data.imageUrl:'http://dada-image-bed.oss-cn-shenzhen.aliyuncs.com/18-11-26/53428683.jpg'"/>
           <div>
             <div class="app-title"><nz-tag [nzColor]="'cyan'">定制版</nz-tag>{{data.displayName}}</div>
             <div class="app-subtitle">{{data.summary}}</div>
@@ -25,7 +27,7 @@
         </td>
         <td>{{data.authorizeScope}}</td>
         <td>{{data.appKey}}</td>
-        <td>{{data.appStage}}</td>
+        <td>{{data.appStage === 'forSale'?'上架':'下架'}}</td>
         <td>{{data.version}}</td>
         <td>{{data.updateTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>

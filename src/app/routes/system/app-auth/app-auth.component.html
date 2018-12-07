@@ -12,7 +12,8 @@
     <ng-template #suffixButton>
       <button nz-button nzType="primary" nzSearch (click)="handleSearch()">查询</button>
     </ng-template>
-    <nz-table  #basicTable [nzData]="dataSet" nzSize="small"  [nzLoading]="tableLoading" [nzFrontPagination]="false" nzNoResult="暂无数据">
+    <nz-table  #basicTable [nzData]="dataSet" nzSize="small"  [nzLoading]="tableLoading" [nzFrontPagination]="false" nzNoResult="暂无数据"
+      [nzTotal]="dataSet.length">
       <thead>
         <tr>
           <th>租户编号</th>

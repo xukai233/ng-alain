@@ -4,7 +4,7 @@ import { AuthenticateModel, AuthenticateResultModel, PassportServiceProxy } from
 import { finalize } from 'rxjs/operators';
 import { ReuseTabService } from '@delon/abc';
 import { Router } from '@angular/router';
-
+import { NzMessageService } from 'ng-zorro-antd';
 import {
   SocialService,
   SocialOpenType,
@@ -21,6 +21,7 @@ export class LoginService {
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
     private router: Router,
+    private message: NzMessageService
   ) 
   { 
     this.authenticateModel.tenantCode = " "
@@ -36,6 +37,8 @@ export class LoginService {
       .pipe(finalize(finallyCallback))
       .subscribe((result: AuthenticateResultModel) => {
         this.processAuthenticateResult(result, redirectUrl);
+      },err=>{
+        this.message.create('error', `后台接口异常，登录失败`);
       });
   }
   // 将token信息持久化

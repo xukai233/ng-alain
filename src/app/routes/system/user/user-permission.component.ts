@@ -15,16 +15,14 @@ export class UserPermissionComponent implements OnInit {
     private _permissionServiceProxy:PermissionServiceProxy,
     private routerIonfo:ActivatedRoute
     ) { }
-  data = [
-    
-  ]
+  data = []
+  PermissionData = [];
   ngOnInit() {
     this.routerIonfo.params
     .subscribe((params:Params)=>{
       if(this.routerIonfo.snapshot.params["id"] && this.routerIonfo.snapshot.params["id"] > 0){
         this.accountGroupId = this.routerIonfo.snapshot.params["id"];
         this.getPermission(this.accountGroupId);
-        
       }
     })
   }
@@ -78,16 +76,6 @@ export class UserPermissionComponent implements OnInit {
       return false;
   }
 
-  getChildPer(item){
-    let arr = [];
-    if(item.child){
-      if(item.child.indeterminate || item.child.checked){
-        arr.push(item.child.id);
-      }
-    }
-    return arr;
-  }
-
   savePermission(){
     const grantedPermissiond = new GrantedPermissionsDto();
     let per = [];
@@ -95,8 +83,22 @@ export class UserPermissionComponent implements OnInit {
       if(item.indeterminate || item.checked){
          per.push(item.id)
       }
-      per.push(this.getChildPer(item))
+      if(item.childs){
+        for(let child of item.childs){
+          if(child.indeterminate || child.checked){
+             per.push(child.id)
+          }
+          if(child.childs){
+            for(let ch of child.childs){
+              if(ch.indeterminate || ch.checked){
+                 per.push(ch.id)
+              }
+            }
+          }
+        }
+      }
     }
+    grantedPermissiond.ids = per;
     this._permissionServiceProxy
     .updateAccountGroupPermissions(this.accountGroupId,grantedPermissiond)
     .subscribe(re=>{

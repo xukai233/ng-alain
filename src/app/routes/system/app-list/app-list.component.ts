@@ -65,4 +65,9 @@ export class AppListComponent implements OnInit {
     this.listApp();
   }
 
+  //当app的图片加载失败是，则显示默认图
+  handleImageErr(data){
+    data.imageUrl = "http://dada-image-bed.oss-cn-shenzhen.aliyuncs.com/18-12-7/45674085.jpg"
+  }
+
 }
