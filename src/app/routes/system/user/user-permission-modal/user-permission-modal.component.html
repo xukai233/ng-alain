@@ -1,0 +1,16 @@
+<nz-modal [nzBodyStyle]="modalStyle" nzWidth="680" #permissionModal (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" [nzOkLoading]="loading">
+  <nz-tabset>
+      <nz-tab *ngFor="let ctrl of data" [nzTitle]="ctrl.label">
+         <div class="per-item" *ngFor="let child of ctrl.childs">
+        <div class="per-width">
+          <label 
+          (ngModelChange)="updateMenuChecked(child.key)"
+           nz-checkbox [ngModel]="child.checked" [nzIndeterminate]="child.indeterminate">{{child.label}}</label>
+        </div>
+        <div style="flex:1">
+          <label *ngFor="let item of child.childs"  (ngModelChange)="updateItemChecked(item.key)" [ngModel]="item.checked" nz-checkbox >{{item.label}}</label>
+        </div>
+      </div>
+      </nz-tab>
+    </nz-tabset>
+</nz-modal>

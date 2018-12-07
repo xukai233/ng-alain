@@ -18,6 +18,7 @@ import { UserCreateModalComponent } from './user/user-create-modal/user-create-m
 import { UserUpdateModalComponent } from './user/user-update-modal/user-update-modal.component';
 import { AppAuthCreateComponent } from './app-auth/app-auth-create/app-auth-create.component';
 import { AppAuthUpdateComponent } from './app-auth/app-auth-update/app-auth-update.component';
+import { UserPermissionModalComponent } from './user/user-permission-modal/user-permission-modal.component';
 
 @NgModule({
   imports: [SharedModule, SystemRoutingModule],
@@ -35,7 +36,8 @@ import { AppAuthUpdateComponent } from './app-auth/app-auth-update/app-auth-upda
     UserCreateModalComponent,
     UserUpdateModalComponent,
     AppAuthCreateComponent,
-    AppAuthUpdateComponent
+    AppAuthUpdateComponent,
+    UserPermissionModalComponent
   ],
   providers: [],
 })

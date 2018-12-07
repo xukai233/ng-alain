@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild} from '@angular/core';
 import { TenantServiceProxy,FilterTenantsDto,AppDto,AppServiceProxy} from '@serviceProxies/service-proxies';
 import {AppAuthCreateComponent} from './app-auth-create/app-auth-create.component'
 import {AppAuthUpdateComponent} from './app-auth-update/app-auth-update.component'
+import { Observable, Subject, from, forkJoin } from 'rxjs';
 import {
   FormBuilder,
   FormControl,
@@ -78,7 +79,7 @@ export class AppAuthComponent implements OnInit {
   }
 
   handleAppAuth(){
-    this.createAppAuth.show();
+    this.createAppAuth.show(this.selectItem);
   }
   handleTrClick(data){
     this.selectItem = data.id;
@@ -98,5 +99,8 @@ export class AppAuthComponent implements OnInit {
   }
   handleUpdateSave(){
     this.getAppList(this.selectItem);
+  }
+  handleSearchChange(){
+    
   }
 }

@@ -26,7 +26,7 @@
       <td>
         <a (click)="handleChange(data)">修改</a>
         <nz-divider nzType="vertical"></nz-divider>
-        <a>权限</a>
+        <a (click)="handleChangePermission(data)">权限</a>
         <nz-divider nzType="vertical"></nz-divider>
         <a (click)="handleDelete(data)">删除</a>
       </td>
@@ -37,3 +37,4 @@
     共 {{totalCount}} 条结果
 </ng-template>
 <user-update-modal #updateUserModal (modalSave)="handleModalSave()"></user-update-modal>
+<user-permission-modal #permissionModal (modalSave)="handleModalSave()"></user-permission-modal>

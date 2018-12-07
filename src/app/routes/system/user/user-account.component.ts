@@ -3,6 +3,7 @@ import { NzModalService } from 'ng-zorro-antd';
 import { Router,ActivatedRoute,Params} from '@angular/router';
 import { AccountListDto,AccountServiceProxy,FilterAccountsDto} from '@serviceProxies/service-proxies';
 import {UserUpdateModalComponent} from './user-update-modal/user-update-modal.component'
+import {UserPermissionModalComponent} from './user-permission-modal/user-permission-modal.component'
 
 @Component({
   selector: 'user-account',
@@ -23,6 +24,7 @@ export class UserAccountComponent implements OnInit {
   tableLoading = true;
   filterAccountsDto:FilterAccountsDto
   @ViewChild('updateUserModal') updateUserModal: UserUpdateModalComponent;
+  @ViewChild('permissionModal') permissionModal: UserPermissionModalComponent;
 
   ngOnInit() {
     this.routerIonfo.params
@@ -67,6 +69,10 @@ export class UserAccountComponent implements OnInit {
 
   handleChange(data:AccountListDto):void {
     this.updateUserModal.show(data);
+  }
+
+  handleChangePermission(data:AccountListDto){
+    this.permissionModal.show(data);
   }
 
   handleSearch(): void {

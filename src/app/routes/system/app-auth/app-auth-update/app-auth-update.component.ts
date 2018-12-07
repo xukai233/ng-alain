@@ -74,5 +74,4 @@ export class AppAuthUpdateComponent implements OnInit {
     }
     this.modal.open();
   }
-
 }

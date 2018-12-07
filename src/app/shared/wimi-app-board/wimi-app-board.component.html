@@ -14,15 +14,19 @@
       <nz-badge *ngIf="data.status === '1'" nzStatus="success" nzText="未使用"></nz-badge>
       <nz-badge *ngIf="data.status === '2'" nzStatus="warning" nzText="已逾期"></nz-badge>
     </div>
-    <div *ngIf="data.basic">
+    <div *ngIf="data.basic&&data.basicExpiryTime!=1000">
       {{data.basicExpiryTime|date:'yyyy-MM-dd HH:mm:ss'}}
     </div>
-     <div *ngIf="!data.basic" [style.color]="'#b1b1b1'">未授权</div>
+    <div *ngIf="data.basic&&data.basicExpiryTime==1000">无期限</div>
+     <div *ngIf="!data.basic||!data.basicExpiryTime" [style.color]="'#b1b1b1'">未授权</div>
 
-    <div *ngIf="data.pay">
+    <div *ngIf="data.pay&&data.payExpiryTime!=1000">
       {{data.payExpiryTime|date:'yyyy-MM-dd HH:mm:ss'}}
     </div>
-    <div *ngIf="!data.pay" [style.color]="'#b1b1b1'">未授权</div>
+    <div *ngIf="data.pay&&data.payExpiryTime==1000">
+      无期限
+    </div>
+    <div *ngIf="!data.pay||!data.payExpiryTime" [style.color]="'#b1b1b1'">未授权</div>
   </div>
 </div>
 <div class="boardedit" (click)="handleEditClick()">

@@ -1,35 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { PermissionServiceProxy,PermissionDto,GrantedPermissionsDto} from '@serviceProxies/service-proxies';
-import { Router,ActivatedRoute,Params} from '@angular/router';
+import { Component, OnInit, ViewChild,Output,EventEmitter } from '@angular/core';
+import { NzModalRef } from 'ng-zorro-antd';
+import { AccountListDto,PermissionServiceProxy,PermissionDto,GrantedPermissionsDto} from '@serviceProxies/service-proxies';
 import { NzMessageService } from 'ng-zorro-antd';
+
 @Component({
-  selector: 'user-permission',
-  templateUrl: './user-permission.component.html',
-  styleUrls: ['./user-permission.component.less']
+  selector: 'user-permission-modal',
+  templateUrl: './user-permission-modal.component.html',
+  styleUrls: ['./user-permission-modal.component.less']
 })
-export class UserPermissionComponent implements OnInit {
-  accountGroupId:number;
+export class UserPermissionModalComponent implements OnInit {
+  @ViewChild('permissionModal') modal: NzModalRef;
   allPermission:PermissionDto[];
   permission:PermissionDto[];
+  loading = false;
+  accountId = 0;
+  data = []
+  modalStyle={
+    paddingTop:'12px'
+  }
+  @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private _permissionServiceProxy:PermissionServiceProxy,
-    private routerIonfo:ActivatedRoute,
     private message:NzMessageService,
-    ) { }
-  data = []
-  loading = false;
+  ) { }
+
   ngOnInit() {
-    this.routerIonfo.params
-    .subscribe((params:Params)=>{
-      if(this.routerIonfo.snapshot.params["id"] && this.routerIonfo.snapshot.params["id"] > 0){
-        this.accountGroupId = this.routerIonfo.snapshot.params["id"];
-        this.getPermission(this.accountGroupId);
-      }
-    })
   }
+
+  handleCancel(){
+    this.modal.close();
+  }
+
+  handleSubmit(){
+    this.savePermission();
+    this.modal.close();
+    this.modalSave.emit(null);
+  }
+
+  show(data:AccountListDto){
+    this.accountId = data.id;
+    this.getPermission(this.accountId);
+    this.modal.open();
+  }
+
   getPermission(accountGroupId:number){
     this._permissionServiceProxy
-    .listByAccountGroupId(accountGroupId)
+    .listByAccountId(accountGroupId)
     .subscribe(re=>{
       this.getAllPermission();
       this.permission = re.items;
@@ -42,7 +58,39 @@ export class UserPermissionComponent implements OnInit {
     .subscribe(re=>{
       this.allPermission = re.items;
       this.data = this.getChildPermission(null);
-      console.log(this.data)
+    })
+  }
+
+  savePermission(){
+    const grantedPermissiond = new GrantedPermissionsDto();
+    let per = [];
+    this.loading = true;
+    for(let item of this.data){
+      if(item.indeterminate || item.checked){
+         per.push(item.id)
+      }
+      if(item.childs){
+        for(let child of item.childs){
+          if(child.indeterminate || child.checked){
+             per.push(child.id)
+          }
+          if(child.childs){
+            for(let ch of child.childs){
+              if(ch.indeterminate || ch.checked){
+                 per.push(ch.id)
+              }
+            }
+          }
+        }
+      }
+    }
+    grantedPermissiond.ids = per;
+    this._permissionServiceProxy
+    .updateAccountPermissions(this.accountId,grantedPermissiond)
+    .subscribe(re=>{
+      this.ngOnInit();
+      this.loading = false;
+      this.message.create("success","保存成功");
     })
   }
 
@@ -75,46 +123,6 @@ export class UserPermissionComponent implements OnInit {
     return this.permission.filter(data=>data.id === id).length > 0;
   }
 
-  savePermission(){
-    const grantedPermissiond = new GrantedPermissionsDto();
-    let per = [];
-    this.loading = true;
-    for(let item of this.data){
-      if(item.indeterminate || item.checked){
-         per.push(item.id)
-      }
-      if(item.childs){
-        for(let child of item.childs){
-          if(child.indeterminate || child.checked){
-             per.push(child.id)
-          }
-          if(child.childs){
-            for(let ch of child.childs){
-              if(ch.indeterminate || ch.checked){
-                 per.push(ch.id)
-              }
-            }
-          }
-        }
-      }
-    }
-    grantedPermissiond.ids = per;
-    this._permissionServiceProxy
-    .updateAccountGroupPermissions(this.accountGroupId,grantedPermissiond)
-    .subscribe(re=>{
-      this.ngOnInit();
-      this.loading = false;
-      this.message.create("success","保存成功");
-    })
-  }
-
-  handleSave(){
-    this.savePermission();
-  }
-
-  updateAllChecked(key){
-    this.checkChange(key,this.data)
-  }
   updateMenuChecked(key){
     this.checkChange(key,this.data)
     for(let item of this.data){
@@ -190,5 +198,6 @@ export class UserPermissionComponent implements OnInit {
     }
     return false;
   }
+
 
 }
