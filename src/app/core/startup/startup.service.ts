@@ -100,7 +100,7 @@ export class StartupService {
                     "link": "/system/tenant",
                     "i18n": ""
                   },{
-                    "text": "APP管理",
+                    "text": "APP",
                     "icon": "anticon anticon-appstore",
                     "children":[
                       {

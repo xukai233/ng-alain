@@ -4,6 +4,8 @@ import { AccountGroupDto,AccountGroupServiceProxy,
   AccountServiceProxy,CreateAccountGroupDto,UpdateAccountGroupDto} from '@serviceProxies/service-proxies';
 import {UserCreateModalComponent} from './user-create-modal/user-create-modal.component'
 import { NzMessageService,NzModalService } from 'ng-zorro-antd';
+import {UserService} from './user.service'
+
 import {
   FormBuilder,
   FormControl,
@@ -39,6 +41,7 @@ export class UserComponent implements OnInit {
     private routerIonfo:ActivatedRoute,
     private message: NzMessageService,
     private modalService:NzModalService,
+    private userService:UserService
     ) { 
   }
   ngOnInit() {
@@ -147,6 +150,6 @@ export class UserComponent implements OnInit {
   }
 
   handleUserCreated(){
-    this.router.navigate(['/system/user/account',this.userGroupId])
+    this.userService.setLoadTable();
   }
 }

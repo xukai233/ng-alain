@@ -4,6 +4,7 @@ import { Router,ActivatedRoute,Params} from '@angular/router';
 import { AccountListDto,AccountServiceProxy,FilterAccountsDto} from '@serviceProxies/service-proxies';
 import {UserUpdateModalComponent} from './user-update-modal/user-update-modal.component'
 import {UserPermissionModalComponent} from './user-permission-modal/user-permission-modal.component'
+import {UserService} from './user.service'
 
 @Component({
   selector: 'user-account',
@@ -14,7 +15,8 @@ export class UserAccountComponent implements OnInit {
     private modalService:NzModalService,
     private accountServiceProxy:AccountServiceProxy,
     private router:Router,
-    private routerIonfo:ActivatedRoute
+    private routerIonfo:ActivatedRoute,
+    private userService:UserService
   ) { 
     this.filterAccountsDto = new FilterAccountsDto;
   }
@@ -27,6 +29,11 @@ export class UserAccountComponent implements OnInit {
   @ViewChild('permissionModal') permissionModal: UserPermissionModalComponent;
 
   ngOnInit() {
+    this.userService.loadTable$
+    .subscribe(()=>{
+      this.getAccount(this.filterAccountsDto);
+    })
+    
     this.routerIonfo.params
     .subscribe((params:Params)=>{
       if(this.routerIonfo.snapshot.params["id"] && this.routerIonfo.snapshot.params["id"] > 0){
@@ -76,6 +83,7 @@ export class UserAccountComponent implements OnInit {
   }
 
   handleSearch(): void {
+    this.filterAccountsDto.pageIndex = 1;
     this.getAccount(this.filterAccountsDto);
   }
   handleModalSave(){

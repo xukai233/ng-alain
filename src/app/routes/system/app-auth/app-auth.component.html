@@ -13,7 +13,7 @@
       <button nz-button nzType="primary" nzSearch (click)="handleSearch()">查询</button>
     </ng-template>
     <nz-table  #basicTable [nzData]="dataSet" nzSize="small"  [nzLoading]="tableLoading" [nzFrontPagination]="false" nzNoResult="暂无数据"
-      [nzTotal]="dataSet.length">
+      [nzTotal]="dataSet.length" [nzShowTotal]="totalTemplate" >
       <thead>
         <tr>
           <th>租户编号</th>
@@ -29,6 +29,9 @@
         </tr>
       </tbody>
     </nz-table>
+      <ng-template #totalTemplate let-total>
+      共 {{total}} 条结果
+  </ng-template>
   </div>
   <div name="content-right" style="text-align: center;">
     <nz-spin class="app-loading" *ngIf="appLoading"></nz-spin>

@@ -4,9 +4,9 @@
     <form nz-form class="wimi-search" nzLayout="inline" nzFlex="true" style="flex:auto">
       <div style="width: 250px;font-size: 12px;">
         <span class="filter-search">
-          <span class="select">近7日</span>
-          <span>300错误</span>
-          <span>400错误</span>
+          <span [ngClass]="searchTag == '近1小时'?'select':''" (click)="handleSearchTagChange('近1小时')">近1小时</span>
+          <span [ngClass]="searchTag == '今日'?'select':''" (click)="handleSearchTagChange('今日')">今日</span>
+          <span [ngClass]="searchTag == '近7日'?'select':''" (click)="handleSearchTagChange('近7日')">近7日</span>
         </span>
         <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()">
           {{isCollapse?'高级搜索':'收起'}}
@@ -15,10 +15,10 @@
       </div>
       <div style="flex:auto">
         <nz-input-group *ngIf="isCollapse" nzSearch [nzSuffix]="suffixButton" style="width: 60%">
-          <input type="text" nz-input placeholder="账号/APP/Api" name="account" [(ngModel)]="filterAuditLogsDto.account">
+          <input type="text" nz-input placeholder="账号/APP/Api" name="account" [(ngModel)]="filterAuditLogsDto.filter">
         </nz-input-group>
         <ng-template #suffixButton>
-          <button nz-button nzType="primary" nzSearch (click)="handleSearch()">查询</button>
+          <button nz-button nzType="primary" nzSearch (click)="handleSearch()" [nzLoading]="tableLoading">查询</button>
         </ng-template>
       </div>
     </form>
@@ -29,30 +29,30 @@
         <input nz-input placeholder="请输入" name="account" [(ngModel)]="filterAuditLogsDto.account">
       </wimi-form-item>
       <wimi-form-item text="APP" class="wimi-form-item">
-        <input nz-input placeholder="请输入" >
+        <input nz-input placeholder="请输入" [(ngModel)]="filterAuditLogsDto.app">
       </wimi-form-item>
       <wimi-form-item text="Api" class="wimi-form-item">
-        <input nz-input placeholder="请输入" >
+        <input nz-input placeholder="请输入" [(ngModel)]="filterAuditLogsDto.api" >
       </wimi-form-item>
       <wimi-form-item text="状态" class="wimi-form-item">
         <nz-select nzAllowClear nzPlaceHolder="请选择" name="status" [(ngModel)]="filterAuditLogsDto.status" style="width: 100%">
-          <nz-option nzValue="200" nzLabel="200成功"></nz-option>
-          <nz-option nzValue="400" nzLabel="400错误"></nz-option>
-          <nz-option nzValue="300" nzLabel="300错误"></nz-option>
+          <nz-option *ngFor="let data of statusList" [nzValue]="data.value" [nzLabel]="data.text"></nz-option>
         </nz-select>
       </wimi-form-item>
       <wimi-form-item text="日期范围" class="wimi-form-item">
-        <nz-range-picker [nzStyle]="rangePickerStyle" nzShowTime></nz-range-picker>
+        <nz-range-picker [nzStyle]="rangePickerStyle" nzShowTime [(ngModel)]="timeArea"></nz-range-picker>
       </wimi-form-item>
       <wimi-form-item text="持续时间" class="wimi-form-item">
         <div style="display: flex;align-items: center;">
-          <nz-input-number [nzMin]="1" [nzStep]="1"></nz-input-number>
+          <nz-input-number [(ngModel)]="filterAuditLogsDto.timeOfDurationFrom" [nzMin]="1" [nzStep]="1"></nz-input-number>
           -
-          <nz-input-number [nzMin]="1" [nzStep]="1"></nz-input-number>ms
+          <nz-input-number [(ngModel)]="filterAuditLogsDto.timeOfDurationEnd" [nzMin]="1" [nzStep]="1"></nz-input-number>ms
         </div>
       </wimi-form-item>
     </div>
-    <div nz-col nzSpan="4"><button nz-button nzType="primary" nzSearch>查询</button></div>
+    <div nz-col nzSpan="4">
+      <button nz-button nzType="primary" nzSearch (click)="handleSearch()" [nzLoading]="tableLoading">查询</button>
+    </div>
   </div>
   <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading" [nzFrontPagination]="false" [nzTotal]="totalCount"
     (nzPageSizeChange)="handlePageSizeChange($event)"
@@ -62,7 +62,7 @@
         <th>账号</th>
         <th>APP</th>
         <th>Api</th>
-        <th>状态</th>
+        <th nzShowFilter  [nzFilters]="statusList" (nzFilterChange)="filter($event)" [nzFilterMultiple]="false">状态</th>
         <th>时间</th>
         <th>持续时间</th>
         <th>IP地址</th>
@@ -74,8 +74,12 @@
         <td>{{data.account}}</td>
         <td>{{data.app}}</td>
         <td>{{data.api}}</td>
-        <td>{{data.status}}</td>
-        <td>{{data.createTime}}</td>
+        <td>
+          <nz-tag *ngIf="data.status != '200'" [nzColor]="'red'">{{data.status}}错误</nz-tag>
+          <nz-tag *ngIf="data.status == '200'" [nzColor]="'blue'">{{data.status}}成功</nz-tag>
+          
+        </td>
+        <td>{{data.createTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>{{data.timeOfDuration}}</td>
         <td>{{data.ip}}</td>
         <td>{{data.client}}</td>

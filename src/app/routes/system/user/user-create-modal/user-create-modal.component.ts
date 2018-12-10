@@ -34,7 +34,6 @@ export class UserCreateModalComponent implements OnInit {
       email : [ null, [ Validators.email,Validators.required ] ],
       password:[ null, [ Validators.required ] ],
       checkPassword:[ null, [ Validators.required,this.confirmationValidator ] ],
-      avatar:[ null, [ Validators.required ] ],
       needPassword : [ true ],
       active : [ true ],
       accountGourps:[],
@@ -67,7 +66,8 @@ export class UserCreateModalComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-    if (!this.validateForm.invalid) {
+    console.log(this.validateForm)
+    if (this.validateForm.invalid) {
       return;
     }
     this.account.accountGourps = [];
@@ -82,6 +82,7 @@ export class UserCreateModalComponent implements OnInit {
     .subscribe(re=>{
       this.loading = false;
       this.modal.close();
+      this.validateForm.reset();
       this.modalSave.emit(null);
     })
   }

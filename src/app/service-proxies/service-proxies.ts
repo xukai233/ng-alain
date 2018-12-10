@@ -2388,6 +2388,9 @@ export class FilterAuditLogsDto implements IFilterAuditLogsDto {
     timeOfDurationEnd?: number | undefined;
     status?: string | undefined;
     account?: string | undefined;
+    app?: string | undefined;
+    api?: string | undefined;
+    filter?: string | undefined;
     pageIndex?: number | undefined;
     pageSize?: number | undefined;
 
@@ -2408,6 +2411,9 @@ export class FilterAuditLogsDto implements IFilterAuditLogsDto {
             this.timeOfDurationEnd = data["timeOfDurationEnd"];
             this.status = data["status"];
             this.account = data["account"];
+            this.app = data["app"];
+            this.api = data["api"];
+            this.filter = data["filter"];
             this.pageIndex = data["pageIndex"];
             this.pageSize = data["pageSize"];
         }
@@ -2428,6 +2434,9 @@ export class FilterAuditLogsDto implements IFilterAuditLogsDto {
         data["timeOfDurationEnd"] = this.timeOfDurationEnd;
         data["status"] = this.status;
         data["account"] = this.account;
+        data["app"] = this.app;
+        data["api"] = this.api;
+        data["filter"] = this.filter;
         data["pageIndex"] = this.pageIndex;
         data["pageSize"] = this.pageSize;
         return data; 
@@ -2443,6 +2452,9 @@ export interface IFilterAuditLogsDto {
     timeOfDurationEnd?: number | undefined;
     status?: string | undefined;
     account?: string | undefined;
+        app?: string | undefined;
+    api?: string | undefined;
+    filter?: string | undefined;
     pageIndex?: number | undefined;
     pageSize?: number | undefined;
 }
@@ -3579,6 +3591,7 @@ export interface ITenantAppsDto {
 
 export class ListResultDtoOfAppListDto implements IListResultDtoOfAppListDto {
     items?: AppListDto[] | undefined;
+    totalCount?: number | undefined;
 
     constructor(data?: IListResultDtoOfAppListDto) {
         if (data) {
@@ -3591,6 +3604,7 @@ export class ListResultDtoOfAppListDto implements IListResultDtoOfAppListDto {
 
     init(data?: any) {
         if (data) {
+            this.totalCount = data["totalCount"];
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [];
                 for (let item of data["items"])
@@ -3608,6 +3622,7 @@ export class ListResultDtoOfAppListDto implements IListResultDtoOfAppListDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
         if (this.items && this.items.constructor === Array) {
             data["items"] = [];
             for (let item of this.items)

@@ -5,7 +5,7 @@ import {
   FormControl,
   FormGroup
 } from '@angular/forms';
-import { FilterTenantsDto,TenantListDto,UpdateTenantDto} from '@serviceProxies/service-proxies';
+import { FilterTenantsDto,TenantListDto,UpdateTenantDto,AppServiceProxy} from '@serviceProxies/service-proxies';
 import { CreateTenantModalComponent } from './tenant-create-modal/tenant-create-modal.component';
 import { TenantUpdateModalComponent } from './tenant-update-modal/tenant-update-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
@@ -27,7 +27,7 @@ export class TenantComponent implements OnInit {
   dateRage=[];
 
   totalCount = 0;
-
+  apps = [];
   filters: {
     filterText: string;
     tenantCode: string;
@@ -40,32 +40,41 @@ export class TenantComponent implements OnInit {
     {title:'系统'},
     {title:'租户'},
   ]
-  filterTenants:FilterTenantsDto;
   constructor(
     private tenantService:TenantService,
-    private modalService:NzModalService) {
-    this.filterTenants = new FilterTenantsDto();
+    private modalService:NzModalService,
+    private _appServiceProxy:AppServiceProxy) {
+    this.tenantService.filterTenants = new FilterTenantsDto();
   }
 
   ngOnInit() {
-    this.filterTenants.pageSize = 10;
-    this.filterTenants.pageIndex = 1;
+    this.tenantService.filterTenants.pageSize = 10;
+    this.tenantService.filterTenants.pageIndex = 1;
 
     this.dataSet$ = this.tenantService.data$;
     this.loading$ = this.tenantService.loading$;
-    this.tenantService.list(this.filterTenants)
+    this.tenantService.list(this.tenantService.filterTenants)
+    this.listApp();
+  }
+
+  listApp(){
+    this._appServiceProxy
+    .listAllBrief()
+    .subscribe(re=>{
+      this.apps = re.items;
+    })
   }
 
 
   handlePageSizeChange(num:number){
-    this.filterTenants.pageIndex = 1;
-    this.filterTenants.pageSize = num;
-    this.tenantService.list(this.filterTenants)
+    this.tenantService.filterTenants.pageSize = num;
+    this.tenantService.filterTenants.pageIndex = 1;
+    this.tenantService.list(this.tenantService.filterTenants)
   }
 
   handleIndexChange(num:number){
-    this.filterTenants.pageIndex = num;
-    this.tenantService.list(this.filterTenants)
+    this.tenantService.filterTenants.pageIndex = num;
+    this.tenantService.list(this.tenantService.filterTenants)
   }
 
   createTenant(): void {
@@ -80,10 +89,11 @@ export class TenantComponent implements OnInit {
   }
   handleSearch(){
     if(this.dateRage){
-      this.filterTenants.createDateEnd = Date.parse(this.dateRage[1])
-      this.filterTenants.createDateStart = Date.parse(this.dateRage[0])
+      this.tenantService.filterTenants.createDateEnd = Date.parse(this.dateRage[1])
+      this.tenantService.filterTenants.createDateStart = Date.parse(this.dateRage[0])
     }
-    this.tenantService.list(this.filterTenants)
+    this.tenantService.filterTenants.pageIndex = 1;
+    this.tenantService.list(this.tenantService.filterTenants)
   }
   handelTenantStop(tenant:TenantListDto){
     this.tenantService.stop(tenant);

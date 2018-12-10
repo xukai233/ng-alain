@@ -31,10 +31,10 @@ export class AppAuthCreateComponent implements OnInit {
     private _appServiceProxy:AppServiceProxy,
   ) {
     this.appAuthForm = this.fb.group({
-      baseControl       : [ null, [ Validators.required ] ],
-      baseControlDate       : [ null, [ Validators.required ] ],
-      payControl       : [ null, [ Validators.required ] ],
-      payControlDate       : [ null, [ Validators.required ] ],
+      baseControl       : [],
+      baseControlDate       : [ null],
+      payControl       : [ null],
+      payControlDate       : [ null],
       payExpiryTime:[],
       baseExpiryTime:[]
     });
@@ -47,6 +47,7 @@ export class AppAuthCreateComponent implements OnInit {
 
   show(tenantId:number){
     this.tenantId = tenantId;
+    this.clearForm();
     this.modal.open();
   }
 
@@ -60,6 +61,7 @@ export class AppAuthCreateComponent implements OnInit {
   }
 
   handleAppChange(app){
+    this.clearForm();
     this.selectApp = app.value;
   }
 
@@ -85,5 +87,36 @@ export class AppAuthCreateComponent implements OnInit {
     this.modal.close();
   }
 
+    handleBaseApply(){
+    if(!this.appForm.basic){
+      this.baseControlDate = "";
+    }else{
+      this.baseControlDate = "A";
+    }
+  }
+
+  handlePayApply(){
+    if(!this.appForm.pay){
+      this.payControlDate = "";
+    }else{
+      this.payControlDate = "A";
+    }
+  }
+
+  handlePayChange(){
+    this.payDate = "";
+  }
+
+  handleBaseChange(){
+    this.baseDate = "";
+  }
+  
+  clearForm(){
+    this.appForm = new AppDto();
+    this.baseControlDate = "";
+    this.payControlDate = "";
+    this.payDate="";
+    this.baseDate="";
+  }
 
 }

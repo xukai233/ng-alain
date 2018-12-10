@@ -29,10 +29,10 @@ export class AppAuthUpdateComponent implements OnInit {
     private _appServiceProxy:AppServiceProxy
   ) { 
     this.validateForm = this.fb.group({
-      baseControl       : [ null, [ Validators.required ] ],
-      baseControlDate       : [ null, [ Validators.required ] ],
-      payControl       : [ null, [ Validators.required ] ],
-      payControlDate       : [ null, [ Validators.required ] ],
+      baseControl       : [ null],
+      baseControlDate       : [ null],
+      payControl       : [ null],
+      payControlDate       : [ null],
       payExpiryTime:[],
       baseExpiryTime:[]
     });
@@ -62,16 +62,49 @@ export class AppAuthUpdateComponent implements OnInit {
     })
   }
   show(data:AppDto,tenantID:number){
+    this.clearForm();
     this.tenantID = tenantID;
     this.appForm = data;
     if(data.basic){
       this.baseControlDate = data.basicExpiryTime === 1000 ? "A":"B";
-      this.baseDate = new Date(data.basicExpiryTime);
+      this.baseDate = data.basicExpiryTime === 1000?"":new Date(data.basicExpiryTime);
     }
     if(data.pay){
       this.payControlDate = data.payExpiryTime === 1000 ? "A":"B";
-      this.payDate = new Date(data.payExpiryTime);
+      this.payDate = data.payExpiryTime === 1000 ?"":new Date(data.payExpiryTime);
     }
     this.modal.open();
+  }
+
+  handleBaseApply(){
+    if(!this.appForm.basic){
+      this.baseControlDate = "";
+    }else{
+      this.baseControlDate = "A";
+    }
+  }
+
+  handlePayApply(){
+    if(!this.appForm.pay){
+      this.payControlDate = "";
+    }else{
+      this.payControlDate = "A";
+    }
+  }
+
+  handlePayChange(){
+    this.payDate = "";
+  }
+
+  handleBaseChange(){
+    this.baseDate = "";
+  }
+
+  clearForm(){
+    this.appForm = new AppDto();
+    this.baseControlDate = "";
+    this.payControlDate = "";
+    this.payDate="";
+    this.baseDate="";
   }
 }

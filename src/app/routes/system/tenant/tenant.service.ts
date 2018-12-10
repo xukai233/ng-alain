@@ -10,7 +10,7 @@ export class TenantService {
 
   readonly data$ = new Subject<PagedResultDtoOfTenantListDto>();
   readonly loading$ = new Subject<boolean>();
-  filterTenants:FilterTenantsDto;
+  public filterTenants:FilterTenantsDto;
 
   constructor(
     private _tenantService: TenantServiceProxy,

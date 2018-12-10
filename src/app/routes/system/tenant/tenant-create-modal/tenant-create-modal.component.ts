@@ -26,6 +26,7 @@ export class CreateTenantModalComponent implements OnInit {
   loading = false;
   tenant: CreateTenantDto;
   setRandomPassword =false;
+  baseControlType = ''
 
   constructor(private fb: FormBuilder,
     private tenantService:TenantService
@@ -41,10 +42,11 @@ export class CreateTenantModalComponent implements OnInit {
       adminEmail : [null, [Validators.email,Validators.required]],
       adminPassword : [null, [Validators.required]],
       passwordCheck : [null, [Validators.required,this.confirmationValidator]],
-      setRandomPassword : [null, [Validators.required]],
+      setRandomPassword : [null],
       expiryTime : [null, []],
       shouldChangePasswordOnNextLogin : [null, []],
-      isActive : [null, []] 
+      isActive : [null, []],
+      baseControlType:[]
     });
   }
 
@@ -65,9 +67,10 @@ export class CreateTenantModalComponent implements OnInit {
       this.createTenantForm.controls[i].markAsDirty();
       this.createTenantForm.controls[i].updateValueAndValidity();
     }
-    if (!this.createTenantForm.invalid) {
+    if (this.createTenantForm.invalid) {
       return;
     }
+    this.tenant.expiryTime = this.baseControlType == "A"?1000:new Date(this.tenant.expiryTime).getTime();
     this.loading = true;
     this.tenantService
     .create(this.tenant)

@@ -10,8 +10,7 @@
       </div>
       <div style="flex:auto">
         <nz-input-group *ngIf="isCollapse" nzSearch [nzSuffix]="suffixButton" style="width: 60%">
-          <input type="text" nz-input placeholder="编号/名称" name="filter" [(ngModel)]="filterTenants.filter">
-        </nz-input-group>
+          <input type="text" nz-input placeholder="编号/名称" name="filter" [(ngModel)]="tenantService.filterTenants.filter"> </nz-input-group>
         <ng-template #suffixButton>
           <button nz-button nzType="primary" nzSearch (click)="handleSearch()" [nzLoading]="(loading$ | async)">查询</button>
         </ng-template>
@@ -22,13 +21,15 @@
   <div *ngIf="!isCollapse" class="search-detail" name="head" nz-row nzType="flex">
     <div nz-col nzSpan="20">
       <wimi-form-item text="编号" class="wimi-form-item">
-        <input nz-input placeholder="请输入" [(ngModel)]="filterTenants.tenantCode">
+        <input nz-input placeholder="请输入" [(ngModel)]="tenantService.filterTenants.tenantCode">
       </wimi-form-item>
       <wimi-form-item text="名称" class="wimi-form-item">
-        <input nz-input placeholder="请输入" [(ngModel)]="filterTenants.tenantName">
+        <input nz-input placeholder="请输入" [(ngModel)]="tenantService.filterTenants.tenantName">
       </wimi-form-item>
       <wimi-form-item text="APP授权" class="wimi-form-item">
-        <input nz-input placeholder="请输入" [(ngModel)]="filterTenants.appId">
+        <nz-select style="width: 210px;" placeholder="请输入" [(ngModel)]="tenantService.filterTenants.appId" nzAllowClear>
+          <nz-option *ngFor="let app of apps" [nzValue]="app.value" [nzLabel]="app.name"></nz-option>
+        </nz-select>
       </wimi-form-item>
       <wimi-form-item text="创建时间" style="width: 500px;">
         <nz-range-picker [nzFormat]="'yyyy-MM-dd'" [nzStyle]="rangePickerStyle" nzShowTime [(ngModel)]="dateRage"></nz-range-picker>

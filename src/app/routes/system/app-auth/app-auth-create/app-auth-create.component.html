@@ -7,19 +7,19 @@
     </div>
     <div>
       <nz-form-item nz-row style="margin-bottom:8px;">
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="baseControl">基础功能</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="baseControl">基础功能</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <label nz-checkbox formControlName="baseControl" [(ngModel)]="appForm.basic">
+        <label nz-checkbox formControlName="baseControl" [(ngModel)]="appForm.basic" (ngModelChange)="handleBaseApply()">
           <span>授权</span>
         </label>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="baseControlDate">授权有限日期</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="baseControlDate">授权有限日期</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-radio-group formControlName="baseControlDate" [(ngModel)]="baseControlDate">
-          <label nz-radio nzValue="A">无期限</label>
+          <label nz-radio nzValue="A" (click)="handleBaseChange()">无期限</label>
           <label nz-radio nzValue="B">
             <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" formControlName="baseExpiryTime" [(ngModel)]="baseDate"></nz-date-picker>
           </label>
@@ -28,18 +28,18 @@
     </nz-form-item>
 
     <nz-form-item nz-row style="margin-bottom:8px;">
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="payControl">付费功能</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="payControl">付费功能</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <label nz-checkbox formControlName="payControl" [(ngModel)]="appForm.pay">
+        <label nz-checkbox formControlName="payControl" [(ngModel)]="appForm.pay" (ngModelChange)="handlePayApply()">
           <span>授权</span>
         </label>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="payControlDate">授权有限日期</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="payControlDate">授权有限日期</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-radio-group formControlName="payControlDate" [(ngModel)]="payControlDate">
-          <label nz-radio nzValue="A">无期限</label>
+          <label nz-radio nzValue="A" (click)="handlePayChange()">无期限</label>
           <label nz-radio nzValue="B">
             <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" formControlName="payExpiryTime" [(ngModel)]="payDate"></nz-date-picker>
           </label>

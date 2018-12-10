@@ -12,7 +12,7 @@ export class AppListComponent implements OnInit {
     {title:'系统'},
     {title:'APP管理'},
   ]
-  totalCount= 20;
+  totalCount= 0;
   isLoading = false;
   dataSet:ListResultDtoOfAppDto;
   pageSearchDto:PageSearchDto;
@@ -35,6 +35,7 @@ export class AppListComponent implements OnInit {
     .subscribe(re=>{
       this.isLoading = false;
       this.dataSet = re;
+      console.log(re);
     })
   }
   handUpApp(data:AppDto){

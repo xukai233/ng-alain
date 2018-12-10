@@ -1,6 +1,6 @@
 <wimi-breadcrumb title="APP管理" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
 <wimi-table>
-  <nz-table name="table" #basicTable [nzData]="dataSet.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading" [nzFrontPagination]="false" [nzTotal]="totalCount"
+  <nz-table name="table" #basicTable [nzData]="dataSet.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="isLoading" [nzFrontPagination]="false" [nzTotal]="dataSet.totalCount"
     (nzPageSizeChange)="handlePageSizeChange($event)"
   (nzPageIndexChange)="handleIndexChange($event)">
     <thead>
