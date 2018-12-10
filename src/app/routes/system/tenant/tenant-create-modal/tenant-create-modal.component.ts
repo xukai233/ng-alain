@@ -26,7 +26,8 @@ export class CreateTenantModalComponent implements OnInit {
   loading = false;
   tenant: CreateTenantDto;
   setRandomPassword =false;
-  baseControlType = ''
+  baseControlType = 'A'
+  baseDate = ""
 
   constructor(private fb: FormBuilder,
     private tenantService:TenantService
@@ -40,8 +41,8 @@ export class CreateTenantModalComponent implements OnInit {
       tenantName : [null, [Validators.required]],
       tenantDesc : [null, []],
       adminEmail : [null, [Validators.email,Validators.required]],
-      adminPassword : [null, [Validators.required]],
-      passwordCheck : [null, [Validators.required,this.confirmationValidator]],
+      adminPassword : [null, [this.checkPassword]],
+      passwordCheck : [null, [this.checkRePassword]],
       setRandomPassword : [null],
       expiryTime : [null, []],
       shouldChangePasswordOnNextLogin : [null, []],
@@ -50,11 +51,24 @@ export class CreateTenantModalComponent implements OnInit {
     });
   }
 
-  confirmationValidator = (control: FormControl): { [ s: string ]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.createTenantForm.controls.adminPassword.value) {
-      return { confirm: true, error: true };
+
+  checkRePassword = (control: FormControl): { [ s: string ]: boolean } => {
+    if(this.createTenantForm && !this.createTenantForm.controls.setRandomPassword){
+      if (!control.value) {
+        return { required: true };
+      }else if (control.value !== this.createTenantForm.controls.adminPassword.value) {
+        return { confirm: true, error: true };
+      }
+    }
+  };
+
+  checkPassword = (control: FormControl): { [ s: string ]: boolean } => {
+    if(this.createTenantForm && !this.createTenantForm.controls.setRandomPassword){
+      if (!control.value) {
+        return { required: true };
+      }else if (control.value !== this.createTenantForm.controls.passwordCheck.value) {
+        return { confirm: true, error: true };
+      }
     }
   };
 
@@ -67,6 +81,7 @@ export class CreateTenantModalComponent implements OnInit {
       this.createTenantForm.controls[i].markAsDirty();
       this.createTenantForm.controls[i].updateValueAndValidity();
     }
+    console.log(this.createTenantForm)
     if (this.createTenantForm.invalid) {
       return;
     }
@@ -91,6 +106,7 @@ export class CreateTenantModalComponent implements OnInit {
     this.setRandomPassword = false;
     this.tenant.isActive = true;
     this.tenant.shouldChangePasswordOnNextLogin = true;
+    this.baseControlType = "A"
   }
 
   onShown(): void {
@@ -99,5 +115,9 @@ export class CreateTenantModalComponent implements OnInit {
 
   handleRandomPassword(): void {
     this.setRandomPassword = this.createTenantForm.controls.setRandomPassword.value;
+  }
+
+  handleTimeChange(){
+    this.baseDate = "";
   }
 }

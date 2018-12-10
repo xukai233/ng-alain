@@ -89,4 +89,13 @@ export class UserAccountComponent implements OnInit {
   handleModalSave(){
     this.getAccount(this.filterAccountsDto);
   }
+  handlePageSizeChange(num){
+    this.filterAccountsDto.pageIndex = 1;
+    this.filterAccountsDto.pageSize = num;
+    this.getAccount(this.filterAccountsDto);
+  }
+  handleIndexChange(num){
+    this.filterAccountsDto.pageIndex = num;
+    this.getAccount(this.filterAccountsDto);
+  }
 }

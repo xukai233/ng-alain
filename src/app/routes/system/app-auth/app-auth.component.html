@@ -13,7 +13,11 @@
       <button nz-button nzType="primary" nzSearch (click)="handleSearch()">查询</button>
     </ng-template>
     <nz-table  #basicTable [nzData]="dataSet" nzSize="small"  [nzLoading]="tableLoading" [nzFrontPagination]="false" nzNoResult="暂无数据"
-      [nzTotal]="dataSet.length" [nzShowTotal]="totalTemplate" >
+      [nzTotal]="dataSet.length" [nzShowTotal]="totalTemplate" 
+      [nzPageIndex]="filterTenantsDto.pageIndex"
+      (nzPageSizeChange)="handlePageSizeChange($event)"
+      (nzPageIndexChange)="handleIndexChange($event)"
+      >
       <thead>
         <tr>
           <th>租户编号</th>

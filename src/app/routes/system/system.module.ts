@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
+import { MitPipeModule } from '@shared/mit-pipe/mit-pipe.module';
 
 import { SystemRoutingModule } from './system-routing.module';
 import { ThemeComponent } from './theme/theme.component';
@@ -21,7 +22,7 @@ import { AppAuthUpdateComponent } from './app-auth/app-auth-update/app-auth-upda
 import { UserPermissionModalComponent } from './user/user-permission-modal/user-permission-modal.component';
 
 @NgModule({
-  imports: [SharedModule, SystemRoutingModule],
+  imports: [SharedModule, SystemRoutingModule,MitPipeModule],
   declarations: [
     ThemeComponent,
     TenantComponent,

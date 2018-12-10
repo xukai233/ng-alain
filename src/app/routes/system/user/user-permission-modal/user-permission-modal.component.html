@@ -1,6 +1,10 @@
 <nz-modal [nzBodyStyle]="modalStyle" nzWidth="680" #permissionModal (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" [nzOkLoading]="loading">
   <nz-tabset>
       <nz-tab *ngFor="let ctrl of data" [nzTitle]="ctrl.label">
+        <div class="per-head">
+          <div class="per-width">菜单权限</div>
+          <div style="flex:1">功能权限</div>
+        </div>
          <div class="per-item" *ngFor="let child of ctrl.childs">
         <div class="per-width">
           <label 

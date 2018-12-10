@@ -55,6 +55,7 @@
     </div>
   </div>
   <nz-table name="table" #basicTable [nzData]="dataSet" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle"  [nzLoading]="tableLoading" [nzFrontPagination]="false" [nzTotal]="totalCount"
+  [nzPageIndex]="filterAuditLogsDto.pageIndex"
     (nzPageSizeChange)="handlePageSizeChange($event)"
   (nzPageIndexChange)="handleIndexChange($event)">
     <thead>

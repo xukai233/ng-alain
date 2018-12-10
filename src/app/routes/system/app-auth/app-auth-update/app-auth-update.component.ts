@@ -23,6 +23,8 @@ export class AppAuthUpdateComponent implements OnInit {
   baseDate:any;
   tenantID = 0;
   loading= false;
+
+
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private fb: FormBuilder,
@@ -42,6 +44,7 @@ export class AppAuthUpdateComponent implements OnInit {
   ngOnInit() {
   }
   handleCancel(){
+    this.clearForm();
     this.modal.close();
   }
   handleSubmit(){
@@ -76,12 +79,16 @@ export class AppAuthUpdateComponent implements OnInit {
     this.modal.open();
   }
 
+  ngAfterViewInit(){
+  }
+
   handleBaseApply(){
     if(!this.appForm.basic){
       this.baseControlDate = "";
     }else{
       this.baseControlDate = "A";
     }
+    this.baseDate = "";
   }
 
   handlePayApply(){
@@ -90,10 +97,12 @@ export class AppAuthUpdateComponent implements OnInit {
     }else{
       this.payControlDate = "A";
     }
+    this.payDate = "";
   }
 
   handlePayChange(){
     this.payDate = "";
+    this.appForm.pay = true;
   }
 
   handleBaseChange(){

@@ -53,7 +53,8 @@ export class AppAuthComponent implements OnInit {
 
   getTenants(filterTenants: FilterTenantsDto | null | undefined): void {
     this.tableLoading = true;
-    this._tenantService.list(filterTenants)
+    this._tenantService
+    .list(filterTenants)
     .subscribe(result => {
       this.dataSet = result.items;
       this.tenantCount = result.totalCount;
@@ -95,6 +96,7 @@ export class AppAuthComponent implements OnInit {
   }
 
   handleSearch(){
+    this.filterTenantsDto.pageIndex = 1;
     this.getTenants(this.filterTenantsDto);
   }
   handleUpdateSave(){
@@ -102,5 +104,15 @@ export class AppAuthComponent implements OnInit {
   }
   handleSearchChange(){
     
+  }
+  handlePageSizeChange(num){
+    this.filterTenantsDto.pageIndex = 1;
+    this.filterTenantsDto.pageSize = num;
+    this.getTenants(this.filterTenantsDto);
+  }
+
+  handleIndexChange(num){
+    this.filterTenantsDto.pageIndex = num;
+    this.getTenants(this.filterTenantsDto);
   }
 }
