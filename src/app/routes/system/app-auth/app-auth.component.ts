@@ -56,7 +56,7 @@ export class AppAuthComponent implements OnInit {
     this._tenantService
     .list(filterTenants)
     .subscribe(result => {
-      this.dataSet = result.items;
+      this.dataSet = result.items.filter(data=>data.code != "");
       this.tenantCount = result.totalCount;
       this.selectItem = this.dataSet[0].id;
       this.selectTenantName = this.dataSet[0].name

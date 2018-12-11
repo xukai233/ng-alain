@@ -19,7 +19,7 @@
         <nz-radio-group formControlName="expiryTimeType" [(ngModel)]="expiryTimeType">
           <label nz-radio nzValue="A" (click)="handleTimeChange()">无期限</label>
           <label nz-radio nzValue="B">
-            <nz-date-picker formControlName="expiryTime" [(ngModel)]="expiryTime"></nz-date-picker>
+            <nz-date-picker formControlName="expiryTime" [(ngModel)]="expiryTime" [nzDisabledDate]="disabledStartDate"></nz-date-picker>
           </label>
         </nz-radio-group>
       </nz-form-control>
@@ -32,6 +32,5 @@
         </label>
       </nz-form-control>
     </nz-form-item> 
-
   </form>
 </nz-modal>

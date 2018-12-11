@@ -116,4 +116,8 @@ export class AppAuthUpdateComponent implements OnInit {
     this.payDate="";
     this.baseDate="";
   }
+
+  disabledStartDate = (startValue: Date): boolean => {
+    return startValue.getTime() < new Date().getTime();
+  };
 }

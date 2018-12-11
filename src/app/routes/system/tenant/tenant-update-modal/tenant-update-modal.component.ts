@@ -81,4 +81,8 @@ export class TenantUpdateModalComponent implements OnInit {
   handleTimeChange(){
     this.expiryTime = "";
   }
+
+  disabledStartDate = (startValue: Date): boolean => {
+    return startValue.getTime() < new Date().getTime();
+  };
 }

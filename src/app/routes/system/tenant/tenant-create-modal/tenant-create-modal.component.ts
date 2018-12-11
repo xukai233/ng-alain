@@ -37,7 +37,7 @@ export class CreateTenantModalComponent implements OnInit {
 
   ngOnInit() {
     this.createTenantForm = this.fb.group({
-      tenantCode : [null, [Validators.required]],
+      tenantCode : [null, [Validators.required,Validators.maxLength(10)]],
       tenantName : [null, [Validators.required]],
       tenantDesc : [null, []],
       adminEmail : [null, [Validators.email,Validators.required]],
@@ -53,7 +53,7 @@ export class CreateTenantModalComponent implements OnInit {
 
 
   checkRePassword = (control: FormControl): { [ s: string ]: boolean } => {
-    if(this.createTenantForm && !this.createTenantForm.controls.setRandomPassword){
+    if(this.createTenantForm && !this.createTenantForm.controls.setRandomPassword.value){
       if (!control.value) {
         return { required: true };
       }else if (control.value !== this.createTenantForm.controls.adminPassword.value) {
@@ -63,7 +63,7 @@ export class CreateTenantModalComponent implements OnInit {
   };
 
   checkPassword = (control: FormControl): { [ s: string ]: boolean } => {
-    if(this.createTenantForm && !this.createTenantForm.controls.setRandomPassword){
+    if(this.createTenantForm && !this.createTenantForm.controls.setRandomPassword.value){
       if (!control.value) {
         return { required: true };
       }else if (control.value !== this.createTenantForm.controls.passwordCheck.value) {
@@ -120,4 +120,8 @@ export class CreateTenantModalComponent implements OnInit {
   handleTimeChange(){
     this.baseDate = "";
   }
+
+  disabledStartDate = (startValue: Date): boolean => {
+    return startValue.getTime() < new Date().getTime();
+  };
 }

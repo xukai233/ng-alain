@@ -5,7 +5,6 @@ import { AccountGroupDto,AccountGroupServiceProxy,
 import {UserCreateModalComponent} from './user-create-modal/user-create-modal.component'
 import { NzMessageService,NzModalService } from 'ng-zorro-antd';
 import {UserService} from './user.service'
-
 import {
   FormBuilder,
   FormControl,
@@ -122,6 +121,11 @@ export class UserComponent implements OnInit {
   handleCreateAccountGroup(name): void {
     if(!name){
       this.message.create('error','请输入组名')
+      return;
+    }
+    const isHas = this.leftMenu.find(data=>data.displayName == name)
+    if(isHas){
+      this.message.create('error','系统已存在相同名称的用户组！')
       return;
     }
     if(this.accountGroutId === 0){

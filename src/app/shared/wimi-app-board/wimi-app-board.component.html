@@ -1,5 +1,8 @@
 <div class="boardtitle" [class.isOutData]="data.status === 'Overdue'">
-  <div class="boardtitle-main">{{data.displayName}} <nz-tag [nzColor]="'cyan'">标准版</nz-tag></div>
+  <div class="boardtitle-main">{{data.displayName}} 
+    <nz-tag *ngIf="data.appEditionType == 'Customize'" [nzColor]="'cyan'">定制版</nz-tag>
+    <nz-tag *ngIf="data.appEditionType == 'Standard'" [nzColor]="'blue'">标准版</nz-tag>
+  </div>
   <div class="boardtitle-sub">APP-KEY:{{data.appKey}}</div>
 </div>
 <div class="boardcont">

@@ -21,7 +21,12 @@
         <nz-radio-group formControlName="baseControlDate" [(ngModel)]="baseControlDate">
           <label nz-radio nzValue="A" (click)="handleBaseChange()">无期限</label>
           <label nz-radio nzValue="B" (click)="handleBaseChange()">
-            <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" formControlName="baseExpiryTime" [(ngModel)]="baseDate"></nz-date-picker>
+            <nz-date-picker nzShowTime 
+            nzFormat="yyyy-MM-dd HH:mm:ss" 
+            formControlName="baseExpiryTime" 
+            [(ngModel)]="baseDate"
+            [nzDisabledDate]="disabledStartDate"
+            ></nz-date-picker>
           </label>
         </nz-radio-group>
       </nz-form-control>
@@ -41,7 +46,11 @@
         <nz-radio-group formControlName="payControlDate" [(ngModel)]="payControlDate">
           <label nz-radio nzValue="A" (click)="handlePayChange()">无期限</label>
           <label nz-radio nzValue="B" (click)="handlePayChange()">
-            <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" formControlName="payExpiryTime" [(ngModel)]="payDate"></nz-date-picker>
+            <nz-date-picker nzShowTime 
+            nzFormat="yyyy-MM-dd HH:mm:ss" 
+            formControlName="payExpiryTime" 
+            [(ngModel)]="payDate"
+            [nzDisabledDate]="disabledStartDate"></nz-date-picker>
           </label>
         </nz-radio-group>
       </nz-form-control>

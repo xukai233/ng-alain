@@ -57,12 +57,12 @@ export class AppListComponent implements OnInit {
   //分页功能后端还没有实现
   handlePageSizeChange(num){
     this.pageSearchDto.pageSize = num;
-    this.pageSearchDto.pageSize = 1;
+    this.pageSearchDto.pageIndex = 1;
     this.listApp();
   }
 
   handleIndexChange(num){
-    this.pageSearchDto.pageSize = num;
+    this.pageSearchDto.pageIndex = num;
     this.listApp();
   }
 
