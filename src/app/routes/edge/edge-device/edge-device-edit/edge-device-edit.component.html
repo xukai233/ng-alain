@@ -1,0 +1,125 @@
+<wimi-breadcrumb [title]="breadcrumbTitle" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
+<div class="page-head">
+  <div class="tool">
+    <div>
+      <wimi-name-change [text]="141232"></wimi-name-change>
+    </div>
+    <div>
+      <button nz-button (click)="handleDeviceConfig()">配置</button>
+      <button nz-button (click)="handleGoBack()">返回</button>
+      <button nz-button (click)="handleRefresh()"><i nz-icon type="sync"></i>刷新</button>
+    </div>
+  </div>
+  <div class="status">
+    <div >
+        <div nz-col class="gutter-row" >
+          <div class="status-title">设备串号:</div>
+          432432432432
+        </div>
+        <div nz-col class="gutter-row" >
+          <div class="status-title">产品:</div>
+          MasterLine H1
+        </div>
+        <div nz-col class="gutter-row" >
+          <div class="status-title">产品类型:</div>
+          网关
+        </div>
+        <div nz-col class="gutter-row" >
+          <div class="status-title">固件版本:</div>
+          1.0.1
+        </div>
+    </div>
+    <div >
+        <div nz-col class="gutter-row" >
+          <div class="status-title">使用点数/授权点数:</div>
+          2/10
+        </div>
+        <div nz-col class="gutter-row" >
+          <div class="status-title">设备位置:</div>
+          123.3213214,31.4213123
+        </div>
+        <div nz-col class="gutter-row" >
+          <div class="status-title">激活时间:</div>
+          2018-11-26 14:39:01
+        </div>
+        <div nz-col class="gutter-row" >
+          <div class="status-title">最后上线时间:</div>
+          2018-11-26 14:39:01
+        </div>
+    </div>
+  </div>
+</div>
+<wimi-autoheight [offsetY]="295">
+  <div class="page-content">
+    <div class="left">
+      <div style="font-weight: 550">连接载体</div>
+      <div style="margin-top: 18px;text-align: center;">
+        <wimi-select-board [select]="true" title="修改关联" (onButtonClick)="handleChangeLink()">
+          <div>
+            <div style="font-weight: 550">masterlink\18112600</div>
+            <div style="color: #bfb6b6">网关</div>
+          </div>
+        </wimi-select-board>
+
+        <wimi-select-board title="修改关联" style="margin-top: 12px;">
+          <div>
+            <div style="font-weight: 550">JG001 发那科</div>
+            <div style="color: #bfb6b6">网关</div>
+          </div>
+        </wimi-select-board>
+        <wimi-select-board type="add" style="margin-top: 12px;" title="新增连接载体">
+          
+        </wimi-select-board>
+      </div>
+      
+    </div>
+    <div class="right">
+      <wimi-tab style="height: 50px;margin-bottom: 12px;" [tabs]="tabs" [(select)]="tabs[0]" (onSelect)="handleTabSelect($event)"></wimi-tab>
+      <div style="display: flex;justify-content: space-between;margin-bottom: 12px;align-items: center;">
+        <div style="font-weight: 550">当前驱动:Mitsubishi</div>
+        <div>
+          <button nz-button (click)="handleDeviceEdit()">设定驱动</button>
+          <button nz-button>查看配置</button>
+          <button nz-button>导入物理模型</button>
+          <button nz-button nzType="primary"><i nz-icon type="plus"></i>新增属性</button>
+        </div>
+      </div>
+      <nz-table name="table" #basicTable [nzData]="dataSet.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="loading" [nzFrontPagination]="false" [nzTotal]="dataSet.totalCount" nzNoResult="暂无数据"
+      (nzPageSizeChange)="handlePageSizeChange()"
+      (nzPageIndexChange)="handleIndexChange()"
+      >
+        <thead>
+          <tr>
+            <th>功能类型</th>
+            <th>功能名称</th>
+            <th>标识符</th>
+            <th>数据类型</th>
+            <th>特征码</th>
+            <th>数据定义</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td>{{data.a}}</td>
+            <td>{{data.b}}</td>
+            <td>{{data.c}}</td>
+            <td>{{data.d}}</td>
+            <td>{{data.e}}</td>
+            <td>{{data.f}}</td>
+            <td>
+              <a (click)="handleUpdate(data)">编辑</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="handleDelete(data)">删除</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #totalTemplate let-total>
+          共 {{total}} 条结果
+      </ng-template>
+    </div>
+  </div>
+</wimi-autoheight>
+<device-edit-modal #editDeviceModel></device-edit-modal>
+<device-config-modal #configDeviceModel></device-config-modal>

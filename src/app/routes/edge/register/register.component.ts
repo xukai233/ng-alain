@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
+import { RegisterCreateModalComponent } from './register-create-modal/register-create-modal.component'
 
 @Component({
   selector: 'register',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register.component.less']
 })
 export class RegisterComponent implements OnInit {
+  @ViewChild('createRegisterModal') createProductModal: RegisterCreateModalComponent;
+
   breadcrumb = [
     {title:'host',link:'/page/dashboard'},
     {title:'边缘管理'},
@@ -21,6 +24,10 @@ export class RegisterComponent implements OnInit {
 
   handleTabSelect(value){
 
+  }
+
+  handleAddClick(){
+    this.createProductModal.show();
   }
 
 }

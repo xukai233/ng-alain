@@ -3,7 +3,7 @@
   <div name="head" style="display: flex;justify-content: flex-end;align-items: center;">
     <button nz-button nzType="primary" (click)="handleCreate()"><i nz-icon type="plus"></i>新建产品</button>
   </div>
-  <nz-table name="table" #basicTable [nzData]="(dataSet | async)?.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="(loading | async)" [nzFrontPagination]="false" [nzTotal]="(dataSet | async)?.totalCount" nzNoResult="暂无数据"
+  <nz-table name="table" #basicTable [nzData]="dataSet.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="loading" [nzFrontPagination]="false" [nzTotal]="dataSet.totalCount" nzNoResult="暂无数据"
   (nzPageSizeChange)="handlePageSizeChange()"
   (nzPageIndexChange)="handleIndexChange()"
   >

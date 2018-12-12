@@ -1,0 +1,9 @@
+<div *ngIf="!isEdit">
+  <span>{{text}}</span>
+  <i style="cursor: pointer;margin-left: 5px;" nz-icon type="edit" theme="outline" (click)="handleClick()"></i>
+</div>
+<div [style.display]="isEdit?'block':'none'" style="display: flex;">
+  <input #changeNameInput nz-input [(ngModel)]="text" 
+  (keyup)="handleChangeName($event)"
+  (blur)="handleCancle()">
+</div>

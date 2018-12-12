@@ -27,7 +27,10 @@ import { WimiFourGridComponent } from './wimi-four-grid/wimi-four-grid.component
 import { WimiAppBoardComponent } from './wimi-app-board/wimi-app-board.component';
 import { WimiVerifyComponent } from './wimi-verify/wimi-verify.component';
 import { AutoHeightDirective } from './directives/auto-height.directive';
-import { WimiCiphertextComponent } from './wimi-ciphertext/wimi-ciphertext.component'
+import { WimiCiphertextComponent } from './wimi-ciphertext/wimi-ciphertext.component';
+import { WimiAutoheightComponent } from './wimi-autoheight/wimi-autoheight.component';
+import { WimiNameChangeComponent } from './wimi-name-change/wimi-name-change.component';
+import { WimiSelectBoardComponent } from './wimi-select-board/wimi-select-board.component'
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -49,7 +52,10 @@ const COMPONENTS = [
     WimiFourGridComponent,
     WimiAppBoardComponent,
     WimiVerifyComponent,
-    WimiCiphertextComponent
+    WimiCiphertextComponent,
+    WimiAutoheightComponent,
+    WimiNameChangeComponent,
+    WimiSelectBoardComponent
   ];
 const DIRECTIVES = [
     AutoHeightDirective

@@ -149,6 +149,11 @@ export class StartupService {
                         "text": "登记注册",
                         "link": "/edge/register",
                         "i18n": ""
+                      },
+                      {
+                        "text": "边缘设备管理",
+                        "link": "/edge/device",
+                        "i18n": ""
                       }
                     ]
                   }

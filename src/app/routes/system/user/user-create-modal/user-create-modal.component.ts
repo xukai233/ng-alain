@@ -66,7 +66,6 @@ export class UserCreateModalComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-    console.log(this.validateForm)
     if (this.validateForm.invalid) {
       return;
     }

@@ -114,7 +114,7 @@ export class McHttpConfiguration {
             case 401:
                 self.handleUnAuthorizedRequest(
                     self.showError(self.defaultError401),
-                    '/'
+                    '/passport/login'
                 );
                 break;
             case 403:

@@ -1,0 +1,93 @@
+<wimi-breadcrumb title="边缘设备管理" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
+<div class="page-head">
+  <div class="filter">
+    <nz-select style="width: 272px;" nzAllowClear nzPlaceHolder="请选择" [(ngModel)]="selectedValue">
+      <nz-option nzValue="all" nzLabel="所有设备"></nz-option>
+      <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+      <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+    </nz-select>
+    <wimi-tab  [tabs]="tabs" [(select)]="tabs[0]" (onSelect)="handleTabSelect($event)"></wimi-tab>
+  </div>
+  <div class="board">
+    <div class="title"><nz-badge nzStatus="success"></nz-badge>在线 10/已激活 60</div>
+    <div class="sub-title">设备总数 100</div>
+  </div>
+  <nz-divider class="divider" nzType="vertical"></nz-divider>
+  <div class="board">
+    <div class="title"><nz-badge nzStatus="success"></nz-badge>在线 10/已激活 60</div>
+    <div class="sub-title">已售设备 100</div>
+  </div>
+  <nz-divider class="divider" nzType="vertical"></nz-divider>
+  <div class="board">
+    <div class="title"><nz-badge nzStatus="success"></nz-badge>在线 10</div>
+    <div class="sub-title">已接入Hub 33</div>
+  </div>
+  <div class="button-group">
+      <button nz-button>转售记录</button>
+      <button nz-button><i nz-icon type="sync"></i>刷新</button>
+  </div>
+</div>
+<wimi-autoheight [offsetY]="295">
+  <div class="page-content">
+    <div class="search">
+      <div>
+        <nz-input-group nzSearch [nzSuffix]="suffixButton">
+          <input style="width: 500px;" type="text" nz-input placeholder="设备串号">
+        </nz-input-group>
+        <ng-template #suffixButton>
+          <button nz-button nzType="primary" nzSearch>查询</button>
+        </ng-template>
+      </div>
+      <button nz-button>批量转售</button>
+    </div>
+    <div class="table">
+      <div style="padding-left: 15px;margin-bottom: 12px;" 
+      class="ng-trigger ng-trigger-fadeAnimation ng-tns-c14-5 ant-alert ant-alert-info ng-star-inserted">
+        <i nz-icon type="info-circle" [theme]="'fill'" style="color: #1890ff"></i>
+        <span>已选择{{checkedNumber}}个设备</span>
+        <a *ngIf="checkedNumber>0" (click)="handClear()" class="ng-tns-c14-5 ng-star-inserted">清空</a>
+      </div>
+      <nz-table name="table" #basicTable [nzData]="dataSet.items" nzShowQuickJumper nzShowSizeChanger [nzShowTotal]="totalTemplate" nzSize="middle" [nzLoading]="loading" [nzFrontPagination]="false" [nzTotal]="dataSet.totalCount" nzNoResult="暂无数据"
+      (nzPageSizeChange)="handlePageSizeChange()"
+      (nzPageIndexChange)="handleIndexChange()"
+      >
+        <thead>
+          <tr>
+            <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+            <th>设备串号</th>
+            <th>产品类型</th>
+            <th>已使用/授权点数</th>
+            <th>状态</th>
+            <th>设备位置</th>
+            <th>激活时间</th>
+            <th>最后上线时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+            <td>{{data.a}}</td>
+            <td>{{data.b}}</td>
+            <td>{{data.c}}</td>
+            <td>
+              <nz-badge *ngIf="data.d" nzStatus="success" nzText="在线"></nz-badge>
+              <nz-badge *ngIf="!data.d" nzStatus="error" nzText="离线"></nz-badge>
+            </td>
+            <td>{{data.e}}</td>
+            <td>{{data.f|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{data.g|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>
+              <a (click)="handleUpdate(data)">查看</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="handleDelete(data)">删除</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #totalTemplate let-total>
+          共 {{total}} 条结果
+      </ng-template>
+    </div>
+  </div>
+</wimi-autoheight>

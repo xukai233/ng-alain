@@ -1,0 +1,59 @@
+<nz-modal nzWidth="680" #createModal nzTitle="新建产品" (nzOnCancel)="cancel()" (nzOnOk)="save()">
+  <form nz-form [formGroup]="creatForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">选择产品</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select style="width: 100%" nzAllowClear nzPlaceHolder="请选择产品">
+          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+          <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="creatForm.get('name').dirty && creatForm.get('name').errors">请选择产品</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="version">正则规则</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        MasterLink H1
+        <nz-input-number nzPlaceHolder="起始" ></nz-input-number>
+        <nz-input-number nzPlaceHolder="最大" ></nz-input-number>
+        <nz-input-number nzPlaceHolder="递增" ></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="version">目标租户</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select style="width: 100%" nzAllowClear nzPlaceHolder="请选择目标租户">
+          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+          <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="creatForm.get('version').dirty && creatForm.get('version').errors">请选择目标租户</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="version">激活密钥</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input placeholder="请输入激活密钥" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="version">授权台数</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-input-number style="width: 100%" nzPlaceHolder="请输入授权台数" ></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="version">授权点数</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-input-number style="width: 100%" nzPlaceHolder="请输入最大可连接数" ></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

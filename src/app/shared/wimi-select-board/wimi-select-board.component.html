@@ -1,0 +1,10 @@
+<div *ngIf="type=='default'" class="theme-select" [ngClass]="select?'theme-select-select':''">
+  <div class="theme-select-content">
+    <ng-content></ng-content>
+  </div>
+  <div class="theme-select-title" (click)="handleClick()">{{title}}</div>
+</div>
+<div *ngIf="type=='add'" class="theme-select-add">
+  <i nz-icon type="plus" theme="outline"></i>
+  <div>{{title}}</div>
+</div>
