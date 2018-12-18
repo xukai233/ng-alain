@@ -1,0 +1,25 @@
+<wimi-breadcrumb title="Dashbaord" icon="appstore" [data]="breadcrumb"></wimi-breadcrumb>
+<wimi-autoheight [offsetY]="120">
+  <div class="dashbaord">
+    <div class="line">
+      <div class="item title">
+        用户/APP概览
+      </div>
+      <div class="item">
+        <div class="title">用户概览</div>
+        <div class="title">设备概览</div>
+      </div>
+    </div>
+    <div class="line">
+      <div class="item">
+        <chart-ring-pie [sourceData]="clientSourceData" title="租户总数" text="租户统计"></chart-ring-pie>
+        <chart-ring-pie [sourceData]="appSourceDate" title="APP总数" text="APP统计"></chart-ring-pie>
+      </div>
+      <div class="item">
+        <chart-ring-pie [sourceData]="userSourceDate" title="用户总数" text="用户统计"></chart-ring-pie>
+        <chart-ring-pie [sourceData]="deviceSourceDate" title="设备总数" text="设备统计"></chart-ring-pie>
+      </div>
+    </div>
+  </div>
+</wimi-autoheight>
+

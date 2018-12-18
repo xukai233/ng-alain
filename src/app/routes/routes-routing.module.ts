@@ -23,6 +23,7 @@ import { UserLockComponent } from './passport/lock/lock.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
+import { DashboardHomeComponent } from './dashboard/home/home.component';
 
 
 const routes: Routes = [
@@ -31,9 +32,10 @@ const routes: Routes = [
     component: LayoutDefaultComponent,
     canActivate: [SimpleGuard],
     children: [
-      { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-      { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard/home', pathMatch: 'full' },
+      { path: 'dashboard', redirectTo: 'dashboard/home', pathMatch: 'full' },
       { path: 'dashboard/v1', component: DashboardV1Component },
+      { path: 'dashboard/home', component: DashboardHomeComponent },
       { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },

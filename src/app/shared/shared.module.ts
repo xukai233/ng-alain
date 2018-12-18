@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { ViserModule } from 'viser-ng';
+
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -30,7 +32,8 @@ import { AutoHeightDirective } from './directives/auto-height.directive';
 import { WimiCiphertextComponent } from './wimi-ciphertext/wimi-ciphertext.component';
 import { WimiAutoheightComponent } from './wimi-autoheight/wimi-autoheight.component';
 import { WimiNameChangeComponent } from './wimi-name-change/wimi-name-change.component';
-import { WimiSelectBoardComponent } from './wimi-select-board/wimi-select-board.component'
+import { WimiSelectBoardComponent } from './wimi-select-board/wimi-select-board.component';
+import { ChartRingPieComponent } from './chart/chart-ring-pie/chart-ring-pie.component'
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -55,7 +58,8 @@ const COMPONENTS = [
     WimiCiphertextComponent,
     WimiAutoheightComponent,
     WimiNameChangeComponent,
-    WimiSelectBoardComponent
+    WimiSelectBoardComponent,
+    ChartRingPieComponent
   ];
 const DIRECTIVES = [
     AutoHeightDirective
@@ -65,6 +69,7 @@ const DIRECTIVES = [
 @NgModule({
   imports: [
     CommonModule,
+    ViserModule,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,

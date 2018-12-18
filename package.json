@@ -43,7 +43,7 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "@antv/data-set": "^0.8.8",
-    "@antv/g2": "^3.0.11",
+    "@antv/g2": "^3.4.5",
     "@antv/g2-plugin-slider": "^2.0.2",
     "@delon/abc": "^2.0.0",
     "@delon/acl": "^2.0.0",
@@ -66,6 +66,7 @@
     "qrious": "^4.0.2",
     "rxjs": "^6.0.0",
     "screenfull": "^3.3.1",
+    "viser-ng": "^2.4.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

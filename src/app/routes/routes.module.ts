@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ViserModule } from 'viser-ng';
 
 import { SharedModule } from '@shared/shared.module';
 import { RouteRoutingModule } from './routes-routing.module';
@@ -23,12 +24,14 @@ import { Exception500Component } from './exception/500.component';
 import { FindPasswordComponent } from './passport/find-password/find-password.component';
 
 import { LoginService } from './passport/login/login.service';
+import { DashboardHomeComponent } from './dashboard/home/home.component';
 
 const COMPONENTS = [
   DashboardV1Component,
   DashboardAnalysisComponent,
   DashboardMonitorComponent,
   DashboardWorkplaceComponent,
+  DashboardHomeComponent,
   // passport pages
   UserLoginComponent,
   ResetPasswordComponent,
@@ -44,7 +47,7 @@ const COMPONENTS = [
 const COMPONENTS_NOROUNT = [];
 
 @NgModule({
-  imports: [SharedModule, RouteRoutingModule],
+  imports: [SharedModule, RouteRoutingModule,ViserModule],
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, FindPasswordComponent],
   entryComponents: COMPONENTS_NOROUNT,
   providers: [LoginService]

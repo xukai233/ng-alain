@@ -1,0 +1,13 @@
+<div class="chart">
+  <v-chart [forceFit]="forceFit" [height]="height" [data]="data" [scale]="scale" padding="0">
+  <v-tooltip [showTitle]="false"></v-tooltip>
+  <v-pie position="percent" color="item" [style]="pieStyle" [color]="color">
+    <v-guide type="html" [position]="htmlGuidePosition" [html]="guideHtml" ></v-guide>
+  </v-pie>
+  <v-coord type="theta" [radius]="0.75" [innerRadius]="0.8" [startAngle]="0"></v-coord>
+</v-chart>
+</div>
+<div class="content">
+  <div *ngFor="let data of sourceData">{{data.item}}<span>{{data.count}}</span></div>
+</div>
+<div style="color: #a5a1a1">{{text}}</div>
